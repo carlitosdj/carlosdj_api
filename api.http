@@ -1,0 +1,158 @@
+@hostname = http://localhost:3000
+@Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJjYXJsaXRvc2Nlb0BnbWFpbC5jb20iLCJwYXNzd29yZF9oYXNoIjoiJDJiJDEwJHR6QkdIN1ZabnNXRGVNUlNXdWZCVC44VTlDM1RJSXhvTm1uQWp2SjZ5bjVEMTc3c1R5Q0xlIiwiYXV0aF9rZXkiOm51bGwsImNvbmZpcm1lZF9hdCI6bnVsbCwiYmxvY2tlZF9hdCI6bnVsbCwicmVnaXN0cmF0aW9uX2lwIjpudWxsLCJjcmVhdGVkX2F0IjoxNjk2MjczNjI3LjQ3OCwidXBkYXRlZF9hdCI6bnVsbCwiZmxhZyI6bnVsbCwibGFzdF9sb2dpbl9hdCI6bnVsbCwib3JpZ2luIjpudWxsLCJudW1fdHVybWEiOm51bGwsIm5hbWUiOiJDYXJsb3MgRGVmZWxpY2lidXMgSnVuaW9yIiwiYmlvIjpudWxsLCJ3aGF0c2FwcCI6bnVsbCwiY3BmIjpudWxsLCJwb3N0YWxDb2RlIjpudWxsLCJhZGRyZXNzIjpudWxsLCJhZGRyZXNzTnVtYmVyIjpudWxsLCJhZGRyZXNzRGlzdHJpY3QiOm51bGwsImltYWdlIjpudWxsLCJjaXR5X2lkIjpudWxsLCJzdGF0ZV9pZCI6bnVsbCwicm9sZXMiOiJhZG1pbiIsImlhdCI6MTY5NjI3MzY1MSwiZXhwIjoxNjk2ODc4NDUxfQ.eZZhl8eSvmtoqqZg6LKpmGPDelgets2Fsssk30CCePw
+
+
+GET {{hostname}}
+
+# ### Lista todas Categorias
+# GET {{hostname}}/categories
+# Authorization: {{Authorization}}
+
+# ### Pega a categoria :id
+# GET {{hostname}}/categories/3
+# Authorization: {{Authorization}}
+
+# ### Cria categoria
+# POST {{hostname}}/categories
+# Content-Type: application/json
+# Authorization: {{Authorization}}
+
+# {
+#     "name": "Category Created with api.http",
+#     "description": "1"
+# }
+
+# ### Atualiza categoria
+# PATCH {{hostname}}/categories/3
+# Content-Type: application/json
+# Authorization: {{Authorization}}
+
+# {
+#     "name": "olaa edited"
+# }
+
+# ### Deleta categoria
+# DELETE {{hostname}}/categories/3
+# Authorization: {{Authorization}}
+
+# ### 
+# GET {{hostname}}/videos
+# Authorization: {{Authorization}}
+
+# ###
+# POST {{hostname}}/videos
+# Content-Type: application/json
+# Authorization: {{Authorization}}
+
+# {
+#     "title": "video test",
+#     "description": "Video test",
+#     "category_id": 123
+# }
+
+# ### Envia video
+# POST {{hostname}}/videos
+# Authorization: {{Authorization}}
+# Content-Type: multipart/form-data; boundary=----WebKitFormBoundary1234
+
+# ------WebKitFormBoundary1234
+# Content-Disposition: form-data; name="title"
+
+# Video 1
+# ------WebKitFormBoundary1234
+# Content-Disposition: form-data; name="description"
+
+# Description 1
+# ------WebKitFormBoundary1234
+# Content-Disposition: form-data; name="category_id"
+
+# 1
+# ------WebKitFormBoundary1234
+# Content-Disposition: form-data; name="file"; filename="video.mp4"
+# Content-Type: video/mp4
+
+# < ./README.md
+# ------WebKitFormBoundary1234--
+
+
+# ### Download do video
+# GET {{hostname}}/videos/file/1695318792517-0.5444307884257218.mp4
+# Authorization: {{Authorization}}
+
+### Lista Estados
+GET {{hostname}}/state
+Authorization: {{Authorization}}
+
+### Lista Estados
+GET {{hostname}}/state/1
+Authorization: {{Authorization}}
+
+### Cria Estado
+POST {{hostname}}/state
+Authorization: {{Authorization}}
+Content-Type: application/json 
+
+{
+    "name": "São Paulo",
+    "state": "SP",
+    "country": 1
+}
+
+### Edita estado
+PATCH {{hostname}}/state/2
+Authorization: {{Authorization}}
+Content-Type: application/json 
+
+{
+    "name": "São Paulo",
+    "state": "SP",
+    "country": 1
+}
+
+### Deleta estado
+DELETE {{hostname}}/state/3
+Authorization: {{Authorization}}
+
+### Lista Cidades
+GET {{hostname}}/city
+Authorization: {{Authorization}}
+
+###
+POST {{hostname}}/city
+Content-Type: application/json
+Authorization: {{Authorization}}
+
+{
+    "name": "Uberlândia",
+    "state_id": 1
+}
+
+
+
+
+
+### Delete user
+DELETE {{hostname}}/user/42
+Authorization: {{Authorization}}
+
+
+### Get all Components
+GET {{hostname}}/component
+Authorization: {{Authorization}}
+
+### Get all Components
+GET {{hostname}}/component/2
+Authorization: {{Authorization}}
+
+### Create new Component
+POST {{hostname}}/component
+Authorization: {{Authorization}}
+Content-Type: application/json
+
+{
+    "name":"fifth component",
+    "created_at": 123,
+    "status": 1,
+    "component_id": 2
+}
+

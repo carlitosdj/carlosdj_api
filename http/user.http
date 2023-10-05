@@ -1,0 +1,54 @@
+@hostname = http://localhost:3000
+@Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJjYXJsaXRvc2Nlb0BnbWFpbC5jb20iLCJwYXNzd29yZF9oYXNoIjoiJDJiJDEwJFpnZjBSLkROZzRIbENDekI4c1JibnVENFgxUzE5djU5YVZiM1dXNFNaMFQ4SnhyZjFkUVhXIiwiYXV0aF9rZXkiOiI1Mjc0NWI2Ny1lNTQ2LTQ4ODItOWE5Zi0yOTM0OTA5YmIzMWUiLCJjb25maXJtZWRfYXQiOjE2MDA2NjIxNjAsImJsb2NrZWRfYXQiOm51bGwsInJlZ2lzdHJhdGlvbl9pcCI6bnVsbCwiY3JlYXRlZF9hdCI6MTY4MzkyNDk5NywidXBkYXRlZF9hdCI6MTY4NzM2NzE4MSwiZmxhZyI6bnVsbCwibGFzdF9sb2dpbl9hdCI6MTY5NDU0NDkzMCwib3JpZ2luIjoiMTY4MzU1NDgxMSIsIm51bV90dXJtYSI6MSwibmFtZSI6IkFkbWluIiwiYmlvIjpudWxsLCJ3aGF0c2FwcCI6bnVsbCwiY3BmIjpudWxsLCJwb3N0YWxDb2RlIjpudWxsLCJhZGRyZXNzIjpudWxsLCJhZGRyZXNzTnVtYmVyIjpudWxsLCJhZGRyZXNzRGlzdHJpY3QiOm51bGwsImltYWdlIjpudWxsLCJjaXR5X2lkIjpudWxsLCJzdGF0ZV9pZCI6bnVsbCwicm9sZXMiOiJhZG1pbiIsImlhdCI6MTY5NjUyNTQ0NSwiZXhwIjoxNjk3MTMwMjQ1fQ.4hVSh25uTETwp5-kyk-I1NZHD3RR5v0D1iGrFP5XoWE
+
+### Get all users: OK
+GET {{hostname}}/user/all/1/4
+Authorization: {{Authorization}}
+
+### Get user by id
+GET {{hostname}}/user/id/2
+Authorization: {{Authorization}}
+
+### Get user by email
+GET {{hostname}}/user/email/carlitosceo@gmail.com
+Authorization: {{Authorization}}
+
+### Get user by search
+GET {{hostname}}/user/search/carlitos
+Authorization: {{Authorization}}
+
+### Get user by search
+GET {{hostname}}/user/exists/carlitosceo@gmail.com
+Authorization: {{Authorization}}
+
+### Recovery
+GET {{hostname}}/user/recovery/carlitosceo@gmail.com
+Authorization: {{Authorization}}
+
+
+### Create new user
+POST {{hostname}}/user
+Content-Type: application/json
+Authorization: {{Authorization}}
+
+{
+    "email": "c.dj2@hotmail.com",
+    //"email": "carlitosceo@gmail.com",
+    "created_at": 123123,
+    "name": "Carlos Defelicibus Junior",
+    "newPassword": "1234",
+    "roles": "consumer"
+}
+
+### Update user
+PATCH {{hostname}}/user/4
+Authorization: {{Authorization}}
+Content-Type: application/json
+
+{
+    "name": "Carlitos DJ"
+}
+
+### Delete user
+DELETE {{hostname}}/user/3
+Authorization: {{Authorization}}

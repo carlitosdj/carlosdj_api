@@ -1,0 +1,80 @@
+@hostname = http://localhost:3000
+@Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJjYXJsaXRvc2Nlb0BnbWFpbC5jb20iLCJwYXNzd29yZF9oYXNoIjoiJDJiJDEwJFpnZjBSLkROZzRIbENDekI4c1JibnVENFgxUzE5djU5YVZiM1dXNFNaMFQ4SnhyZjFkUVhXIiwiYXV0aF9rZXkiOiI1Mjc0NWI2Ny1lNTQ2LTQ4ODItOWE5Zi0yOTM0OTA5YmIzMWUiLCJjb25maXJtZWRfYXQiOjE2MDA2NjIxNjAsImJsb2NrZWRfYXQiOm51bGwsInJlZ2lzdHJhdGlvbl9pcCI6bnVsbCwiY3JlYXRlZF9hdCI6MTY4MzkyNDk5NywidXBkYXRlZF9hdCI6MTY4NzM2NzE4MSwiZmxhZyI6bnVsbCwibGFzdF9sb2dpbl9hdCI6MTY5NDU0NDkzMCwib3JpZ2luIjoiMTY4MzU1NDgxMSIsIm51bV90dXJtYSI6MSwibmFtZSI6IkFkbWluIiwiYmlvIjpudWxsLCJ3aGF0c2FwcCI6bnVsbCwiY3BmIjpudWxsLCJwb3N0YWxDb2RlIjpudWxsLCJhZGRyZXNzIjpudWxsLCJhZGRyZXNzTnVtYmVyIjpudWxsLCJhZGRyZXNzRGlzdHJpY3QiOm51bGwsImltYWdlIjpudWxsLCJjaXR5X2lkIjpudWxsLCJzdGF0ZV9pZCI6bnVsbCwicm9sZXMiOiJhZG1pbiIsImlhdCI6MTY5NjUyNTQ0NSwiZXhwIjoxNjk3MTMwMjQ1fQ.4hVSh25uTETwp5-kyk-I1NZHD3RR5v0D1iGrFP5XoWE
+
+### Login
+POST {{hostname}}/auth/login
+Content-Type: application/json
+
+{
+    //"email":"c.dj@hotmail.com",
+    "email":"carlitosceo@gmail.com",
+    "password": "1234"
+}
+
+### Get Profile (Logged User)
+GET {{hostname}}/auth/profile
+Authorization: {{Authorization}}
+
+###################################################
+
+### Get all components
+GET {{hostname}}/component/all/1/2
+Authorization: {{Authorization}}
+
+### Get component by id
+GET {{hostname}}/component/id/2
+Authorization: {{Authorization}}
+
+### Search component
+GET {{hostname}}/component/search/preconexao
+Authorization: {{Authorization}}
+
+### Search component
+GET {{hostname}}/component/description/preconexao
+Authorization: {{Authorization}}
+
+### Get modules by user ordened
+GET {{hostname}}/component/modules/9/1/1/asc
+Authorization: {{Authorization}}
+
+### Get modules by user ordened
+GET {{hostname}}/component/classes/10/1/asc
+Authorization: {{Authorization}}
+
+###
+GET {{hostname}}/component/lastliveclass
+Authorization: {{Authorization}}
+
+###
+GET {{hostname}}/component/lastclassattended/1
+Authorization: {{Authorization}}
+
+### Create component
+POST {{hostname}}/component
+Authorization: {{Authorization}}
+Content-Type: application/json
+
+{
+    "name": "Test",
+    "description": "desc",
+    "created_at": 1123123,
+    "status": 1,
+    "component_id": 1
+}
+
+### Create component
+PATCH {{hostname}}/component/130
+Authorization: {{Authorization}}
+Content-Type: application/json
+
+{
+    "name": "Testxx",
+    "description": "desc",
+    "created_at": 1123123,
+    "status": 1,
+    "component_id": 1
+}
+
+###
+DELETE {{hostname}}/component/130
+Authorization: {{Authorization}}
