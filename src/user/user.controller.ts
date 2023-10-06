@@ -13,6 +13,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRolesBuilder, RolesBuilder } from 'nest-access-control';
+import { SkipAuth } from 'src/auth/auth.public.decorator';
 
 @Controller('user')
 export class UserController {
@@ -37,6 +38,7 @@ export class UserController {
     return this.userService.findOne(+id);
   }
 
+  @SkipAuth()
   @Get('email/:email')
   findByEmail(@Param('email') email: string) {
     return this.userService.findByEmail(email);
@@ -47,16 +49,19 @@ export class UserController {
     return this.userService.searchUser(search);
   }
 
+  @SkipAuth()
   @Get('exists/:email')
   userExists(@Param('email') email: string) {
     return this.userService.userExists(email);
   }
 
+  @SkipAuth()
   @Get('recovery/:email')
   recovery(@Param('email') email: string) {
     return this.userService.recovery(email);
   }
 
+  @SkipAuth()
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     const date = new Date();
@@ -66,24 +71,30 @@ export class UserController {
     });
   }
 
+  @SkipAuth()
   @Patch(':id')
   update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUserDto,
-    @Request() req,
+    //@Request() req,
   ) {
-    const permission =
-      +req.user.id === +id
-        ? this.roleBuilder.can(req.user.roles).updateOwn('user')
-        : this.roleBuilder.can(req.user.roles).updateAny('user');
+    // const permission =
+    //   +req.user.id === +id
+    //     ? this.roleBuilder.can(req.user.roles).updateOwn('user')
+    //     : this.roleBuilder.can(req.user.roles).updateAny('user');
 
     const date = new Date();
-    if (permission.granted)
-      return this.userService.update(+id, {
-        ...updateUserDto,
-        updated_at: date.getTime() / 1000,
-      });
-    throw new UnauthorizedException();
+    // if (permission.granted)
+    //   return this.userService.update(+id, {
+    //     ...updateUserDto,
+    //     updated_at: date.getTime() / 1000,
+    //   });
+    // throw new UnauthorizedException();
+
+    return this.userService.update(+id, {
+      ...updateUserDto,
+      updated_at: date.getTime() / 1000,
+    });
   }
 
   @Delete(':id')

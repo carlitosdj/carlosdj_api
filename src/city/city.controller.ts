@@ -1,7 +1,16 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { CityService } from './city.service';
 import { CreateCityDto } from './dto/create-city.dto';
 import { UpdateCityDto } from './dto/update-city.dto';
+import { SkipAuth } from 'src/auth/auth.public.decorator';
 
 @Controller('city')
 export class CityController {
@@ -20,6 +29,12 @@ export class CityController {
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.cityService.findOne(+id);
+  }
+
+  @SkipAuth()
+  @Get('state/:state_id')
+  findCitiesByState(@Param('state_id') state_id: string) {
+    return this.cityService.findCitiesByState(+state_id);
   }
 
   @Patch(':id')

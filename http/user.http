@@ -29,24 +29,30 @@ Authorization: {{Authorization}}
 ### Create new user
 POST {{hostname}}/user
 Content-Type: application/json
-Authorization: {{Authorization}}
 
 {
-    "email": "c.dj2@hotmail.com",
-    //"email": "carlitosceo@gmail.com",
-    "created_at": 123123,
-    "name": "Carlos Defelicibus Junior",
-    "newPassword": "1234",
-    "roles": "consumer"
+    "email": "carlitosceo11@gmail.com",
+    "name": "Carlos Defelícibus Junior",
+    "whatsapp": "34984293519",
+    "newPassword": "1234"
 }
 
 ### Update user
-PATCH {{hostname}}/user/4
-Authorization: {{Authorization}}
+PATCH {{hostname}}/user/142
 Content-Type: application/json
 
 {
-    "name": "Carlitos DJ"
+    //"id": 142,
+    "newPassword": "1234",
+    "address": "Avenida Brigadeiro Sampaio",
+    "addressDistrict": "Daniel Fonseca",
+    "addressNumber": "46",
+    "city_id": 2389,
+    "cpf": "01605743666",
+    "flag": 10,
+    "num_turma": 1,
+    "postalCode": "38400308",
+    "state_id": 11
 }
 
 ### Delete user

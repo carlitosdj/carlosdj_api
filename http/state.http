@@ -17,7 +17,6 @@ Authorization: {{Authorization}}
 
 ### Get Cities
 GET {{hostname}}/state
-Authorization: {{Authorization}}
 
 ### Get Cities
 GET {{hostname}}/state/11

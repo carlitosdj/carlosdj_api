@@ -61,21 +61,30 @@ export class UserService {
     if (await this.userExists(createUserDto.email)) {
       throw new InvalidUserError('User already exists');
     }
-
-    const saltOrRounds = 10;
-    const password = createUserDto.newPassword;
-    //console.log('password', password);
-    const hash = await bcrypt.hash(password, saltOrRounds);
-
-    return this.prismaService.user.create({
-      data: {
-        email: createUserDto.email,
-        created_at: createUserDto.created_at,
-        name: createUserDto.name,
-        password_hash: hash,
-        roles: createUserDto.roles,
-      },
-    });
+    const { newPassword, ...result } = createUserDto;
+    void newPassword;
+    //console.log('newPass', newPassword);
+    const date = new Date();
+    if (createUserDto.newPassword) {
+      const saltOrRounds = 10;
+      const password = createUserDto.newPassword;
+      //console.log('password', password);
+      const hash = await bcrypt.hash(password, saltOrRounds);
+      return this.prismaService.user.create({
+        data: {
+          ...result,
+          created_at: date.getTime() / 1000,
+          password_hash: hash,
+        },
+      });
+    } else {
+      return this.prismaService.user.create({
+        data: {
+          ...result,
+          created_at: date.getTime() / 1000,
+        },
+      });
+    }
   }
 
   async recovery(email: string) {
@@ -88,12 +97,36 @@ export class UserService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    //console.log('update', id);
+    // console.log('update', id);
+    // console.log('opaa', updateUserDto.newPassword);
+    const { newPassword, ...result } = updateUserDto;
+    void newPassword; //?
+    // console.log('newPass', newPassword);
 
-    return await this.prismaService.user.update({
-      where: { id },
-      data: updateUserDto,
-    });
+    const date = new Date();
+    if (updateUserDto.newPassword) {
+      const saltOrRounds = 10;
+      const password = updateUserDto.newPassword;
+      //console.log('password', password);
+      const hash = await bcrypt.hash(password, saltOrRounds);
+
+      return this.prismaService.user.update({
+        where: { id },
+        data: {
+          ...result,
+          updated_at: date.getTime() / 1000,
+          password_hash: hash,
+        },
+      });
+    } else {
+      return await this.prismaService.user.update({
+        where: { id },
+        data: {
+          ...result,
+          updated_at: date.getTime() / 1000,
+        },
+      });
+    }
   }
 
   async remove(id: number) {

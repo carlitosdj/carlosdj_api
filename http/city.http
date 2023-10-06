@@ -19,6 +19,9 @@ Authorization: {{Authorization}}
 GET {{hostname}}/city
 Authorization: {{Authorization}}
 
+### Get Cities
+GET {{hostname}}/city/state/11
+
 ### Get City by id
 GET {{hostname}}/city/2111
 Authorization: {{Authorization}}

@@ -30,7 +30,7 @@ GET {{hostname}}/component/search/preconexao
 Authorization: {{Authorization}}
 
 ### Search component
-GET {{hostname}}/component/description/preconexao
+GET {{hostname}}/component/description/associacao
 Authorization: {{Authorization}}
 
 ### Get modules by user ordened

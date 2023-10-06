@@ -10,6 +10,7 @@ import {
 import { LeadService } from './lead.service';
 import { CreateLeadDto } from './dto/create-lead.dto';
 import { UpdateLeadDto } from './dto/update-lead.dto';
+import { SkipAuth } from 'src/auth/auth.public.decorator';
 
 @Controller('lead')
 export class LeadController {
@@ -35,21 +36,26 @@ export class LeadController {
     return this.leadService.searchByList(list);
   }
 
+  @SkipAuth()
   @Get('load/:list/:email')
   loadLead(@Param('list') list: string, @Param('email') email: string) {
     return this.leadService.loadLead(list, email);
   }
 
+  @SkipAuth()
   @Get('confirm/:list/:email')
   confirm(@Param('list') list: string, @Param('email') email: string) {
     return this.leadService.confirm(list, email);
   }
 
+  @SkipAuth()
   @Get('notdisturb/:list/:email')
   notdisturb(@Param('list') list: string, @Param('email') email: string) {
     return this.leadService.notdisturb(list, email);
   }
 
+  //Usado no marketing
+  @SkipAuth()
   @Post()
   create(@Body() createLeadDto: CreateLeadDto) {
     return this.leadService.create(createLeadDto);

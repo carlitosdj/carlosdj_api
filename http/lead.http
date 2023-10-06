@@ -49,9 +49,13 @@ Authorization: {{Authorization}}
 Content-Type: application/json
 
 {
-    "name": "Teste",
+    "confirm": 0,
     "email": "carlitosceo@gmail.com",
-    "list": "lista2"
+    "list": "preconexao",
+    "name": "Carlos Defelícibus Junior",
+    "naoperturbe":0,
+    "origin":"default",
+    "whatsapp": ""
 }
 
 ### Update city

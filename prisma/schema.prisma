@@ -28,12 +28,12 @@ model LocationCity {
 model User {
   id                  Int                   @id @default(autoincrement())
   email               String                @unique
-  password_hash       String                @db.VarChar(60)
+  password_hash       String?                @db.VarChar(60)
   auth_key            String?               @db.VarChar(255)
   confirmed_at        Int?
   blocked_at          Int?
   registration_ip     String?               @db.VarChar(45)
-  created_at          Float
+  created_at          Float?
   updated_at          Float?
   flag                Int?
   last_login_at       Float?

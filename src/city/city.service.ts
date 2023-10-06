@@ -26,6 +26,12 @@ export class CityService {
     });
   }
 
+  findCitiesByState(state_id: number) {
+    return this.prismaService.locationCity.findMany({
+      where: { state_id },
+    });
+  }
+
   update(id: number, updateCityDto: UpdateCityDto) {
     return this.prismaService.locationCity.update({
       where: { id },

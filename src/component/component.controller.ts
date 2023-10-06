@@ -32,6 +32,7 @@ export class ComponentController {
     return this.componentService.searchComponent(search);
   }
 
+  //Usado no marketing
   @SkipAuth()
   @Get('description/:search')
   searchByDescription(@Param('search') search: string) {

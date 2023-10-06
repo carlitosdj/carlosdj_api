@@ -39,9 +39,9 @@ export class CreateUserDto {
   registration_ip?: string | null;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsOptional()
   @IsInt()
-  created_at: number;
+  created_at?: number | null;
 
   @ApiProperty()
   @IsOptional()
