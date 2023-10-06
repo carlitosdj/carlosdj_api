@@ -17,7 +17,7 @@ export class ComponentService {
       include: {
         children: true,
         parent: true,
-        ComponentExtra: true,
+        extras: true,
       },
     });
   }
@@ -32,7 +32,7 @@ export class ComponentService {
           },
         },
         parent: true,
-        ComponentExtra: true,
+        extras: true,
       },
     });
   }
@@ -48,7 +48,7 @@ export class ComponentService {
       include: {
         children: true,
         parent: true,
-        ComponentExtra: true,
+        extras: true,
       },
     });
   }
@@ -56,7 +56,7 @@ export class ComponentService {
   searchByDescription(search: string) {
     return this.prismaService.component.findFirstOrThrow({
       where: { description: search },
-      include: { children: true, parent: true, ComponentExtra: true },
+      include: { children: true, parent: true, extras: true },
     });
   }
 
@@ -73,9 +73,9 @@ export class ComponentService {
       orderBy: { id: orderby },
       include: {
         children: {
-          include: { ComponentExtra: true, ComponentAvailable: true },
+          include: { extras: true, ComponentAvailable: true },
         },
-        parent: { include: { ComponentExtra: true } },
+        parent: { include: { extras: true } },
         ComponentAvailable: { where: { turma_num: num_turma } },
         ComponentCompleted: { where: { user_id } },
       },
@@ -87,10 +87,10 @@ export class ComponentService {
       where: { AND: [{ id }, { status: 1 }] },
       orderBy: { id: orderby },
       include: {
-        children: { include: { ComponentExtra: true } },
-        parent: { include: { ComponentExtra: true } },
+        children: { include: { extras: true } },
+        parent: { include: { extras: true } },
         ComponentCompleted: { where: { user_id } },
-        ComponentExtra: true,
+        extras: true,
         ComponentAvailable: true,
       },
     });
@@ -101,7 +101,7 @@ export class ComponentService {
       orderBy: {
         id: 'desc',
       },
-      include: { children: true, parent: true, ComponentExtra: true },
+      include: { children: true, parent: true, extras: true },
     });
   }
 
@@ -109,7 +109,7 @@ export class ComponentService {
     return this.prismaService.component.findFirstOrThrow({
       where: { ComponentCompleted: { some: { user_id } } },
       orderBy: { id: 'desc' },
-      include: { children: true, parent: true, ComponentExtra: true },
+      include: { children: true, parent: true, extras: true },
     });
   }
 
@@ -126,7 +126,7 @@ export class ComponentService {
       include: {
         children: true,
         parent: true,
-        ComponentExtra: true,
+        extras: true,
       },
     });
   }
@@ -137,7 +137,7 @@ export class ComponentService {
       include: {
         children: true,
         parent: true,
-        ComponentExtra: true,
+        extras: true,
       },
     });
   }

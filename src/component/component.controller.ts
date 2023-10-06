@@ -11,6 +11,7 @@ import { ComponentService } from './component.service';
 import { CreateComponentDto } from './dto/create-component.dto';
 import { UpdateComponentDto } from './dto/update-component.dto';
 import { Prisma } from '@prisma/client';
+import { SkipAuth } from 'src/auth/auth.public.decorator';
 
 @Controller('component')
 export class ComponentController {
@@ -31,6 +32,7 @@ export class ComponentController {
     return this.componentService.searchComponent(search);
   }
 
+  @SkipAuth()
   @Get('description/:search')
   searchByDescription(@Param('search') search: string) {
     return this.componentService.searchByDescription(search);

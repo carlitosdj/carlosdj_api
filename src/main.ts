@@ -8,6 +8,7 @@ import { InvalidUserExceptionFilter } from './exceptions-filters/invalid-user.ex
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.enableCors();
   app.useGlobalFilters(
     new PrismaExceptionFilter(),
     new InvalidRelationExceptionFilter(),
@@ -19,6 +20,7 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
   const config = new DocumentBuilder()
     .setTitle('NestJs 10 - Video Api')
     .setDescription('The video Api description')
