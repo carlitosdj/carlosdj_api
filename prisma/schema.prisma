@@ -62,9 +62,9 @@ model Component {
   id                  Int                   @id @default(autoincrement())
   name                String
   description         String?               @db.Text
-  created_at          Float
+  created_at          Float?
   status              Int                   @default(1)
-  order               Int?
+  order               String?
   duration            Int?
   tags                String?               @db.VarChar(255)
   orderby             String?               @db.VarChar(255)

@@ -15,45 +15,31 @@ Content-Type: application/json
 GET {{hostname}}/auth/profile
 Authorization: {{Authorization}}
 
-#######################################
-
 ###
-GET {{hostname}}/wppgroup/all/1/10
-Authorization: {{Authorization}}
-
-###
-GET {{hostname}}/wppgroup/camp_id/1/1/10
-Authorization: {{Authorization}}
-
-###
-GET {{hostname}}/wppgroup/id/1
-Authorization: {{Authorization}}
-
-
-
-### Create leademail
-POST {{hostname}}/wppgroup
-Authorization: {{Authorization}}
+POST {{hostname}}/payment/order
 Content-Type: application/json
 
 {
-    "name": "Grupo#3",
-    "url": "url",
-    "clicks": 12,
-    "camp_id": 1,
-    "status": 1
+    "payment_method": "credit_card",
+    "user": {
+        "address": "Av Brigadeiro Sampaio 46",
+        "postalCode": "38400308",
+        "city": "Uberlândia",
+        "state": "MG",
+        "country": "BR",
+        "name": "Carlos Defelicibus Junior",
+        "email": "carlitosceo@gmail.com"
+    },
+    "cart": {
+        "numcartao": "4000000000000010",
+        "nomecartao": "Carlos Api",
+        "expiryMonth": "1",
+        "expiryYear": "30",
+        "codcartao": "3531",
+        "installments": "10",
+        "statement_descriptor": "LModelo",
+        "description": "Aulas online",
+        "amount": "299700",
+        "code": "CODIGO"
+    }
 }
-
-### Update leademail
-PATCH {{hostname}}/wppgroup/6
-Authorization: {{Authorization}}
-Content-Type: application/json
-
-{
-    "name": "Group #2",
-    "clicks": 1
-}
-
-### Delete leademail
-DELETE {{hostname}}/wppgroup/2
-Authorization: {{Authorization}}

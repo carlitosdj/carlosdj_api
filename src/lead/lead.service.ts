@@ -7,10 +7,16 @@ import { PrismaService } from 'src/prisma/prisma/prisma.service';
 export class LeadService {
   constructor(private prismaService: PrismaService) {}
 
-  findAll(page: number, take: number) {
+  async findAll(page: number, take: number) {
     if (page == 0) page = 1;
     const skip = take * (page - 1);
-    return this.prismaService.lead.findMany({ skip, take });
+
+    const data = await this.prismaService.lead.findMany({ skip, take });
+    const count = await this.prismaService.user.count();
+    return {
+      data,
+      count,
+    };
   }
 
   findOne(id: number) {

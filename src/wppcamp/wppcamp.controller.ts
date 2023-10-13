@@ -10,6 +10,7 @@ import {
 import { WppcampService } from './wppcamp.service';
 import { CreateWppcampDto } from './dto/create-wppcamp.dto';
 import { UpdateWppcampDto } from './dto/update-wppcamp.dto';
+import { SkipAuth } from 'src/auth/auth.public.decorator';
 
 @Controller('wppcamp')
 export class WppcampController {
@@ -18,6 +19,12 @@ export class WppcampController {
   @Get('all/:page/:take')
   findAll(@Param('page') page: number, @Param('take') take: number) {
     return this.wppcampService.findAll(page, take);
+  }
+
+  @SkipAuth()
+  @Get('groupavailable/:campaign')
+  findGroupAvailable(@Param('campaign') campaign: string) {
+    return this.wppcampService.findGroupAvailable(campaign);
   }
 
   @Get('id/:id')

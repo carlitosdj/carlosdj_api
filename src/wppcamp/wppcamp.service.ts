@@ -25,6 +25,47 @@ export class WppcampService {
     });
   }
 
+  async findGroupAvailable(campaign: string) {
+    //Busca campanha com o slug
+    const campaignSearch = await this.prismaService.wppCamp.findFirstOrThrow({
+      where: {
+        slug: campaign,
+      },
+    });
+    console.log('Campanha', campaign);
+    //Grava o maximo de cliques
+    const maxclicks = (await campaignSearch!).maxclicks;
+    //Acha o próximo grupo que está disponível: Less than maxclicks
+    const groupavailable = await this.prismaService.wppGroup.findFirstOrThrow({
+      where: {
+        AND: [
+          {
+            clicks: {
+              lt: maxclicks,
+            },
+            camp_id: campaignSearch!.id,
+          },
+        ],
+      },
+    });
+
+    //Soma cliques:
+    const clicks = (await groupavailable!).clicks + 1;
+    const id = (await groupavailable!).id;
+    console.log('clicks', clicks);
+    console.log('id', id);
+
+    //Atualiza cliques:
+    return await this.prismaService.wppGroup.update({
+      where: { id },
+      data: { clicks },
+    });
+
+    console.log('GROUP AVAILABLE', groupavailable);
+
+    return groupavailable;
+  }
+
   create(createWppcampDto: CreateWppcampDto) {
     return this.prismaService.wppCamp.create({
       data: createWppcampDto,

@@ -23,6 +23,13 @@ export class AuthController {
     return this.authService.signIn(signInDto.email, signInDto.password);
   }
 
+  @SkipAuth()
+  @HttpCode(HttpStatus.OK)
+  @Post('loginadm')
+  signInAdmin(@Body() signInDto: Record<string, any>) {
+    return this.authService.signInAdmin(signInDto.email, signInDto.password);
+  }
+
   @UseGuards(ACGuard)
   @UseRoles({
     possession: 'own',

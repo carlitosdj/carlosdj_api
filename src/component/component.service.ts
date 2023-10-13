@@ -113,8 +113,8 @@ export class ComponentService {
     });
   }
 
-  create(createComponentDto: CreateComponentDto) {
-    return this.prismaService.component.create({
+  async create(createComponentDto: CreateComponentDto) {
+    return await this.prismaService.component.create({
       data: createComponentDto,
     });
   }

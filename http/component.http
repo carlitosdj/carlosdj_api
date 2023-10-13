@@ -63,6 +63,36 @@ Content-Type: application/json
 }
 
 ### Create component
+POST {{hostname}}/component
+Authorization: {{Authorization}}
+Content-Type: application/json
+
+{
+    "component_id": 1,
+    "description": "teste",
+    "duration": 0,
+    "name": "teste",
+    "order": "",
+    "orderby": "",
+    "status": 1,
+    "tags": "",
+    "children": {
+        "create": [
+            {
+                "name": "teste",
+                "description": "teste"
+            },
+            {
+                "name": "teste2",
+                "description": "teste2"
+            }
+        ]
+    }
+}
+
+
+
+### Create component
 PATCH {{hostname}}/component/130
 Authorization: {{Authorization}}
 Content-Type: application/json

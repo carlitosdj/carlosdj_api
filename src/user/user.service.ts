@@ -11,13 +11,18 @@ import { InvalidUserError } from 'src/errors/invalid-user.error';
 export class UserService {
   constructor(private prismaService: PrismaService) {}
 
-  findAll(page: number, take: number) {
+  async findAll(page: number, take: number) {
     if (page == 0) page = 1;
     const skip = take * (page - 1);
-    return this.prismaService.user.findMany({
+    const data = await this.prismaService.user.findMany({
       skip,
       take,
     });
+    const count = await this.prismaService.user.count();
+    return {
+      data,
+      count,
+    };
   }
 
   findOne(id: number) {
@@ -29,6 +34,12 @@ export class UserService {
   findByEmail(email: string) {
     return this.prismaService.user.findFirstOrThrow({
       where: { email },
+    });
+  }
+
+  findAdminByEmail(email: string) {
+    return this.prismaService.user.findFirstOrThrow({
+      where: { AND: [{ email, roles: 'admin' }] },
     });
   }
 

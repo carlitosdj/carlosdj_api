@@ -8,14 +8,17 @@ export class CreateComponentDto {
   @IsString()
   description?: string | null;
 
+  @IsOptional()
   @IsNumber()
-  created_at: number;
-  @IsNumber()
-  status: number;
+  created_at?: number | null;
 
   @IsOptional()
   @IsNumber()
-  order?: number | null;
+  status?: number | null;
+
+  @IsOptional()
+  @IsString()
+  order?: string | null;
 
   @IsOptional()
   @IsNumber()

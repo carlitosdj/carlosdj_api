@@ -20,6 +20,7 @@ import { LeadModule } from './lead/lead.module';
 import { LeademailModule } from './leademail/leademail.module';
 import { WppcampModule } from './wppcamp/wppcamp.module';
 import { WppgroupModule } from './wppgroup/wppgroup.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -41,6 +42,7 @@ import { WppgroupModule } from './wppgroup/wppgroup.module';
     LeademailModule,
     WppcampModule,
     WppgroupModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -7,7 +7,7 @@ export class ComponentSerializer {
   description: string;
   created_at: number;
   status: number;
-  order: number;
+  order: string;
   duration: number;
   tags: string;
   orderby: string;
