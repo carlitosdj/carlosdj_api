@@ -5,6 +5,7 @@ import { InvalidRelationExceptionFilter } from './exceptions-filters/invalid-rel
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { InvalidUserExceptionFilter } from './exceptions-filters/invalid-user.exception-filter';
+import { InvalidLeadExceptionFilter } from './exceptions-filters/invalid-lead.exception-filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -13,6 +14,7 @@ async function bootstrap() {
     new PrismaExceptionFilter(),
     new InvalidRelationExceptionFilter(),
     new InvalidUserExceptionFilter(),
+    new InvalidLeadExceptionFilter(),
   );
   app.useGlobalPipes(
     new ValidationPipe({

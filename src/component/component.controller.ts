@@ -10,8 +10,8 @@ import {
 import { ComponentService } from './component.service';
 import { CreateComponentDto } from './dto/create-component.dto';
 import { UpdateComponentDto } from './dto/update-component.dto';
-import { Prisma } from '@prisma/client';
 import { SkipAuth } from 'src/auth/auth.public.decorator';
+import { Prisma } from '@prisma/client';
 
 @Controller('component')
 export class ComponentController {

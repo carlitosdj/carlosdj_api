@@ -36,6 +36,11 @@ export class LeadController {
     return this.leadService.searchByList(list);
   }
 
+  @Get('lists')
+  alllists() {
+    return this.leadService.lists();
+  }
+
   @SkipAuth()
   @Get('load/:list/:email')
   loadLead(@Param('list') list: string, @Param('email') email: string) {
@@ -52,6 +57,12 @@ export class LeadController {
   @Get('notdisturb/:list/:email')
   notdisturb(@Param('list') list: string, @Param('email') email: string) {
     return this.leadService.notdisturb(list, email);
+  }
+
+  @SkipAuth()
+  @Get('crons')
+  crons() {
+    return this.leadService.getCrons();
   }
 
   //Usado no marketing

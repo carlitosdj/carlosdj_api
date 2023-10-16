@@ -41,7 +41,7 @@ export class WppcampService {
         AND: [
           {
             clicks: {
-              lt: maxclicks,
+              lt: maxclicks, //less than
             },
             camp_id: campaignSearch!.id,
           },
@@ -52,8 +52,8 @@ export class WppcampService {
     //Soma cliques:
     const clicks = (await groupavailable!).clicks + 1;
     const id = (await groupavailable!).id;
-    console.log('clicks', clicks);
-    console.log('id', id);
+    //console.log('clicks', clicks);
+    //console.log('id', id);
 
     //Atualiza cliques:
     return await this.prismaService.wppGroup.update({
@@ -61,9 +61,8 @@ export class WppcampService {
       data: { clicks },
     });
 
-    console.log('GROUP AVAILABLE', groupavailable);
-
-    return groupavailable;
+    // console.log('GROUP AVAILABLE', groupavailable);
+    // return groupavailable;
   }
 
   create(createWppcampDto: CreateWppcampDto) {

@@ -17,10 +17,12 @@ import { ComponentextraModule } from './componentextra/componentextra.module';
 import { ComponentavailableModule } from './componentavailable/componentavailable.module';
 import { ComponentcompletedModule } from './componentcompleted/componentcompleted.module';
 import { LeadModule } from './lead/lead.module';
-import { LeademailModule } from './leademail/leademail.module';
 import { WppcampModule } from './wppcamp/wppcamp.module';
 import { WppgroupModule } from './wppgroup/wppgroup.module';
 import { PaymentModule } from './payment/payment.module';
+import { MassmailModule } from './massmail/massmail.module';
+import { MailModule } from './mail/mail.module';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
@@ -39,10 +41,12 @@ import { PaymentModule } from './payment/payment.module';
     ComponentavailableModule,
     ComponentcompletedModule,
     LeadModule,
-    LeademailModule,
     WppcampModule,
     WppgroupModule,
     PaymentModule,
+    MassmailModule,
+    MailModule,
+    ScheduleModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [AppService],

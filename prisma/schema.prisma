@@ -1,5 +1,6 @@
 generator client {
   provider = "prisma-client-js"
+  
 }
 
 datasource db {
@@ -28,7 +29,7 @@ model LocationCity {
 model User {
   id                  Int                   @id @default(autoincrement())
   email               String                @unique
-  password_hash       String?                @db.VarChar(60)
+  password_hash       String?               @db.VarChar(60)
   auth_key            String?               @db.VarChar(255)
   confirmed_at        Int?
   blocked_at          Int?
@@ -55,7 +56,7 @@ model User {
   roles               String?               @db.VarChar(60)
   ComponentAnnotation ComponentAnnotation[]
   ComponentCompleted  ComponentCompleted[]
-  LeadEmail           LeadEmail[]
+  MassMail            MassMail[]
 }
 
 model Component {
@@ -133,7 +134,7 @@ model Lead {
   @@unique([email, list])
 }
 
-model LeadEmail {
+model MassMail {
   id         Int     @id @default(autoincrement())
   list       String  @db.VarChar(255)
   subject    String  @db.VarChar(255)
