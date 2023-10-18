@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { HttpService } from '@nestjs/axios';
 import axios from 'axios';
+import { InvalidRelationError } from 'src/errors/invalid-relation.error';
 
 @Injectable()
 export class PaymentService {
@@ -10,6 +11,7 @@ export class PaymentService {
   async createOrder(createPaymentDto: CreatePaymentDto) {
     const selectedPayment = createPaymentDto.payment_method;
 
+    console.log('createPaymentDto',createPaymentDto)
     const credit_card = {
       credit_card: {
         card: {
@@ -165,8 +167,9 @@ export class PaymentService {
         return response.data;
       })
       .catch(function (error) {
-        console.error(error);
-        throw new Error('Error');
+        console.error(error.response.data.errors);
+        //throw new (error.response.data.errors);
+        throw new InvalidRelationError(JSON.stringify(error.response.data.errors));
       });
   }
 }

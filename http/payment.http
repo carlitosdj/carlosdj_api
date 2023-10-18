@@ -19,27 +19,52 @@ Authorization: {{Authorization}}
 POST {{hostname}}/payment/order
 Content-Type: application/json
 
+# {
+#     "payment_method": "credit_card",
+#     "user": {
+#         "address": "Av Brigadeiro Sampaio 46",
+#         "postalCode": "38400308",
+#         "city": "Uberlândia",
+#         "state": "MG",
+#         "country": "BR",
+#         "name": "Carlos Defelicibus Junior",
+#         "email": "carlitosceo@gmail.com"
+#     },
+#     "cart": {
+#         "numcartao": "4000000000000010",
+#         "nomecartao": "Carlos Api",
+#         "expiryMonth": "1",
+#         "expiryYear": "30",
+#         "codcartao": "3531",
+#         "installments": "10",
+#         "statement_descriptor": "LModelo",
+#         "description": "Aulas online",
+#         "amount": "299700",
+#         "code": "CODIGO"
+#     }
+# }
+
 {
-    "payment_method": "credit_card",
-    "user": {
-        "address": "Av Brigadeiro Sampaio 46",
-        "postalCode": "38400308",
-        "city": "Uberlândia",
-        "state": "MG",
-        "country": "BR",
-        "name": "Carlos Defelicibus Junior",
-        "email": "carlitosceo@gmail.com"
-    },
-    "cart": {
-        "numcartao": "4000000000000010",
-        "nomecartao": "Carlos Api",
-        "expiryMonth": "1",
-        "expiryYear": "30",
-        "codcartao": "3531",
-        "installments": "10",
-        "statement_descriptor": "LModelo",
-        "description": "Aulas online",
-        "amount": "299700",
-        "code": "CODIGO"
-    }
+  "payment_method": "credit_card",
+  "user": {
+    "name": "Admin",
+    "email": "carlitosceo@gmail.com",
+    "postalCode": "38400308",
+    "address": "Avenida Brigadeiro Sampaio",
+    "city": "Uberlândia",
+    "state": "MG",
+    "country": "BR"
+  },
+  "cart": {
+    "amount": "459700",
+    "codcartao": "3531",
+    "code": "CODIGO",
+    "description": "Aulas online",
+    "expiryMonth": "12",
+    "expiryYear": "2023",
+    "installments": "11",
+    "nomecartao": "CARLOS",
+    "numcartao": "4000000000000010",
+    "statement_descriptor": "LModelo"
+  }
 }

@@ -34,6 +34,10 @@ export class UserService {
   findByEmail(email: string) {
     return this.prismaService.user.findFirstOrThrow({
       where: { email },
+      include: {
+        city: true,
+        state: true
+      }
     });
   }
 
@@ -70,7 +74,8 @@ export class UserService {
 
   async create(createUserDto: CreateUserDto) {
     if (await this.userExists(createUserDto.email)) {
-      throw new InvalidUserError('User already exists');
+      return await this.findByEmail(createUserDto.email)
+      //throw new InvalidUserError('User already exists');
     }
     const { newPassword, ...result } = createUserDto;
     void newPassword;
@@ -87,6 +92,10 @@ export class UserService {
           created_at: date.getTime() / 1000,
           password_hash: hash,
         },
+        include: {
+          city: true,
+          state: true
+        }
       });
     } else {
       return this.prismaService.user.create({
@@ -94,6 +103,10 @@ export class UserService {
           ...result,
           created_at: date.getTime() / 1000,
         },
+        include: {
+          city: true,
+          state: true
+        }
       });
     }
   }
@@ -128,6 +141,10 @@ export class UserService {
           updated_at: date.getTime() / 1000,
           password_hash: hash,
         },
+        include: {
+          city: true,
+          state: true
+        }
       });
     } else {
       return await this.prismaService.user.update({
@@ -136,6 +153,10 @@ export class UserService {
           ...result,
           updated_at: date.getTime() / 1000,
         },
+        include: {
+          city: true,
+          state: true
+        }
       });
     }
   }

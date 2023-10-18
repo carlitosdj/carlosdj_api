@@ -6,6 +6,8 @@ import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { InvalidUserExceptionFilter } from './exceptions-filters/invalid-user.exception-filter';
 import { InvalidLeadExceptionFilter } from './exceptions-filters/invalid-lead.exception-filter';
+import { InvalidPaymentError } from './errors/invalid-payment.error';
+import { InvalidPaymentExceptionFilter } from './exceptions-filters/invalid-payment.exception-filter';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -15,6 +17,7 @@ async function bootstrap() {
     new InvalidRelationExceptionFilter(),
     new InvalidUserExceptionFilter(),
     new InvalidLeadExceptionFilter(),
+    new InvalidPaymentExceptionFilter(),
   );
   app.useGlobalPipes(
     new ValidationPipe({
