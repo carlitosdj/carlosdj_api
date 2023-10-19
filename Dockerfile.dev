@@ -6,8 +6,10 @@ COPY package*.json ./
 COPY tsconfig.json ./
 # install and cache app dependencies
 RUN yarn install
+
 # Copy 
 COPY . .
+# RUN npx prisma generate
 EXPOSE 3000
 CMD ["yarn", "start:dev"]
 #CMD ["yarn", "start"]
