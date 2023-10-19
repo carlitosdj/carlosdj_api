@@ -22,9 +22,9 @@ export class ComponentController {
     return this.componentService.findAll(page, take);
   }
 
-  @Get('id/:id')
-  findOne(@Param('id') id: string) {
-    return this.componentService.findOne(+id);
+  @Get('id/:id/:sort')
+  findOne(@Param('id') id: string, @Param('sort') sort: Prisma.SortOrder) {
+    return this.componentService.findOne(+id, sort);
   }
 
   @Get('search/:search')

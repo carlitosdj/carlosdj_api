@@ -22,9 +22,10 @@ export class ComponentService {
     });
   }
 
-  findOne(id: number) {
+  findOne(id: number, sort: Prisma.SortOrder) {
     return this.prismaService.component.findFirstOrThrow({
       where: { id },
+      orderBy: { id: sort },
       include: {
         children: {
           include: {
