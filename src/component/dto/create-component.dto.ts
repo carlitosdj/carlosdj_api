@@ -34,5 +34,5 @@ export class CreateComponentDto {
 
   @IsOptional()
   @IsNumber()
-  component_id?: number | null;
+  componentId?: number | null;
 }

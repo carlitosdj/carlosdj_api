@@ -10,7 +10,7 @@ export class InvalidUserExceptionFilter extends BaseExceptionFilter {
     const context = host.switchToHttp();
     const response = context.getResponse();
 
-    return response.status(422).json({
+    return response.status(422).send({
       statusCode: 422,
       message: exception.message,
     });

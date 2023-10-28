@@ -3,5 +3,5 @@ export class CreateComponentcompletedDto {
   rate: number;
   status: number;
   user_id: number;
-  component_id: number;
+  componentId: number;
 }

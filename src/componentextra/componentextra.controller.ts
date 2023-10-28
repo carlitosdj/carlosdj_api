@@ -25,9 +25,9 @@ export class ComponentextraController {
     return this.componentextraService.findOne(+id);
   }
 
-  @Get('parent/:component_id')
-  findByParent(@Param('component_id') component_id: string) {
-    return this.componentextraService.findByParent(+component_id);
+  @Get('parent/:componentId')
+  findByParent(@Param('componentId') componentId: string) {
+    return this.componentextraService.findByParent(+componentId);
   }
 
   @Post()

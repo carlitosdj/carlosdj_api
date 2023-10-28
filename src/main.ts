@@ -1,19 +1,27 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { PrismaExceptionFilter } from './exceptions-filters/prisma.exception-filter';
+//import { PrismaExceptionFilter } from './exceptions-filters/prisma.exception-filter';
 import { InvalidRelationExceptionFilter } from './exceptions-filters/invalid-relation.exception-filter';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { InvalidUserExceptionFilter } from './exceptions-filters/invalid-user.exception-filter';
 import { InvalidLeadExceptionFilter } from './exceptions-filters/invalid-lead.exception-filter';
-import { InvalidPaymentError } from './errors/invalid-payment.error';
 import { InvalidPaymentExceptionFilter } from './exceptions-filters/invalid-payment.exception-filter';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
+import { LoggingInterceptor } from './logging.interceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter(),
+  );
+
   app.enableCors();
   app.useGlobalFilters(
-    new PrismaExceptionFilter(),
+    //new PrismaExceptionFilter(),
     new InvalidRelationExceptionFilter(),
     new InvalidUserExceptionFilter(),
     new InvalidLeadExceptionFilter(),
@@ -25,16 +33,20 @@ async function bootstrap() {
       transform: true,
     }),
   );
+  app.useGlobalInterceptors(new LoggingInterceptor());
 
   const config = new DocumentBuilder()
-    .setTitle('NestJs 10 - Video Api')
-    .setDescription('The video Api description')
+    .setTitle('Carlitos API')
+    .setDescription('Entrypoints to Carlitos API')
     .setVersion('1.0')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
 
-  await app.listen(3000);
+  //await app.listen(3000);
+  await app.listen(3000, '0.0.0.0', () =>
+    console.log(`Listening on port:  3000`),
+  );
 }
 bootstrap();

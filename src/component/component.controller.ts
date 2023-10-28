@@ -6,13 +6,16 @@ import {
   Patch,
   Param,
   Delete,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ComponentService } from './component.service';
 import { CreateComponentDto } from './dto/create-component.dto';
 import { UpdateComponentDto } from './dto/update-component.dto';
 import { SkipAuth } from 'src/auth/auth.public.decorator';
 import { Prisma } from '@prisma/client';
+//import { LoggingInterceptor } from 'src/logging.interceptor';
 
+//@UseInterceptors(LoggingInterceptor)
 @Controller('component')
 export class ComponentController {
   constructor(private readonly componentService: ComponentService) {}
@@ -22,8 +25,8 @@ export class ComponentController {
     return this.componentService.findAll(page, take);
   }
 
-  @Get('id/:id/:sort')
-  findOne(@Param('id') id: string, @Param('sort') sort: Prisma.SortOrder) {
+  @Get('id/:id/:sort?')
+  findOne(@Param('id') id: string, @Param('sort') sort: string) {
     return this.componentService.findOne(+id, sort);
   }
 

@@ -27,9 +27,9 @@ export class ComponentcompletedController {
     return this.componentcompletedService.findOne(+id);
   }
 
-  @Get('parent/:component_id')
-  findByParent(@Param('component_id') component_id: string) {
-    return this.componentcompletedService.findByParent(+component_id);
+  @Get('parent/:componentId')
+  findByParent(@Param('componentId') componentId: string) {
+    return this.componentcompletedService.findByParent(+componentId);
   }
 
   @Post()

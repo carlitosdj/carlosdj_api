@@ -27,9 +27,9 @@ export class ComponentavailableController {
     return this.componentavailableService.findOne(+id);
   }
 
-  @Get('parent/:component_id')
-  findByParent(@Param('component_id') component_id: string) {
-    return this.componentavailableService.findByParent(+component_id);
+  @Get('parent/:componentId')
+  findByParent(@Param('componentId') componentId: string) {
+    return this.componentavailableService.findByParent(+componentId);
   }
 
   @Post()

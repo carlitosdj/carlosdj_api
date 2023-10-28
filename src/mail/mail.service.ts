@@ -18,7 +18,7 @@ export class MailService {
         to: lead.email,
         // from: '"Support Team" <support@example.com>', // override default from
         subject: 'Bem vindo',
-        template: './confirmation', // `.hbs` extension is appended automatically
+        template: '../../../mail/templates/confirmation', // `.hbs` extension is appended automatically
         context: {
           // ✏️ filling curly brackets with content
           name: lead.name,
@@ -46,7 +46,7 @@ export class MailService {
         to: lead.email,
         // from: '"Support Team" <support@example.com>', // override default from
         subject: `Tudo que você precisa saber para acessar o: ${eventName}`,
-        template: './secondmail', // `.hbs` extension is appended automatically
+        template: '../../../mail/templates/secondmail', // `.hbs` extension is appended automatically
         context: {
           // ✏️ filling curly brackets with content
           name: lead.name,

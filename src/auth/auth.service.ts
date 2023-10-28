@@ -21,7 +21,7 @@ export class AuthService {
   async validateUser(email: string, pass: string): Promise<any> {
     const user = await this.userService.findByEmail(email);
 
-    const isMatchPassword = await bcrypt.compare(pass, user?.password_hash);
+    const isMatchPassword = await bcrypt.compare(pass, user?.passwordHash);
 
     if (user && isMatchPassword) {
       //const { password_hash, ...result } = user;
@@ -34,7 +34,7 @@ export class AuthService {
   async signIn(email: string, pass: string): Promise<any> {
     const user = await this.userService.findByEmail(email);
 
-    const isMatch = await bcrypt.compare(pass, user?.password_hash);
+    const isMatch = await bcrypt.compare(pass, user?.passwordHash);
 
     if (!isMatch) {
       throw new UnauthorizedException();
@@ -55,7 +55,7 @@ export class AuthService {
   async signInAdmin(email: string, pass: string): Promise<any> {
     const user = await this.userService.findAdminByEmail(email);
 
-    const isMatch = await bcrypt.compare(pass, user?.password_hash);
+    const isMatch = await bcrypt.compare(pass, user?.passwordHash);
 
     if (!isMatch) {
       throw new UnauthorizedException();

@@ -1,16 +1,20 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateLeadDto } from './dto/create-lead.dto';
 import { UpdateLeadDto } from './dto/update-lead.dto';
-import { PrismaService } from 'src/prisma/prisma/prisma.service';
+// import { PrismaService } from 'src/prisma/prisma/prisma.service';
 import { MailService } from 'src/mail/mail.service';
 import { InvalidLeadError } from 'src/errors/invalid-lead.error';
 import { Cron, SchedulerRegistry } from '@nestjs/schedule';
 import { CronJob } from 'cron';
+import { DB, DbType } from 'src/drizzle/providers/drizzle.providers';
+import { and, asc, eq, like, or, sql } from 'drizzle-orm';
+import * as schema from '../_schemas/schema';
 
 @Injectable()
 export class LeadService {
   constructor(
-    private prismaService: PrismaService,
+    // private prismaService: PrismaService,
+    @Inject(DB) private readonly db: DbType,
     private mailService: MailService,
     private schedulerRegistry: SchedulerRegistry,
   ) {}
@@ -19,89 +23,107 @@ export class LeadService {
     if (page == 0) page = 1;
     const skip = take * (page - 1);
 
-    const data = await this.prismaService.lead.findMany({ skip, take });
-    const count = await this.prismaService.user.count();
+    const data = await this.db.query.lead.findMany({
+      limit: take,
+      offset: skip,
+    });
+
     return {
       data,
-      count,
+      count: data.length,
     };
   }
 
-  findOne(id: number) {
-    return this.prismaService.lead.findFirstOrThrow({ where: { id } });
-  }
-
-  lists() {
-    return this.prismaService.lead.findMany({
-      select: { list: true },
-      distinct: ['list'],
+  async findOne(id: number) {
+    // return this.prismaService.lead.findFirstOrThrow({ where: { id } });
+    return await this.db.query.lead.findFirst({
+      where: eq(schema.lead.id, id),
     });
   }
 
-  searchLeads(search: string) {
-    return this.prismaService.lead.findMany({
-      where: {
-        OR: [
-          {
-            name: { contains: search },
-          },
-          {
-            email: { contains: search },
-          },
-          {
-            origin: { contains: search },
-          },
-          {
-            list: { contains: search },
-          },
-        ],
-      },
+  async lists() {
+    // return this.prismaService.lead.findMany({
+    //   select: { list: true },
+    //   distinct: ['list'],
+    // });
+    const lists = await this.db
+      .selectDistinct({ list: schema.lead.list })
+      .from(schema.lead)
+      .orderBy(asc(schema.lead.list));
+    return lists;
+  }
+
+  async searchLeads(search: string) {
+    const data = await this.db.query.lead.findMany({
+      where: or(
+        like(schema.lead.name, `%${search}%`),
+        like(schema.lead.email, `%${search}%`),
+        like(schema.lead.origin, `%${search}%`),
+        like(schema.lead.list, `%${search}%`),
+      ),
+      // limit: take,
+      // offset: skip,
+    });
+    return {
+      data,
+      count: data.length,
+    };
+  }
+
+  async searchByList(list: string) {
+    // console.log('list', list);
+    // return this.prismaService.lead.findMany({
+    //   where: { list },
+    // });
+    return await this.db.query.lead.findMany({
+      where: eq(schema.lead.list, list),
     });
   }
 
-  searchByList(list: string) {
-    console.log('list', list);
-    return this.prismaService.lead.findMany({
-      where: { list },
+  async loadLead(list: string, email: string) {
+    // return this.prismaService.lead.findFirstOrThrow({
+    //   where: { list, email },
+    // });
+    return await this.db.query.lead.findFirst({
+      where: and(eq(schema.lead.list, list), eq(schema.lead.email, email)),
     });
   }
 
-  loadLead(list: string, email: string) {
-    return this.prismaService.lead.findFirstOrThrow({
-      where: { list, email },
-    });
-  }
-
-  confirm(list: string, email: string) {
+  async confirm(list: string, email: string) {
     const date = new Date();
-    return this.prismaService.lead.update({
-      where: {
-        email_list: { list, email },
-      },
-      data: {
+    await this.db
+      .update(schema.lead)
+      .set({
         confirm: 1,
-        confirmed_at: date.getTime() / 1000,
-      },
+        confirmedAt: date.getTime() / 1000,
+      })
+      .where(and(eq(schema.lead.list, list), eq(schema.lead.email, email)));
+
+    return await this.db.query.lead.findFirst({
+      where: and(eq(schema.lead.list, list), eq(schema.lead.email, email)),
     });
   }
 
-  notdisturb(list: string, email: string) {
-    return this.prismaService.lead.update({
-      where: {
-        email_list: { list, email },
-      },
-      data: { naoperturbe: 1 },
+  async notdisturb(list: string, email: string) {
+    const date = new Date();
+    await this.db
+      .update(schema.lead)
+      .set({
+        naoperturbe: 1,
+      })
+      .where(and(eq(schema.lead.list, list), eq(schema.lead.email, email)));
+
+    return await this.db.query.lead.findFirst({
+      where: and(eq(schema.lead.list, list), eq(schema.lead.email, email)),
     });
   }
 
   async leadExists(email: string, list: string) {
-    return (
-      (await this.prismaService.lead.count({
-        where: {
-          AND: [{ email }, { list }],
-        },
-      })) !== 0
-    );
+    const result = await this.db
+      .select({ count: sql<number>`count(*)` })
+      .from(schema.lead)
+      .where(and(eq(schema.lead.email, email), eq(schema.lead.list, list)));
+    return result[0].count !== 0;
   }
 
   async create(createLeadDto: CreateLeadDto) {
@@ -110,24 +132,17 @@ export class LeadService {
       throw new InvalidLeadError('Lead already exists in this list.');
     } else {
       //Envia o primeiro email:
-      await this.mailService.sendLeadConfirmation(createLeadDto);
+      this.mailService.sendLeadConfirmation(createLeadDto);
 
       //Cron JOB pra amanhã. Disparo do segundo email:
-      this.addCronJob('schedulemail', createLeadDto);
-
-      return this.prismaService.lead.create({
-        data: {
-          ...createLeadDto,
-          created_at: date.getTime() / 1000,
-        },
+      //this.addCronJob('schedulemail', createLeadDto);
+      const newItem = await this.db.insert(schema.lead).values(createLeadDto);
+      return await this.db.query.lead.findFirst({
+        where: eq(schema.lead.id, newItem[0].insertId),
       });
     }
   }
 
-  // @Cron(new Date(Date.now() + 10 * 1000))
-  // handleCron() {
-  //   console.log('10 segundos após criado email');
-  // }
   async addCronJob(name: string, createLeadDto: CreateLeadDto) {
     const date = new Date(Date.now() + 24 * 60 * 60 * 1000); //Schedule to 24h later
     //const date = new Date(Date.now() + 20 * 1000);
@@ -171,14 +186,24 @@ export class LeadService {
     return { ...arr };
   }
 
-  update(id: number, updateLeadDto: UpdateLeadDto) {
-    return this.prismaService.lead.update({
-      where: { id },
-      data: updateLeadDto,
+  async update(id: number, updateLeadDto: UpdateLeadDto) {
+    await this.db
+      .update(schema.lead)
+      .set(updateLeadDto)
+      .where(eq(schema.lead.id, id));
+
+    return await this.db.query.lead.findFirst({
+      where: eq(schema.lead.id, id),
     });
   }
 
-  remove(id: number) {
-    return this.prismaService.lead.delete({ where: { id } });
+  async remove(id: number) {
+    // return this.prismaService.lead.delete({ where: { id } });
+    const itemRemoved = await this.db.query.lead.findFirst({
+      where: eq(schema.lead.id, id),
+    });
+    await this.db.delete(schema.lead).where(eq(schema.lead.id, id));
+    return itemRemoved;
+    // return this.prismaService.componentExtra.delete({ where: { id } });
   }
 }

@@ -2,10 +2,10 @@ import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateComponentextraDto {
   @IsString()
-  key_extra: string;
+  keyExtra: string;
 
   @IsString()
-  value_extra: string;
+  valueExtra: string;
 
   @IsOptional()
   @IsNumber()
@@ -16,5 +16,5 @@ export class CreateComponentextraDto {
   status?: number | null;
 
   @IsNumber()
-  component_id: number;
+  componentId: number;
 }
