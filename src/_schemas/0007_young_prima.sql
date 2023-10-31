@@ -1,0 +1,1 @@
+ALTER TABLE `Support` MODIFY COLUMN `admin_id` int;

@@ -15,6 +15,48 @@
       "when": 1698257210907,
       "tag": "0001_burly_rattler",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1698605002691,
+      "tag": "0002_old_venus",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1698605375943,
+      "tag": "0003_left_maverick",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1698606720628,
+      "tag": "0004_sturdy_marvel_apes",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1698613436442,
+      "tag": "0005_chunky_adam_warlock",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1698613631748,
+      "tag": "0006_black_talos",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1698613871238,
+      "tag": "0007_young_prima",
+      "breakpoints": true
     }
   ]
 }

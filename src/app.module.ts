@@ -28,6 +28,10 @@ import { ComponentController } from './component/component.controller';
 import { DrizzleModule } from './drizzle/drizzle.module';
 import { ConfigModule } from '@nestjs/config';
 import { DbConfig } from './config';
+import { ComponentannotationModule } from './componentannotation/componentannotation.module';
+import { ComponentcommentModule } from './componentcomment/componentcomment.module';
+import { ContactModule } from './contact/contact.module';
+import { SupportModule } from './support/support.module';
 
 @Module({
   imports: [
@@ -39,9 +43,6 @@ import { DbConfig } from './config';
     //PrismaModule,
     //CategoriesModule,
     //VideosModule,
-    //StateModule,
-    //CityModule,
-
 
     UserModule,
     AuthModule,
@@ -50,18 +51,26 @@ import { DbConfig } from './config';
     ComponentextraModule,
     LeadModule,
     
-    // StateModule,
-    // CityModule,
-    // ComponentavailableModule,
-    // ComponentcompletedModule,
+    StateModule,
+    CityModule,
+    ComponentavailableModule,
+    ComponentcompletedModule,
     
-    // WppcampModule,
-    // WppgroupModule,
-    // PaymentModule,
-    // MassmailModule,
-    // MailModule,
+    WppcampModule,
+    WppgroupModule,
+    PaymentModule,
+    MassmailModule,
+    MailModule,
 
     ScheduleModule.forRoot(),
+
+    ComponentannotationModule,
+
+    ComponentcommentModule,
+
+    ContactModule,
+
+    SupportModule,
     
   ],
   controllers: [AppController],
