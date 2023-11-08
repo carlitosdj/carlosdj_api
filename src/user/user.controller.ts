@@ -83,7 +83,7 @@ export class UserController {
     //     ? this.roleBuilder.can(req.user.roles).updateOwn('user')
     //     : this.roleBuilder.can(req.user.roles).updateAny('user');
 
-    const date = new Date();
+    //const date = new Date();
     // if (permission.granted)
     //   return this.userService.update(+id, {
     //     ...updateUserDto,
@@ -93,7 +93,7 @@ export class UserController {
 
     return this.userService.update(+id, {
       ...updateUserDto,
-      updated_at: date.getTime() / 1000,
+      //updated_at: date.getTime() / 1000,
     });
   }
 

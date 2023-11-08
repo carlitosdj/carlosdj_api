@@ -17,7 +17,7 @@ export const DbProvider: FactoryProvider = {
 
     logger.debug('Connecting to Mysql...');
 
-    const connection = await mysql.createConnection({
+    const connection = await mysql.createPool({
       host: 'ftp.institutodefelicibus.com.br',
       user: 'wwinst_carlitos',
       password: 'carlosdj123',
@@ -26,9 +26,13 @@ export const DbProvider: FactoryProvider = {
 
     logger.debug('Connected to Mysql!');
 
+    //instantiate the connection
+    // connection.connect();
+    // connection.destroy();
+
     class CustomDbLogWriter implements LogWriter {
       write(message: string) {
-        logger.verbose(message); 
+        logger.verbose(message);
       }
     }
 

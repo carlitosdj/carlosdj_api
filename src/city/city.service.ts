@@ -1,10 +1,14 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateCityDto } from './dto/create-city.dto';
 import { UpdateCityDto } from './dto/update-city.dto';
+import { DB, DbType } from 'src/drizzle/providers/drizzle.providers';
 //import { PrismaService } from 'src/prisma/prisma/prisma.service';
+import * as schema from '../_schemas/schema';
+import { eq } from 'drizzle-orm';
 
 @Injectable()
 export class CityService {
+  constructor(@Inject(DB) private readonly db: DbType) {}
   //constructor(private prismaService: PrismaService) {}
 
   create(createCityDto: CreateCityDto) {
@@ -24,12 +28,16 @@ export class CityService {
     //   where: { id },
     //   include: { state: true },
     // });
+    
   }
 
   findCitiesByState(state_id: number) {
     // return this.prismaService.locationCity.findMany({
     //   where: { state_id },
     // });
+    return this.db.query.locationCity.findMany({
+      where: eq(schema.locationCity.stateId, state_id)
+    })
   }
 
   update(id: number, updateCityDto: UpdateCityDto) {

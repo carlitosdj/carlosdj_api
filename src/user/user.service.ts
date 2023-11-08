@@ -185,11 +185,10 @@ export class UserService {
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
-    // console.log('update', id);
-    // console.log('opaa', updateUserDto.newPassword);
     const { newPassword, ...result } = updateUserDto;
-    void newPassword; //?
-    // console.log('newPass', newPassword);
+    console.log("result", result)
+    void newPassword;
+
     const date = new Date();
     if (updateUserDto.newPassword) {
       const saltOrRounds = 10;
@@ -206,55 +205,33 @@ export class UserService {
         })
         .where(eq(schema.user.id, id));
 
-      return await this.db.query.user.findFirst({
-        where: eq(schema.user.id, id),
-        with: {
-          city: true,
-          state: true,
-        },
-      });
-
-      // return this.prismaService.user.update({
-      //   where: { id },
-      //   data: {
-      //     ...result,
-      //     updated_at: date.getTime() / 1000,
-      //     password_hash: hash,
-      //   },
-      //   include: {
-      //     city: true,
-      //     state: true
-      //   }
-      // });
+      
     } else {
-      // return await this.prismaService.user.update({
-      //   where: { id },
-      //   data: {
-      //     ...result,
-      //     updated_at: date.getTime() / 1000,
-      //   },
-      //   include: {
-      //     city: true,
-      //     state: true
-      //   }
-      // });
-
       await this.db
         .update(schema.user)
         .set({
           ...result,
-          //updated_at: date.getTime() / 1000,
         })
         .where(eq(schema.user.id, id));
 
-      return await this.db.query.user.findFirst({
-        where: eq(schema.user.id, id),
-        with: {
-          city: true,
-          state: true,
-        },
-      });
+      // return await this.db.query.user.findFirst({
+      //   where: eq(schema.user.id, id),
+      //   with: {
+      //     city: true,
+      //     state: true,
+      //   },
+      // });
     }
+
+    //if(updateUserDto.cit)
+
+    return await this.db.query.user.findFirst({
+      where: eq(schema.user.id, id),
+      with: {
+        city: true,
+        state: true,
+      },
+    });
   }
 
   async remove(id: number) {
