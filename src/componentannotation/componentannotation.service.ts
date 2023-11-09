@@ -3,31 +3,39 @@ import { CreateComponentannotationDto } from './dto/create-componentannotation.d
 import { UpdateComponentannotationDto } from './dto/update-componentannotation.dto';
 import * as schema from '../_schemas/schema';
 import { DB, DbType } from 'src/drizzle/providers/drizzle.providers';
-import { eq } from 'drizzle-orm';
+import { and, desc, eq } from 'drizzle-orm';
 
 @Injectable()
 export class ComponentannotationService {
-
   constructor(@Inject(DB) private readonly db: DbType) {}
 
-  findAll() {
+  findAll(userId: number) {
     return this.db.query.componentAnnotation.findMany({
+      where: eq(schema.componentAnnotation.userId, userId),
       with: {
         parentComponent: {
           with: {
-            parent: true
-          }
+            parent: {
+              with: {
+                parent: true
+              }
+            }
+          },
         },
-        parentUser: true
-      }
-    })
+        //parentUser: true,
+      },
+      orderBy: desc(schema.componentAnnotation.id)
+    });
     //return `This action returns all componentannotation`;
   }
 
-  findOne(id: number) {
+  findOne(userId: number, componentId: number) {
     return this.db.query.componentAnnotation.findFirst({
-      where: eq(schema.componentAnnotation.id, id)
-    })
+      where: and(
+        eq(schema.componentAnnotation.userId, userId),
+        eq(schema.componentAnnotation.componentId, componentId),
+      ),
+    });
     //return `This action returns a #${id} componentannotation`;
   }
 
@@ -42,8 +50,10 @@ export class ComponentannotationService {
     //return 'This action adds a new componentannotation';
   }
 
-  async update(id: number, updateComponentannotationDto: UpdateComponentannotationDto) {
-
+  async update(
+    id: number,
+    updateComponentannotationDto: UpdateComponentannotationDto,
+  ) {
     await this.db
       .update(schema.componentAnnotation)
       .set(updateComponentannotationDto)
@@ -60,7 +70,9 @@ export class ComponentannotationService {
     const itemRemoved = await this.db.query.componentAnnotation.findFirst({
       where: eq(schema.componentAnnotation.id, id),
     });
-    await this.db.delete(schema.componentAnnotation).where(eq(schema.componentAnnotation.id, id))
+    await this.db
+      .delete(schema.componentAnnotation)
+      .where(eq(schema.componentAnnotation.id, id));
     return itemRemoved;
     //return `This action removes a #${id} componentannotation`;
   }

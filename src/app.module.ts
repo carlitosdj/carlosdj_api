@@ -32,6 +32,7 @@ import { ComponentannotationModule } from './componentannotation/componentannota
 import { ComponentcommentModule } from './componentcomment/componentcomment.module';
 import { ContactModule } from './contact/contact.module';
 import { SupportModule } from './support/support.module';
+import { UploadModule } from './upload/upload.module';
 
 @Module({
   imports: [
@@ -71,6 +72,8 @@ import { SupportModule } from './support/support.module';
     ContactModule,
 
     SupportModule,
+
+    UploadModule,
     
   ],
   controllers: [AppController],

@@ -11,7 +11,7 @@ import { ComponentcompletedService } from './componentcompleted.service';
 import { CreateComponentcompletedDto } from './dto/create-componentcompleted.dto';
 import { UpdateComponentcompletedDto } from './dto/update-componentcompleted.dto';
 
-@Controller('componentcompleted')
+@Controller('completed')
 export class ComponentcompletedController {
   constructor(
     private readonly componentcompletedService: ComponentcompletedService,
@@ -34,6 +34,7 @@ export class ComponentcompletedController {
 
   @Post()
   create(@Body() createComponentcompletedDto: CreateComponentcompletedDto) {
+    console.log("Create called", createComponentcompletedDto)
     return this.componentcompletedService.create(createComponentcompletedDto);
   }
 
@@ -42,6 +43,7 @@ export class ComponentcompletedController {
     @Param('id') id: string,
     @Body() updateComponentcompletedDto: UpdateComponentcompletedDto,
   ) {
+    console.log("Update called", updateComponentcompletedDto)
     return this.componentcompletedService.update(
       +id,
       updateComponentcompletedDto,

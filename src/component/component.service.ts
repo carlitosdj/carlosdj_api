@@ -108,14 +108,15 @@ export class ComponentService {
           with: {
             extras: true,
             available: true,
+            completed: {
+              where: eq(schema.componentCompleted.userId, user_id),
+            },
           },
         },
         available: {
           where: eq(schema.componentAvailable.turmaNum, num_turma),
         },
-        completed: {
-          where: eq(schema.componentCompleted.userId, user_id),
-        },
+        
         //ComponentCompleted: { where: { user_id } },
         //ComponentAvailable: { where: { turma_num: num_turma } },
       },

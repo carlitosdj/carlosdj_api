@@ -14,9 +14,9 @@ import {
 import { LoggingInterceptor } from './logging.interceptor';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(
+  const app = await NestFactory.create(
     AppModule,
-    new FastifyAdapter(),
+    //new FastifyAdapter(),
   );
 
   app.enableCors();

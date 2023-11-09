@@ -1,11 +1,15 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateComponentcompletedDto } from './dto/create-componentcompleted.dto';
 import { UpdateComponentcompletedDto } from './dto/update-componentcompleted.dto';
 // import { PrismaService } from 'src/prisma/prisma/prisma.service';
+import * as schema from '../_schemas/schema';
+import { DB, DbType } from 'src/drizzle/providers/drizzle.providers';
+import { eq } from 'drizzle-orm';
 
 @Injectable()
 export class ComponentcompletedService {
   // constructor(private prismaService: PrismaService) {}
+  constructor(@Inject(DB) private readonly db: DbType) {}
 
   findAll() {
     // //return `This action returns all componentcompleted`;
@@ -24,21 +28,38 @@ export class ComponentcompletedService {
     // });
   }
 
-  create(createComponentcompletedDto: CreateComponentcompletedDto) {
-    const date = new Date();
+  async create(createComponentcompletedDto: CreateComponentcompletedDto) {
+    //const date = new Date();
     // return this.prismaService.componentCompleted.create({
     //   data: {
     //     ...createComponentcompletedDto,
     //     created_at: date.getTime() / 1000,
     //   },
     // });
+    const newItem = await this.db
+      .insert(schema.componentCompleted)
+      .values(createComponentcompletedDto);
+
+    return await this.db.query.componentCompleted.findFirst({
+      where: eq(schema.componentCompleted.id, newItem[0].insertId),
+    });
   }
 
-  update(id: number, updateComponentcompletedDto: UpdateComponentcompletedDto) {
-    // return this.prismaService.componentCompleted.update({
-    //   where: { id },
-    //   data: updateComponentcompletedDto,
-    // });
+  async update(
+    id: number,
+    updateComponentcompletedDto: UpdateComponentcompletedDto,
+  ) {
+    console.log('id', id);
+    console.log('updateComponentcompletedDto', updateComponentcompletedDto);
+    const teste = await this.db
+      .update(schema.componentCompleted)
+      .set(updateComponentcompletedDto)
+      .where(eq(schema.componentCompleted.id, id));
+    console.log('teste', teste);
+    
+    return await this.db.query.componentCompleted.findFirst({
+      where: eq(schema.componentCompleted.id, id),
+    });
   }
 
   remove(id: number) {

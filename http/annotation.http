@@ -1,0 +1,43 @@
+@hostname = http://localhost:3000
+@Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbiIsInBhc3N3b3JkSGFzaCI6IiQyYiQxMCRYcDhoSnRBL2k2T0JobS9YOG0uTjJlSlZ6LlB6ejVDQklHN281c0VRREYwRHI1QnlUaHpaMiIsImF1dGhLZXkiOiI1Mjc0NWI2Ny1lNTQ2LTQ4ODItOWE5Zi0yOTM0OTA5YmIzMWUiLCJjb25maXJtZWRBdCI6MTYwMDY2MjE2MCwiYmxvY2tlZEF0IjpudWxsLCJyZWdpc3RyYXRpb25JcCI6bnVsbCwiY3JlYXRlZEF0IjoxNjgzOTI0OTk3LCJ1cGRhdGVkQXQiOjE2OTc2NjI3MjguNTc4LCJmbGFnIjoxMCwibGFzdExvZ2luQXQiOjE2OTQ1NDQ5MzAsIm9yaWdpbiI6IjE2ODM1NTQ4MTEiLCJudW1UdXJtYSI6MSwibmFtZSI6IkFkbWluaXN0cmFkb3IiLCJiaW8iOm51bGwsIndoYXRzYXBwIjoiMzQ5ODQyOTM1MTkiLCJjcGYiOiIwMTYwNTc0MzY2NiIsInBvc3RhbENvZGUiOiIzODQwMDQyOCIsImFkZHJlc3MiOiJSdWEgU8OjbyBMb3VyZW7Dp28iLCJhZGRyZXNzTnVtYmVyIjoiNjIxIiwiYWRkcmVzc0Rpc3RyaWN0IjoiT3N2YWxkbyBSZXplbmRlIiwiaW1hZ2UiOm51bGwsImNpdHlJZCI6MjM4OSwic3RhdGVJZCI6MTEsInJvbGVzIjoiYWRtaW4iLCJjaXR5Ijp7ImlkIjoyMzg5LCJuYW1lIjoiVWJlcmzDom5kaWEiLCJzdGF0ZUlkIjoxMX0sInN0YXRlIjp7ImlkIjoxMSwibmFtZSI6Ik1pbmFzIEdlcmFpcyIsInN0YXRlIjoiTUciLCJjb3VudHJ5IjoxfSwiaWF0IjoxNjk5NDY3NDI2LCJleHAiOjE3MDAwNzIyMjZ9.iCqxIBtJWtk2JfQ2xfhBzrlvmJOkKJevtOaxUMA21os
+
+### Login
+POST {{hostname}}/auth/login
+Content-Type: application/json
+
+{
+    //"email":"c.dj@hotmail.com",
+    "email":"admin",
+    "password": "1234"
+}
+
+### Get Profile (Logged User)
+GET {{hostname}}/auth/profile
+Authorization: {{Authorization}}
+
+###################################################
+
+### Get all components
+GET {{hostname}}/annotation/1/91
+Authorization: {{Authorization}}
+
+### Create component
+POST {{hostname}}/annotation
+Authorization: {{Authorization}}
+Content-Type: application/json
+
+{
+}
+
+### Create component
+PATCH {{hostname}}/annotation/1
+Authorization: {{Authorization}}
+Content-Type: application/json
+
+{
+    "message": "teste"
+}
+
+###
+DELETE {{hostname}}/componentcompleted/17
+Authorization: {{Authorization}}
