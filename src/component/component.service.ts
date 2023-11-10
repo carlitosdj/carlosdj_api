@@ -52,8 +52,8 @@ export class ComponentService {
   async searchComponent(search: string) {
     return await this.db.query.component.findMany({
       where: or(
-        like(schema.component.name, `%${search}%`),
-        like(schema.component.description, `%${search}%`),
+        like(schema.component.tags, `%${search}%`),
+        //like(schema.component.description, `%${search}%`),
       ),
       with: {
         extras: true,

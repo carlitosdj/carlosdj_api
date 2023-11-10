@@ -9,7 +9,27 @@ import { and, desc, eq } from 'drizzle-orm';
 export class ComponentannotationService {
   constructor(@Inject(DB) private readonly db: DbType) {}
 
-  findAll(userId: number) {
+  findAll() {
+    return this.db.query.componentAnnotation.findMany({
+      //where: eq(schema.componentAnnotation.userId, userId),
+      with: {
+        parentComponent: {
+          with: {
+            parent: {
+              with: {
+                parent: true
+              }
+            }
+          },
+        },
+        parentUser: true,
+      },
+      orderBy: desc(schema.componentAnnotation.id)
+    });
+    //return `This action returns all componentannotation`;
+  }
+
+  findAllFromUser(userId: number) {
     return this.db.query.componentAnnotation.findMany({
       where: eq(schema.componentAnnotation.userId, userId),
       with: {

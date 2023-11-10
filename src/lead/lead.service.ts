@@ -28,10 +28,16 @@ export class LeadService {
       offset: skip,
     });
 
+    const result = await this.db
+      .select({ count: sql<number>`count(*)` })
+      .from(schema.lead);
+
     return {
       data,
-      count: data.length,
+      //count: data.length,
+      count: result[0].count,
     };
+
   }
 
   async findOne(id: number) {

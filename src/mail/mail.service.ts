@@ -1,7 +1,11 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
+import { Schema } from 'node:inspector';
 import { CreateLeadDto } from 'src/lead/dto/create-lead.dto';
-
+import { CreateUserDto } from 'src/user/dto/create-user.dto';
+import * as schema from '../_schemas/schema';
+import { User } from 'src/user/entities/user.entity';
+import { UserService } from 'src/user/user.service';
 //var nodemailer = require('nodemailer');
 
 @Injectable()
@@ -9,7 +13,7 @@ export class MailService {
   constructor(private mailerService: MailerService) {}
   async sendLeadConfirmation(lead: CreateLeadDto) {
     const url_gforms = `https://forms.gle/Gxs8H8GQEifNXuf89`;
-    const url_confirm = `http://localhost:3015/lead/confirm/${lead.list}/${lead.email}`;
+    const url_confirm = `http://localhost:3001/lead/confirm/${lead.list}/${lead.email}`;
     const expert = 'Carlos Defelicibus Junior';
     const eventName = 'EVENTO123';
 
@@ -37,7 +41,7 @@ export class MailService {
 
   async sendSecondMail(lead: CreateLeadDto) {
     const url_gforms = `https://forms.gle/Gxs8H8GQEifNXuf89`;
-    const url_confirm = `http://localhost:3015/lead/confirm/${lead.list}/${lead.email}`;
+    const url_confirm = `http://localhost:3001/lead/confirm/${lead.list}/${lead.email}`;
     const expert = 'Carlos Defelicibus Junior';
     const eventName = 'EVENTO123';
 
@@ -54,6 +58,28 @@ export class MailService {
           expert,
           url_gforms,
           url_confirm,
+        },
+      })
+      .then((res) => console.log('res', res.envelope.to))
+      .catch((err) => {
+        console.log('err', err);
+      });
+    //console.log('sent email', lead.email);
+  }
+
+  async sendRecoveryMail(user: any) { //TODO: achar o type disso aqui (treta: auth_key com authKey)
+    const url = `http://localhost:3002/auth/change/${user.email}/${user.authKey}`;
+
+    await this.mailerService
+      .sendMail({
+        to: user.email,
+        // from: '"Support Team" <support@example.com>', // override default from
+        subject: `Recuperação de senha`,
+        template: '../../../mail/templates/recovery', // `.hbs` extension is appended automatically
+        context: {
+          // ✏️ filling curly brackets with content
+          name: user.name,
+          url,
         },
       })
       .then((res) => console.log('res', res.envelope.to))

@@ -17,9 +17,14 @@ export class ComponentannotationController {
     private readonly componentannotationService: ComponentannotationService,
   ) {}
 
+  @Get()
+  findAll() {
+    return this.componentannotationService.findAll();
+  }
+
   @Get(':userId')
-  findAll(@Param('userId') userId: string) {
-    return this.componentannotationService.findAll(+userId);
+  findAllFromUser(@Param('userId') userId: string) {
+    return this.componentannotationService.findAllFromUser(+userId);
   }
 
   @Get(':userId/:componentId')

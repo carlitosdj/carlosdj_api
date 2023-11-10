@@ -1,19 +1,22 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-// import { PrismaService } from 'src/prisma/prisma/prisma.service';
 
 import * as bcrypt from 'bcrypt';
+import * as schema from '../_schemas/schema';
+
 import { InvalidUserError } from 'src/errors/invalid-user.error';
 import { DB, DbType } from 'src/drizzle/providers/drizzle.providers';
-//import { User } from '@prisma/client';
-import * as schema from '../_schemas/schema';
 import { and, eq, like, or, sql } from 'drizzle-orm';
+import { randomUUID } from 'node:crypto';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
 export class UserService {
-  //constructor(private prismaService: PrismaService) {}
-  constructor(@Inject(DB) private readonly db: DbType) {}
+  constructor(
+    @Inject(DB) private readonly db: DbType,
+    private mailService: MailService,
+  ) {}
 
   async findAll(page: number, take: number) {
     if (page == 0) page = 1;
@@ -24,28 +27,18 @@ export class UserService {
       offset: skip,
     });
 
+    const result = await this.db
+      .select({ count: sql<number>`count(*)` })
+      .from(schema.user);
+
     return {
       data,
-      count: data.length,
+      //count: data.length,
+      count: result[0].count,
     };
-
-    // if (page == 0) page = 1;
-    // const skip = take * (page - 1);
-    // const data = await this.prismaService.user.findMany({
-    //   skip,
-    //   take,
-    // });
-    // const count = await this.prismaService.user.count();
-    // return {
-    //   data,
-    //   count,
-    // };
   }
 
   async findOne(id: number) {
-    // return this.prismaService.user.findFirstOrThrow({
-    //   where: { id },
-    // });
     return await this.db.query.user.findFirst({
       where: eq(schema.user.id, id),
       // with: {
@@ -62,22 +55,12 @@ export class UserService {
         state: true,
       },
     });
-    // return this.prismaService.user.findFirstOrThrow({
-    //   where: { email },
-    //   include: {
-    //     city: true,
-    //     state: true
-    //   }
-    // });
   }
 
   async findAdminByEmail(email: string) {
     return await this.db.query.user.findFirst({
       where: and(eq(schema.user.email, email), eq(schema.user.roles, 'admin')),
     });
-    // return this.prismaService.user.findFirstOrThrow({
-    //   where: { AND: [{ email, roles: 'admin' }] },
-    // });
   }
 
   async searchUser(search: string) {
@@ -87,32 +70,14 @@ export class UserService {
         like(schema.user.email, `%${search}%`),
       ),
     });
-    // return this.prismaService.user.findMany({
-    //   where: {
-    //     OR: [
-    //       {
-    //         name: { contains: search },
-    //       },
-    //       {
-    //         email: { contains: search },
-    //       },
-    //     ],
-    //   },
-    // });
   }
 
   async userExists(email: string) {
-    // return (
-    //   (await this.prismaService.user.count({
-    //     where: {
-    //       email,
-    //     },
-    //   })) !== 0
-    // );
     const result = await this.db
       .select({ count: sql<number>`count(*)` })
       .from(schema.user)
       .where(eq(schema.user.email, email));
+    console.log('RESULT', result[0].count);
     return result[0].count !== 0;
   }
 
@@ -131,17 +96,6 @@ export class UserService {
       //console.log('password', password);
       const hash = await bcrypt.hash(password, saltOrRounds);
 
-      // return this.prismaService.user.create({
-      //   data: {
-      //     ...result,
-      //     created_at: date.getTime() / 1000,
-      //     password_hash: hash,
-      //   },
-      //   include: {
-      //     city: true,
-      //     state: true
-      //   }
-      // });
       const newItem = await this.db
         .insert(schema.user)
         .values({ ...createUserDto, passwordHash: hash });
@@ -161,32 +115,40 @@ export class UserService {
           state: true,
         },
       });
-
-      // return this.prismaService.user.create({
-      //   data: {
-      //     ...result,
-      //     created_at: date.getTime() / 1000,
-      //   },
-      //   include: {
-      //     city: true,
-      //     state: true,
-      //   },
-      // });
     }
   }
 
   async recovery(email: string) {
-    if (await !this.userExists(email)) {
+    const userExists = await this.userExists(email);
+
+    if (!userExists) {
+      console.log('User not exists');
       throw new InvalidUserError('User not exists');
+    } else {
+      //console.log('Usuario existe', email);
+      //Acha usuario
+      const user = await this.db.query.user.findFirst({
+        where: eq(schema.user.email, email),
+      });
+
+      //Seta nova authKey
+      user.authKey = randomUUID();
+      //Edita usuario
+      await this.update(user.id, user);
+
+      //Envia email
+      this.mailService.sendRecoveryMail(user);
+
+      return {
+        msg: 'Ok!',
+      };
+      // SendMailController(request.body.email, 'Recuperar senha', 'Link para recuperação: https://associacao.labiopalatina.com.br/auth/change/'+user.email+'/'+user.auth_key)
     }
-    // //Troca auth_key
-    // //Envia email para usuário
-    // return 'Email enviado..';
   }
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     const { newPassword, ...result } = updateUserDto;
-    console.log("result", result)
+    console.log('result', result);
     void newPassword;
 
     const date = new Date();
@@ -204,8 +166,6 @@ export class UserService {
           passwordHash: hash,
         })
         .where(eq(schema.user.id, id));
-
-      
     } else {
       await this.db
         .update(schema.user)

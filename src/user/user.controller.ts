@@ -15,6 +15,10 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRolesBuilder, RolesBuilder } from 'nest-access-control';
 import { SkipAuth } from 'src/auth/auth.public.decorator';
 
+interface Recovery {
+    email: string
+}
+
 @Controller('user')
 export class UserController {
   constructor(
@@ -55,10 +59,12 @@ export class UserController {
     return this.userService.userExists(email);
   }
 
+  
   @SkipAuth()
-  @Get('recovery/:email')
-  recovery(@Param('email') email: string) {
-    return this.userService.recovery(email);
+  @Post('recovery')
+  recovery(@Body() body: Recovery) {
+    console.log("Chamando servico recovery:", body.email)
+    return this.userService.recovery(body.email);
   }
 
   @SkipAuth()
