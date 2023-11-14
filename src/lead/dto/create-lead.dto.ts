@@ -25,11 +25,11 @@ export class CreateLeadDto {
 
   @IsNumber()
   @IsOptional()
-  created_at?: number | null;
+  createdAt?: Date | null;
 
   @IsNumber()
   @IsOptional()
-  confirmed_at?: number | null;
+  confirmedAt?: Date | null;
 
   @IsString()
   @IsOptional()

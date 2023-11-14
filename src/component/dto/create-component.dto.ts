@@ -10,7 +10,7 @@ export class CreateComponentDto {
 
   @IsOptional()
   @IsNumber()
-  created_at?: number | null;
+  created_at?: Date | null;
 
   @IsOptional()
   @IsNumber()

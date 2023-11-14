@@ -67,7 +67,7 @@ export class MailService {
     //console.log('sent email', lead.email);
   }
 
-  async sendRecoveryMail(user: any) { //TODO: achar o type disso aqui (treta: auth_key com authKey)
+  async sendRecoveryMail(user: CreateUserDto) { //TODO: achar o type disso aqui (treta: auth_key com authKey)
     const url = `http://localhost:3002/auth/change/${user.email}/${user.authKey}`;
 
     await this.mailerService

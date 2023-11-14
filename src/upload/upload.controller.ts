@@ -1,9 +1,13 @@
 import {
   Body,
   Controller,
+  FileTypeValidator,
   Get,
+  HttpStatus,
+  MaxFileSizeValidator,
   Param,
   ParseFilePipe,
+  ParseFilePipeBuilder,
   Post,
   Res,
   StreamableFile,
@@ -28,15 +32,31 @@ export class UploadController {
   @UseInterceptors(FileInterceptor('file'))
   create(
     @UploadedFile(
+      // new ParseFilePipeBuilder()
+      //   .addFileTypeValidator({
+      //     fileType: 'jpeg',
+      //   })
+      //   .addMaxSizeValidator({
+      //     maxSize: 1024 * 1024 * 100,
+      //   })
+      //   .build({
+      //     errorHttpStatusCode: HttpStatus.UNPROCESSABLE_ENTITY,
+      //   }),
       new ParseFilePipe({
         validators: [
-          new ImageFileValidator({
-            maxSize: 1024 * 1024 * 100,
-            mimetype: 'image/jpeg',
-          }),
+          new MaxFileSizeValidator({ maxSize: 1024 * 1024 * 100 }),
+          new FileTypeValidator({ fileType: '.(png|jpeg|jpg|pdf|mp4|zip|rar)' }),
         ],
-        errorHttpStatusCode: 422,
       }),
+      // new ParseFilePipe({
+      //   validators: [
+      //     new ImageFileValidator({
+      //       maxSize: 1024 * 1024 * 100,
+      //       mimetype: 'image/jpeg',
+      //     }),
+      //   ],
+      //   errorHttpStatusCode: 422,
+      // }),
     )
     file: Express.Multer.File,
   ) {
@@ -46,22 +66,21 @@ export class UploadController {
   @SkipAuth()
   @Get('file/:file')
   file(@Param('file') file: string, @Res() res: Response) {
-    console.log("Getting file", file)
+    console.log('Getting file', file);
     try {
-        console.log("Entrando no try..")
-        const fileStream = createReadStream(join(process.cwd(), 'upload', file));
-        //return new StreamableFile(fileStream);
+      console.log('Entrando no try..');
+      const fileStream = createReadStream(join(process.cwd(), 'upload', file));
+      //return new StreamableFile(fileStream);
+      fileStream.pipe(res);
+      fileStream.on('error', (err) => {
+        console.log('ERRO...', err);
+        const fileStream = createReadStream(
+          join(process.cwd(), 'upload', '1699560008663-0.8066554838789386.jpg'),
+        );
         fileStream.pipe(res);
-        fileStream.on('error', err => {
-            console.log("ERRO...", err)
-            const fileStream = createReadStream(join(process.cwd(), 'upload', '1699560008663-0.8066554838789386.jpg'));
-            fileStream.pipe(res);
-        })
-
-        
+      });
     } catch (error) {
-        console.log("ERRO")
+      console.log('ERRO');
     }
-    
   }
 }

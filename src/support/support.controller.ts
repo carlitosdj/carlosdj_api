@@ -17,13 +17,14 @@ export class SupportController {
     return this.supportService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.supportService.findOne(+id);
+  @Get(':userId')
+  findAllByUser(@Param('userId') userId: string) {
+    return this.supportService.findAllByUser(+userId);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSupportDto: UpdateSupportDto) {
+    
     return this.supportService.update(+id, updateSupportDto);
   }
 

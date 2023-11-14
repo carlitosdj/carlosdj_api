@@ -3,6 +3,6 @@ export class CreateContactDto {
   email: string;
   subject: string;
   message: string;
-  createdAt: number;
+  createdAt: Date;
   status: number;
 }

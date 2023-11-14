@@ -84,8 +84,8 @@ export class AuthService {
     const date = new Date();
     const newUser = await this.userService.create({
       email,
-      password_hash: hash,
-      created_at: date.getTime() / 1000,
+      passwordHash: hash,
+      createdAt: date,
       name: 'teste',
     });
     return newUser;

@@ -73,7 +73,7 @@ export class UserController {
     const date = new Date();
     return this.userService.create({
       ...createUserDto,
-      created_at: date.getTime() / 1000,
+      //createdAt: date.getTime() / 1000,
     });
   }
 

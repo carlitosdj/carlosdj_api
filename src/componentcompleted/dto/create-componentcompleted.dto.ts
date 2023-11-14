@@ -1,5 +1,5 @@
 export class CreateComponentcompletedDto {
-  createdAt: number;
+  createdAt: Date;
   rate: number;
   status: number;
   userId: number;

@@ -101,7 +101,7 @@ export class LeadService {
       .update(schema.lead)
       .set({
         confirm: 1,
-        confirmedAt: date.getTime() / 1000,
+        confirmedAt: date,
       })
       .where(and(eq(schema.lead.list, list), eq(schema.lead.email, email)));
 

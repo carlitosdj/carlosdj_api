@@ -18,9 +18,16 @@ export class SupportService {
     })
   }
 
-  findOne(id: number) {
-    return this.db.query.support.findFirst({
-      where: eq(schema.support.id, id)
+  findAllByUser(userId: number) {
+    // return this.db.query.support.findFirst({
+    //   where: eq(schema.support.id, id)
+    // })
+    return this.db.query.support.findMany({
+      with: {
+        //parentUser: true,
+        parentAdmin: true,
+      },
+      where: eq(schema.support.userId, userId)
     })
   }
 
@@ -35,6 +42,7 @@ export class SupportService {
   }
 
   async update(id: number, updateSupportDto: UpdateSupportDto) {
+    console.log("updateSupportDto", await updateSupportDto)
     await this.db
       .update(schema.support)
       .set(updateSupportDto)
@@ -42,6 +50,10 @@ export class SupportService {
 
     return await this.db.query.support.findFirst({
       where: eq(schema.support.id, id),
+      with: {
+        parentUser: true,
+        parentAdmin: true,
+      }
     });
   }
 

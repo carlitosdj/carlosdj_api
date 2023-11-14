@@ -19,17 +19,22 @@ export const component = mysqlTable(
     id: int('id').primaryKey().autoincrement().notNull(),
     name: varchar('name', { length: 191 }).notNull(),
     description: text('description'),
-    createdAt: double('created_at'),
+    createdAt: datetime('createdAt', { mode: 'date', fsp: 3 })
+      .default(sql`CURRENT_TIMESTAMP(3)`)
+      .notNull(),
+    updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
+      .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
+      .notNull(),
     status: int('status').default(1).notNull(),
     order: varchar('order', { length: 191 }),
     duration: int('duration'),
     tags: varchar('tags', { length: 255 }),
     orderby: varchar('orderby', { length: 255 }),
-    componentId: int('component_id'),
+    componentId: int('componentId'),
   },
   (table) => {
     return {
-      componentIdIdx: index('Component_component_id_idx').on(table.componentId),
+      componentIdIdx: index('Component_componentId_idx').on(table.componentId),
       componentComponentIdComponentIdFk: foreignKey({
         columns: [table.componentId],
         foreignColumns: [table.id],
@@ -51,19 +56,17 @@ export const componentRelations = relations(component, ({ one, many }) => ({
   available: many(componentAvailable),
   completed: many(componentCompleted),
   annotations: many(componentAnnotation),
-  comments: many(componentComment)
+  comments: many(componentComment),
 }));
-
-
 
 export const componentAvailable = mysqlTable('ComponentAvailable', {
   id: int('id').primaryKey().autoincrement().notNull(),
-  turmaNum: varchar('turma_num', { length: 255 }).notNull(),
-  availableDate: datetime('available_date', {
+  turmaNum: varchar('turmaNum', { length: 255 }).notNull(),
+  availableDate: datetime('availableDate', {
     mode: 'string',
     fsp: 3,
   }).notNull(),
-  componentId: int('component_id')
+  componentId: int('componentId')
     .notNull()
     .references(() => component.id, {
       onDelete: 'cascade',
@@ -83,13 +86,18 @@ export const componentAvailableRelations = relations(
 
 export const componentCompleted = mysqlTable('ComponentCompleted', {
   id: int('id').primaryKey().autoincrement().notNull(),
-  createdAt: double('created_at').notNull(),
+  createdAt: datetime('createdAt', { mode: 'date', fsp: 3 })
+    .default(sql`CURRENT_TIMESTAMP(3)`)
+    .notNull(),
+  updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
+    .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
+    .notNull(),
   rate: int('rate').notNull(),
   status: int('status').notNull(),
-  userId: int('user_id')
+  userId: int('userId')
     .notNull()
     .references(() => user.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
-  componentId: int('component_id')
+  componentId: int('componentId')
     .notNull()
     .references(() => component.id, {
       onDelete: 'cascade',
@@ -109,11 +117,16 @@ export const componentCompletedRelations = relations(
 
 export const componentExtra = mysqlTable('ComponentExtra', {
   id: int('id').primaryKey().autoincrement().notNull(),
-  keyExtra: varchar('key_extra', { length: 100 }).notNull(),
-  valueExtra: text('value_extra').notNull(),
-  createdAt: double('created_at'),
+  keyExtra: varchar('keyExtra', { length: 100 }).notNull(),
+  valueExtra: text('valueExtra').notNull(),
+  createdAt: datetime('createdAt', { mode: 'date', fsp: 3 })
+    .default(sql`CURRENT_TIMESTAMP(3)`)
+    .notNull(),
+  updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
+    .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
+    .notNull(),
   status: int('status'),
-  componentId: int('component_id')
+  componentId: int('componentId')
     .notNull()
     .references(() => component.id, {
       onDelete: 'cascade',
@@ -138,10 +151,15 @@ export const lead = mysqlTable(
     list: varchar('list', { length: 100 }),
     confirm: int('confirm'),
     segmentacao: varchar('segmentacao', { length: 100 }),
-    createdAt: double('created_at'),
+    createdAt: datetime('createdAt', { mode: 'date', fsp: 3 })
+      .default(sql`CURRENT_TIMESTAMP(3)`)
+      .notNull(),
+    updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
+      .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
+      .notNull(),
     origin: varchar('origin', { length: 255 }),
     naoperturbe: int('naoperturbe'),
-    confirmedAt: double('confirmed_at'),
+    confirmedAt: datetime('confirmedAt', { mode: 'date', fsp: 3 }),
   },
   (table) => {
     return {
@@ -156,7 +174,7 @@ export const lead = mysqlTable(
 export const locationCity = mysqlTable('LocationCity', {
   id: int('id').primaryKey().autoincrement().notNull(),
   name: varchar('name', { length: 255 }).notNull(),
-  stateId: int('state_id')
+  stateId: int('stateId')
     .notNull()
     .references(() => locationState.id, {
       onDelete: 'cascade',
@@ -185,9 +203,14 @@ export const massMail = mysqlTable('MassMail', {
   subject: varchar('subject', { length: 255 }).notNull(),
   message: text('message'),
   quantity: int('quantity').notNull(),
-  createdAt: double('created_at'),
+  createdAt: datetime('createdAt', { mode: 'date', fsp: 3 })
+    .default(sql`CURRENT_TIMESTAMP(3)`)
+    .notNull(),
+  updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
+    .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
+    .notNull(),
   status: int('status'),
-  userId: int('user_id').references(() => user.id, {
+  userId: int('userId').references(() => user.id, {
     onDelete: 'cascade',
     onUpdate: 'cascade',
   }),
@@ -198,17 +221,21 @@ export const user = mysqlTable(
   {
     id: int('id').primaryKey().autoincrement().notNull(),
     email: varchar('email', { length: 191 }).notNull(),
-    passwordHash: varchar('password_hash', { length: 60 }),
-    authKey: varchar('auth_key', { length: 255 }),
-    confirmedAt: int('confirmed_at'),
-    blockedAt: int('blocked_at'),
-    registrationIp: varchar('registration_ip', { length: 45 }),
-    createdAt: double('created_at'),
-    updatedAt: double('updated_at'),
+    passwordHash: varchar('passwordHash', { length: 60 }),
+    authKey: varchar('authKey', { length: 255 }),
+    confirmedAt: datetime('confirmedAt', { mode: 'date', fsp: 3 }),
+    blockedAt: datetime('blockedAt', { mode: 'date', fsp: 3 }),
+    registrationIp: varchar('registrationIp', { length: 45 }),
+    createdAt: datetime('createdAt', { mode: 'date', fsp: 3 })
+      .default(sql`CURRENT_TIMESTAMP(3)`)
+      .notNull(),
+    updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
+      .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
+      .notNull(),
     flag: int('flag'),
-    lastLoginAt: double('last_login_at'),
+    lastLoginAt: datetime('lastLoginAt', { mode: 'date', fsp: 3 }),
     origin: varchar('origin', { length: 255 }),
-    numTurma: int('num_turma'),
+    numTurma: int('numTurma'),
     name: varchar('name', { length: 255 }).notNull(),
     bio: text('bio'),
     whatsapp: varchar('whatsapp', { length: 255 }),
@@ -218,11 +245,11 @@ export const user = mysqlTable(
     addressNumber: varchar('addressNumber', { length: 255 }),
     addressDistrict: varchar('addressDistrict', { length: 255 }),
     image: varchar('image', { length: 255 }),
-    cityId: int('city_id').references(() => locationCity.id, {
+    cityId: int('cityId').references(() => locationCity.id, {
       onDelete: 'cascade',
       onUpdate: 'cascade',
     }),
-    stateId: int('state_id').references(() => locationState.id, {
+    stateId: int('stateId').references(() => locationState.id, {
       onDelete: 'cascade',
       onUpdate: 'cascade',
     }),
@@ -235,7 +262,6 @@ export const user = mysqlTable(
   },
 );
 
-
 export const userRelation = relations(user, ({ one, many }) => ({
   city: one(locationCity, {
     fields: [user.cityId],
@@ -246,7 +272,7 @@ export const userRelation = relations(user, ({ one, many }) => ({
     references: [locationState.id],
   }),
   annotations: many(componentAnnotation),
-  comments: many(componentComment)
+  comments: many(componentComment),
 }));
 
 export const wppCamp = mysqlTable('WppCamp', {
@@ -255,7 +281,12 @@ export const wppCamp = mysqlTable('WppCamp', {
   description: text('description'),
   slug: varchar('slug', { length: 255 }),
   maxclicks: int('maxclicks'),
-  createdAt: double('created_at'),
+  createdAt: datetime('createdAt', { mode: 'date', fsp: 3 })
+    .default(sql`CURRENT_TIMESTAMP(3)`)
+    .notNull(),
+  updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
+    .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
+    .notNull(),
   status: int('status'),
 });
 
@@ -268,9 +299,14 @@ export const wppGroup = mysqlTable('WppGroup', {
   name: varchar('name', { length: 255 }),
   url: varchar('url', { length: 255 }),
   clicks: int('clicks'),
-  createdAt: double('created_at'),
+  createdAt: datetime('createdAt', { mode: 'date', fsp: 3 })
+    .default(sql`CURRENT_TIMESTAMP(3)`)
+    .notNull(),
+  updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
+    .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
+    .notNull(),
   status: int('status'),
-  campId: int('camp_id').references(() => wppCamp.id, {
+  campId: int('campId').references(() => wppCamp.id, {
     onDelete: 'cascade',
     onUpdate: 'cascade',
   }),
@@ -286,12 +322,17 @@ export const wppGroupRelation = relations(wppGroup, ({ one }) => ({
 export const componentAnnotation = mysqlTable('ComponentAnnotation', {
   id: int('id').primaryKey().autoincrement().notNull(),
   message: text('message').notNull(),
-  createdAt: double('created_at').notNull(),
+  createdAt: datetime('createdAt', { mode: 'date', fsp: 3 })
+    .default(sql`CURRENT_TIMESTAMP(3)`)
+    .notNull(),
+  updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
+    .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
+    .notNull(),
   status: int('status').notNull(),
-  userId: int('user_id')
+  userId: int('userId')
     .notNull()
     .references(() => user.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
-  componentId: int('component_id')
+  componentId: int('componentId')
     .notNull()
     .references(() => component.id, {
       onDelete: 'cascade',
@@ -313,12 +354,17 @@ export const annotationRelation = relations(componentAnnotation, ({ one }) => ({
 export const componentComment = mysqlTable('ComponentComment', {
   id: int('id').primaryKey().autoincrement().notNull(),
   comment: text('comment').notNull(),
-  createdAt: double('created_at').notNull(),
+  createdAt: datetime('createdAt', { mode: 'date', fsp: 3 })
+    .default(sql`CURRENT_TIMESTAMP(3)`)
+    .notNull(),
+  updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
+    .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
+    .notNull(),
   status: int('status').notNull(),
-  userId: int('user_id')
+  userId: int('userId')
     .notNull()
     .references(() => user.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
-  componentId: int('component_id')
+  componentId: int('componentId')
     .notNull()
     .references(() => component.id, {
       onDelete: 'cascade',
@@ -337,31 +383,42 @@ export const commentRelation = relations(componentComment, ({ one }) => ({
   }),
 }));
 
-
 export const contact = mysqlTable('Contact', {
   id: int('id').primaryKey().autoincrement().notNull(),
   name: varchar('name', { length: 255 }),
   email: varchar('email', { length: 255 }),
   subject: varchar('subject', { length: 255 }),
   message: text('message'),
-  createdAt: double('created_at'),
+  createdAt: datetime('createdAt', { mode: 'date', fsp: 3 })
+    .default(sql`CURRENT_TIMESTAMP(3)`)
+    .notNull(),
+  updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
+    .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
+    .notNull(),
   status: int('status'),
 });
 
 export const support = mysqlTable('Support', {
   id: int('id').primaryKey().autoincrement().notNull(),
   message: text('message').notNull(),
-  
-  createdAt: double('created_at'),
+
+  createdAt: datetime('createdAt', { mode: 'date', fsp: 3 })
+    .default(sql`CURRENT_TIMESTAMP(3)`)
+    .notNull(),
+  updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
+    .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
+    .notNull(),
   reply: text('reply').notNull(),
 
-  repliedAt: double('replied_at'),
+  repliedAt: datetime('repliedAt', { mode: 'date', fsp: 3 }),
   status: int('status').notNull(),
-  userId: int('user_id')
+  userId: int('userId')
     .notNull()
     .references(() => user.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
-  adminId: int('admin_id')
-    .references(() => user.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
+  adminId: int('adminId').references(() => user.id, {
+    onDelete: 'cascade',
+    onUpdate: 'cascade',
+  }),
 });
 
 export const supportRelation = relations(support, ({ one }) => ({

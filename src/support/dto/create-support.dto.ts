@@ -1,8 +1,8 @@
 export class CreateSupportDto {
   message: string;
-  createdAt: number;
+  createdAt: Date;
   reply: string;
-  repliedAt: number;
+  repliedAt: Date;
   status: number;
   userId: number;
   adminId: number;

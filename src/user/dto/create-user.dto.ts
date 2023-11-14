@@ -16,37 +16,37 @@ export class CreateUserDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
-  password_hash?: string | null;
+  passwordHash?: string | null;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
-  auth_key?: string | null;
+  authKey?: string | null;
 
   @ApiProperty()
   @IsOptional()
   @IsInt()
-  confirmed_at?: number | null;
+  confirmedAt?: Date | null;
 
   @ApiProperty()
   @IsOptional()
   @IsInt()
-  blocked_at?: number | null;
+  blockedAt?: Date | null;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
-  registration_ip?: string | null;
+  registrationIp?: string | null;
 
   @ApiProperty()
   @IsOptional()
   @IsInt()
-  created_at?: number | null;
+  createdAt?: Date | null;
 
   @ApiProperty()
   @IsOptional()
   @IsInt()
-  updated_at?: number | null;
+  updatedAt?: Date | null;
 
   @ApiProperty()
   @IsOptional()
@@ -56,7 +56,7 @@ export class CreateUserDto {
   @ApiProperty()
   @IsOptional()
   @IsInt()
-  last_login_at?: number | null;
+  lastLoginAt?: Date | null;
 
   @ApiProperty()
   @IsOptional()
@@ -66,7 +66,7 @@ export class CreateUserDto {
   @ApiProperty()
   @IsOptional()
   @IsInt()
-  num_turma?: number | null;
+  numTurma?: number | null;
 
   @ApiProperty()
   @IsNotEmpty()
@@ -118,13 +118,13 @@ export class CreateUserDto {
   @IsInt()
   @IsOptional()
   @Type(() => Number)
-  city_id?: number | null;
+  cityId?: number | null;
 
   @ApiProperty()
   @IsInt()
   @IsOptional()
   @Type(() => Number)
-  state_id?: number | null;
+  stateId?: number | null;
 
   @ApiProperty()
   @IsOptional()
