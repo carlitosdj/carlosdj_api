@@ -117,6 +117,7 @@ export class ComponentService {
           where: eq(schema.componentAvailable.turmaNum, num_turma),
         },
         
+        
         //ComponentCompleted: { where: { user_id } },
         //ComponentAvailable: { where: { turma_num: num_turma } },
       },
@@ -155,6 +156,9 @@ export class ComponentService {
     //     ComponentAvailable: true,
     //   },
     // });
+    
+    console.log("FIND CLASSES componentId", id)
+    console.log("FIND CLASSES user_id", user_id)
 
     return await this.db.query.component.findMany({
       where: and(

@@ -49,6 +49,7 @@ export class ComponentController {
     @Param('num_turma') num_turma: string,
     @Param('orderby') orderby: Prisma.SortOrder,
   ) {
+    
     return this.componentService.findModules(+id, +user_id, num_turma, orderby);
   }
 
@@ -58,6 +59,7 @@ export class ComponentController {
     @Param('user_id') user_id: string,
     @Param('orderby') orderby: Prisma.SortOrder,
   ) {
+    console.log("VER AQUI USER_ID", user_id)
     return this.componentService.findClasses(+id, +user_id, orderby);
   }
 

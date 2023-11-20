@@ -10,9 +10,11 @@ import {
   double,
   datetime,
   unique,
+  float,
 } from 'drizzle-orm/mysql-core';
 import { Many, relations, sql } from 'drizzle-orm';
 
+//TODO:
 export const component = mysqlTable(
   'Component',
   {
@@ -93,6 +95,7 @@ export const componentCompleted = mysqlTable('ComponentCompleted', {
     .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
     .notNull(),
   rate: int('rate').notNull(),
+  timeWatched: float('timeWatched'),
   status: int('status').notNull(),
   userId: int('userId')
     .notNull()
@@ -351,28 +354,44 @@ export const annotationRelation = relations(componentAnnotation, ({ one }) => ({
   }),
 }));
 
-export const componentComment = mysqlTable('ComponentComment', {
-  id: int('id').primaryKey().autoincrement().notNull(),
-  comment: text('comment').notNull(),
-  createdAt: datetime('createdAt', { mode: 'date', fsp: 3 })
-    .default(sql`CURRENT_TIMESTAMP(3)`)
-    .notNull(),
-  updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
-    .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
-    .notNull(),
-  status: int('status').notNull(),
-  userId: int('userId')
-    .notNull()
-    .references(() => user.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
-  componentId: int('componentId')
-    .notNull()
-    .references(() => component.id, {
-      onDelete: 'cascade',
-      onUpdate: 'cascade',
-    }),
-});
+//TODO:
+export const componentComment = mysqlTable(
+  'ComponentComment',
+  {
+    id: int('id').primaryKey().autoincrement().notNull(),
+    comment: text('comment').notNull(),
+    createdAt: datetime('createdAt', { mode: 'date', fsp: 3 })
+      .default(sql`CURRENT_TIMESTAMP(3)`)
+      .notNull(),
+    updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
+      .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
+      .notNull(),
+    status: int('status').notNull(),
+    userId: int('userId')
+      .notNull()
+      .references(() => user.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
+    componentId: int('componentId')
+      .notNull()
+      .references(() => component.id, {
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
+      }),
+    parentId: int('parentId'),
+  },
+  (table) => {
+    return {
+      parentIdIdx: index('Component_componentId_idx').on(table.parentId),
+      parentIdFk: foreignKey({
+        columns: [table.parentId],
+        foreignColumns: [table.id],
+      })
+        .onUpdate('cascade')
+        .onDelete('cascade'),
+    };
+  },
+);
 
-export const commentRelation = relations(componentComment, ({ one }) => ({
+export const commentRelation = relations(componentComment, ({ one, many }) => ({
   parentComponent: one(component, {
     fields: [componentComment.componentId],
     references: [component.id],
@@ -381,6 +400,17 @@ export const commentRelation = relations(componentComment, ({ one }) => ({
     fields: [componentComment.userId],
     references: [user.id],
   }),
+  //children: many(componentComment),
+
+  parent: one(componentComment, {
+    fields: [componentComment.parentId],
+    references: [componentComment.id],
+    relationName: 'selfrelation',
+  }),
+  replies: many(componentComment, { relationName: 'selfrelation' }),
+
+  
+
 }));
 
 export const contact = mysqlTable('Contact', {

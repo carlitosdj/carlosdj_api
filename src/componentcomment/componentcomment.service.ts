@@ -3,22 +3,34 @@ import { CreateComponentcommentDto } from './dto/create-componentcomment.dto';
 import { UpdateComponentcommentDto } from './dto/update-componentcomment.dto';
 import * as schema from '../_schemas/schema';
 import { DB, DbType } from 'src/drizzle/providers/drizzle.providers';
-import { eq } from 'drizzle-orm';
+import { and, desc, eq, isNull } from 'drizzle-orm';
 
 @Injectable()
 export class ComponentcommentService {
-
   constructor(@Inject(DB) private readonly db: DbType) {}
 
   findAll() {
-    return this.db.query.componentComment.findMany()
+    return this.db.query.componentComment.findMany();
     //return `This action returns all componentcomment`;
   }
 
-  findOne(id: number) {
-    return this.db.query.componentComment.findFirst({
-      where: eq(schema.componentComment.id, id)
-    })
+  findCommentsOfComponent(id: number) {
+    return this.db.query.componentComment.findMany({
+      where: and(
+        eq(schema.componentComment.componentId, id),
+        isNull(schema.componentComment.parentId),
+      ),
+      with: {
+        replies: {
+          with: {
+            parentUser: true
+          },
+          orderBy: desc(schema.componentComment.id)
+        },
+        parentUser: true
+      },
+      orderBy: desc(schema.componentComment.id)
+    });
     //return `This action returns a #${id} componentcomment`;
   }
 
@@ -29,11 +41,23 @@ export class ComponentcommentService {
 
     return await this.db.query.componentComment.findFirst({
       where: eq(schema.componentComment.id, newItem[0].insertId),
+      with: {
+        parentUser: true,
+        replies: {
+          with: {
+            parentUser: true
+          },
+          orderBy: desc(schema.componentComment.id)
+        }
+      }
     });
     //return 'This action adds a new componentcomment';
   }
 
-  async update(id: number, updateComponentcommentDto: UpdateComponentcommentDto) {
+  async update(
+    id: number,
+    updateComponentcommentDto: UpdateComponentcommentDto,
+  ) {
     await this.db
       .update(schema.componentComment)
       .set(updateComponentcommentDto)
@@ -41,6 +65,15 @@ export class ComponentcommentService {
 
     return await this.db.query.componentComment.findFirst({
       where: eq(schema.componentComment.id, id),
+      with: {
+        parentUser: true,
+        replies: {
+          with: {
+            parentUser: true
+          },
+          orderBy: desc(schema.componentComment.id)
+        }
+      }
     });
     //return `This action updates a #${id} componentcomment`;
   }
@@ -49,7 +82,9 @@ export class ComponentcommentService {
     const itemRemoved = await this.db.query.componentComment.findFirst({
       where: eq(schema.componentComment.id, id),
     });
-    await this.db.delete(schema.componentComment).where(eq(schema.componentComment.id, id))
+    await this.db
+      .delete(schema.componentComment)
+      .where(eq(schema.componentComment.id, id));
     return itemRemoved;
     //return `This action removes a #${id} componentcomment`;
   }

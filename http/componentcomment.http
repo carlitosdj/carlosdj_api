@@ -1,0 +1,51 @@
+@hostname = http://localhost:3000
+@Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbiIsInBhc3N3b3JkSGFzaCI6IiQyYiQxMCRYcDhoSnRBL2k2T0JobS9YOG0uTjJlSlZ6LlB6ejVDQklHN281c0VRREYwRHI1QnlUaHpaMiIsImF1dGhLZXkiOiI1Mjc0NWI2Ny1lNTQ2LTQ4ODItOWE5Zi0yOTM0OTA5YmIzMWUiLCJjb25maXJtZWRBdCI6bnVsbCwiYmxvY2tlZEF0IjpudWxsLCJyZWdpc3RyYXRpb25JcCI6bnVsbCwiY3JlYXRlZEF0IjoiMjAyMy0xMS0xM1QxMTo1ODoyNi43OTVaIiwidXBkYXRlZEF0IjoiMjAyMy0xMS0xM1QxMTo1ODoyNi43OTVaIiwiZmxhZyI6MTAsImxhc3RMb2dpbkF0IjpudWxsLCJvcmlnaW4iOiIxNjgzNTU0ODExIiwibnVtVHVybWEiOm51bGwsIm5hbWUiOiJBZG1pbmlzdHJhZG9yMTIzIiwiYmlvIjpudWxsLCJ3aGF0c2FwcCI6IjM0OTg0MjkzNTE5IiwiY3BmIjoiMDE2MDU3NDM2NjYiLCJwb3N0YWxDb2RlIjoiMzg0MDA0MjgiLCJhZGRyZXNzIjoiUnVhIFPDo28gTG91cmVuw6dvIiwiYWRkcmVzc051bWJlciI6IjYyMSIsImFkZHJlc3NEaXN0cmljdCI6Ik9zdmFsZG8gUmV6ZW5kZSIsImltYWdlIjoiMTY5OTU2MzEwMTE1Ni0wLjMwMzAzMzg2MTkxNTM2Mzg2LmpwZyIsImNpdHlJZCI6MjM4OSwic3RhdGVJZCI6MTEsInJvbGVzIjoiYWRtaW4iLCJjaXR5Ijp7ImlkIjoyMzg5LCJuYW1lIjoiVWJlcmzDom5kaWEiLCJzdGF0ZUlkIjoxMX0sInN0YXRlIjp7ImlkIjoxMSwibmFtZSI6Ik1pbmFzIEdlcmFpcyIsInN0YXRlIjoiTUciLCJjb3VudHJ5IjoxfSwiaWF0IjoxNzAwMDU2OTcyLCJleHAiOjE3MDA2NjE3NzJ9._QqtGeqk8ldKMIldI_VTFY9ozNGbjt_JnO7jH9gIxf0
+
+### Login
+POST {{hostname}}/auth/login
+Content-Type: application/json
+
+{
+    //"email":"c.dj@hotmail.com",
+    "email":"admin",
+    "password": "1234"
+}
+
+### Get Profile (Logged User)
+GET {{hostname}}/auth/profile
+Authorization: {{Authorization}}
+
+###################################################
+
+### Get all components
+GET {{hostname}}/componentcomment
+Authorization: {{Authorization}}
+
+### Get all components
+GET {{hostname}}/componentcomment/168
+Authorization: {{Authorization}}
+
+### Create component
+POST {{hostname}}/componentcomment
+Authorization: {{Authorization}}
+Content-Type: application/json
+
+{
+    "comment": "Teste 5",
+    "componentId": 168,
+    "userId": 1
+    //"parentId": 16
+}
+
+### Create component
+PATCH {{hostname}}/componentcomment/9
+Authorization: {{Authorization}}
+Content-Type: application/json
+
+{
+    "comment": "1123123123"
+}
+
+###
+DELETE {{hostname}}/componentcomment/10
+Authorization: {{Authorization}}

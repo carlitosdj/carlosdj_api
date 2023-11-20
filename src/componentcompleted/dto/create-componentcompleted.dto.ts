@@ -4,4 +4,5 @@ export class CreateComponentcompletedDto {
   status: number;
   userId: number;
   componentId: number;
+  timeWatched: number;
 }

@@ -18,8 +18,8 @@ export class ComponentcommentController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.componentcommentService.findOne(+id);
+  findCommentsOfComponent(@Param('id') id: string) {
+    return this.componentcommentService.findCommentsOfComponent(+id);
   }
 
   @Patch(':id')

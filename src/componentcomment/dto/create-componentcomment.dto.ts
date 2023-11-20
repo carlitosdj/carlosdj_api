@@ -4,4 +4,5 @@ export class CreateComponentcommentDto {
   status: number;
   userId: number;
   componentId: number;
+  parentId: number;
 }
