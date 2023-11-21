@@ -42,13 +42,13 @@ export class ComponentcommentService {
     return await this.db.query.componentComment.findFirst({
       where: eq(schema.componentComment.id, newItem[0].insertId),
       with: {
-        parentUser: true,
         replies: {
           with: {
             parentUser: true
           },
           orderBy: desc(schema.componentComment.id)
-        }
+        },
+        parentUser: true
       }
     });
     //return 'This action adds a new componentcomment';
