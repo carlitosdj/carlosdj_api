@@ -29,6 +29,10 @@ jobs:
           node-version: '16.x'
       - run: npm install
       - run: npm run build
+      - name: Restart pm2
+      - run: |
+          export PATH=$PATH:/root/.nvm/versions/node/v16.20.1/bin
+          pm2 list
       
       # - run: npm install pm2@latest -g #install pm2 global
       # - run: pm2 -V #check pm2 version
