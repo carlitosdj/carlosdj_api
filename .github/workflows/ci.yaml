@@ -29,11 +29,16 @@ jobs:
           REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
           #TARGET: ${{ secrets.REMOTE_TARGET }}
           TARGET: /home/wwinst/nodeapp_test/dist/
-          SCRIPT_BEFORE: |
-            echo "UHU!"
-          SCRIPT_AFTER: |
-            echo "ALOUUU"
-            yarn restart
+
+      - name: Post Deploy
+        uses: appleboy/ssh-action@master
+        with:
+            host: ${{ secrets.REMOTE_HOST }}
+            username: ${{ secrets.REMOTE_USER }}
+            key: ${{ secrets.SSH_PRIVATE_KEY }}
+            port: ${{ secrets.REMOTE_PORT }}
+            script: | 
+              yarn restart
       
       # - run: npm run restart
 
