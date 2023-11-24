@@ -30,12 +30,9 @@ jobs:
           #TARGET: ${{ secrets.REMOTE_TARGET }}
           TARGET: /home/wwinst/nodeapp_test/dist/
           SCRIPT_BEFORE: |
-            whoami
-            ls -al
+            echo "UHU!"
           SCRIPT_AFTER: |
-            whoami
-            ls -al
-            echo $RSYNC_STDOUT
+            echo "ALOUUU"
             npm run restart
       
       # - run: npm run restart
