@@ -10,27 +10,31 @@ jobs:
     steps:
       - name: Checkout do Repositorio
         uses: actions/checkout@v1
-      - name: Deploy to Server
-        uses: easingthemes/ssh-deploy@main
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          ARGS: "-rltgoDzvO --delete"
-          SOURCE: "src/"
-          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-          REMOTE_USER: ${{ secrets.REMOTE_USER }}
-          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
-          #TARGET: ${{ secrets.REMOTE_TARGET }}
-          TARGET: /home/wwinst/nodeapp_test/src/
-          script: | 
-            export PATH=$PATH:/root/.nvm/versions/node/v16.20.1/bin
-            pm2 list
+
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '16.x'
       - run: npm install
       - run: npm run build
-      - run: npm run restart
+
+      - name: Deploy to Server
+        uses: easingthemes/ssh-deploy@main
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          ARGS: "-rltgoDzvO --delete"
+          SOURCE: "dist/"
+          REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
+          REMOTE_USER: ${{ secrets.REMOTE_USER }}
+          REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
+          #TARGET: ${{ secrets.REMOTE_TARGET }}
+          TARGET: /home/wwinst/nodeapp_test/dist/
+          # script: | 
+          #   export PATH=$PATH:/root/.nvm/versions/node/v16.20.1/bin
+          #   pm2 list
+      
+      # - run: npm run restart
+
       # - run: |
       #     export PATH=$PATH:/root/.nvm/versions/node/v16.20.1/bin
       #     pm2 list
