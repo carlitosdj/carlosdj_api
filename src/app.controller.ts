@@ -12,4 +12,10 @@ export class AppController {
   getHello(): string {
     return this.appService.getHello();
   }
+
+  @SkipAuth()
+  @Get('teste')
+  getTest2(): string {
+    return this.appService.getTest2();
+  }
 }
