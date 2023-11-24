@@ -36,4 +36,10 @@ export class AppController {
   getTest5(): string {
     return this.appService.getTest5();
   }
+
+  @SkipAuth()
+  @Get('teste6')
+  getTest6(): string {
+    return this.appService.getTest6();
+  }
 }
