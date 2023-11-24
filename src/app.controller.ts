@@ -24,4 +24,10 @@ export class AppController {
   getTest3(): string {
     return this.appService.getTest3();
   }
+
+  @SkipAuth()
+  @Get('teste4')
+  getTest4(): string {
+    return this.appService.getTest4();
+  }
 }
