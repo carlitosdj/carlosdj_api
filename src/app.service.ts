@@ -22,4 +22,8 @@ export class AppService {
   getTest6(): string {
     return 'Teste6!';
   }
+
+  getTest7(): string {
+    return 'Teste7!';
+  }
 }

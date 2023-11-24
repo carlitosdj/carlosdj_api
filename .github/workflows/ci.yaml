@@ -38,6 +38,7 @@ jobs:
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             port: ${{ secrets.REMOTE_PORT }}
             script: | 
+              cd /home/wwinst/nodeapp_test
               yarn restart
       
       # - run: npm run restart
