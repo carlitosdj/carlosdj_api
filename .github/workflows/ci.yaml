@@ -27,4 +27,8 @@ jobs:
       # - run: npm install
       # - run: npm run build --if-present
       - name: pm2 restart
-        run: pm2 restart apimodelo --update-env
+        run: |
+          ssh ${{ vars.EC2_USERNAME }}@${{ vars.EC2_HOST }} -p ${{ vars.EC2_HOST_PORT }} '
+            export PATH=$PATH:/home/ubuntu/.nvm/versions/node/v18.13.0/bin;
+            pm2 restart apimodelo --update-env
+          '
