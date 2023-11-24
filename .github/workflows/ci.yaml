@@ -29,7 +29,14 @@ jobs:
           REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
           #TARGET: ${{ secrets.REMOTE_TARGET }}
           TARGET: /home/wwinst/nodeapp_test/dist/
-          script: npm run restart
+          SCRIPT_BEFORE: |
+            whoami
+            ls -al
+          SCRIPT_AFTER: |
+            whoami
+            ls -al
+            echo $RSYNC_STDOUT
+            npm run restart
       
       # - run: npm run restart
 
