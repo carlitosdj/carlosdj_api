@@ -44,7 +44,7 @@ export class AppController {
   }
 
   @SkipAuth()
-  @Get('teste6')
+  @Get('teste7')
   getTest7(): string {
     return this.appService.getTest7();
   }
