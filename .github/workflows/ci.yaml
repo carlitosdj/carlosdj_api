@@ -33,7 +33,7 @@ jobs:
             echo "UHU!"
           SCRIPT_AFTER: |
             echo "ALOUUU"
-            npm run restart
+            yarn restart
       
       # - run: npm run restart
 
