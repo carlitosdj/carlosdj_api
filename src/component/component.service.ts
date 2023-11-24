@@ -41,11 +41,39 @@ export class ComponentService {
             extras: true,
             available: true,
           },
+          orderBy:
+            sort === 'asc'
+              ? asc(schema.component.id)
+              : desc(schema.component.id),
         },
       },
       where: eq(schema.component.id, id),
-      orderBy:
-        sort === 'asc' ? asc(schema.component.id) : desc(schema.component.id),
+    });
+  }
+
+  async findCoursesByUserId(id: number, userId: number, sort: string) {
+    return await this.db.query.component.findFirst({
+      with: {
+        extras: true,
+        parent: true,
+        children: {
+          with: {
+            extras: true,
+            available: true,
+            access: {
+              where: and(
+                eq(schema.componentAccess.userId, userId),
+                eq(schema.componentAccess.status, 1),
+              ),
+            },
+          },
+          orderBy:
+            sort === 'asc'
+              ? asc(schema.component.id)
+              : desc(schema.component.id),
+        },
+      },
+      where: eq(schema.component.id, id),
     });
   }
 
@@ -116,8 +144,7 @@ export class ComponentService {
         available: {
           where: eq(schema.componentAvailable.turmaNum, num_turma),
         },
-        
-        
+
         //ComponentCompleted: { where: { user_id } },
         //ComponentAvailable: { where: { turma_num: num_turma } },
       },
@@ -156,9 +183,9 @@ export class ComponentService {
     //     ComponentAvailable: true,
     //   },
     // });
-    
-    console.log("FIND CLASSES componentId", id)
-    console.log("FIND CLASSES user_id", user_id)
+
+    console.log('FIND CLASSES componentId', id);
+    console.log('FIND CLASSES user_id', user_id);
 
     return await this.db.query.component.findMany({
       where: and(
@@ -222,20 +249,47 @@ export class ComponentService {
     //   orderBy: { id: 'desc' },
     //   include: { children: true, parent: true, extras: true },
     // });
-    return await this.db.query.component.findFirst({
+
+    const lastCompleted = await this.db.query.componentCompleted.findFirst({
+      where: eq(schema.componentCompleted.userId, user_id),
       with: {
-        // completed: {
-        //   where: some
-        // },
-        extras: true,
-        parent: true,
-        children: {
+        component: {
           with: {
             extras: true,
-            available: true,
+            parent: {
+              with: {
+                parent: true,
+              },
+            },
+            children: true,
           },
         },
       },
+      orderBy: desc(schema.componentCompleted.updatedAt),
+    });
+
+    return lastCompleted.component;
+
+    console.log('USERID', user_id);
+    return await this.db.query.component.findFirst({
+      with: {
+        completed: {
+          where: eq(schema.componentCompleted.userId, user_id),
+          //orderBy: asc(schema.componentCompleted.updatedAt)
+        },
+        //extras: true,
+        //parent: true,
+        //children:true,
+        // // children: {
+        // //   with: {
+        // //     extras: true,
+        // //     available: true,
+        // //   },
+        // // },
+      },
+      //where: eq(schema.componentCompleted.userId, user_id)
+      //where:
+      //where: eq(schema.)
     });
   }
 
@@ -283,7 +337,7 @@ export class ComponentService {
     const itemRemoved = await this.db.query.component.findFirst({
       where: eq(schema.component.id, id),
     });
-    await this.db.delete(schema.component).where(eq(schema.component.id, id))
+    await this.db.delete(schema.component).where(eq(schema.component.id, id));
     return itemRemoved;
     // return await this.prismaService.component.delete({
     //   where: { id },

@@ -1,4 +1,5 @@
 export class CreateComponentcompletedDto {
+  id?: number
   createdAt: Date;
   rate: number;
   status: number;

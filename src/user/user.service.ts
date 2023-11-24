@@ -25,6 +25,10 @@ export class UserService {
     const data = await this.db.query.user.findMany({
       limit: take,
       offset: skip,
+      with: {
+        city: true,
+        state: true,
+      },
     });
 
     const result = await this.db

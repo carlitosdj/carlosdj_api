@@ -30,6 +30,11 @@ export class ComponentController {
     return this.componentService.findOne(+id, sort);
   }
 
+  @Get('mycourses/:id/:userId/:sort?')
+  findCoursesByUserId(@Param('id') id: string, @Param('userId') userId: string, @Param('sort') sort: string) {
+    return this.componentService.findCoursesByUserId(+id, +userId, sort);
+  }
+
   @Get('search/:search')
   searchComponent(@Param('search') search: string) {
     return this.componentService.searchComponent(search);

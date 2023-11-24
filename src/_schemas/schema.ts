@@ -59,6 +59,7 @@ export const componentRelations = relations(component, ({ one, many }) => ({
   completed: many(componentCompleted),
   annotations: many(componentAnnotation),
   comments: many(componentComment),
+  access: many(componentAccess),
 }));
 
 export const componentAvailable = mysqlTable('ComponentAvailable', {
@@ -114,6 +115,51 @@ export const componentCompletedRelations = relations(
     component: one(component, {
       fields: [componentCompleted.componentId],
       references: [component.id],
+    }),
+  }),
+);
+
+export const componentAccess = mysqlTable(
+  'ComponentAccess',
+  {
+    id: int('id').primaryKey().autoincrement().notNull(),
+    createdAt: datetime('createdAt', { mode: 'date', fsp: 3 })
+      .default(sql`CURRENT_TIMESTAMP(3)`)
+      .notNull(),
+    updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
+      .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
+      .notNull(),
+    status: int('status').notNull(),
+    userId: int('userId')
+      .notNull()
+      .references(() => user.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
+    componentId: int('componentId')
+      .notNull()
+      .references(() => component.id, {
+        onDelete: 'cascade',
+        onUpdate: 'cascade',
+      }),
+  },
+  (table) => {
+    return {
+      accessUserComponent: unique('AccessUserComponent').on(
+        table.userId,
+        table.componentId,
+      ),
+    };
+  },
+);
+
+export const componentAccessRelations = relations(
+  componentAccess,
+  ({ one }) => ({
+    component: one(component, {
+      fields: [componentAccess.componentId],
+      references: [component.id],
+    }),
+    user: one(user, {
+      fields: [componentAccess.userId],
+      references: [user.id],
     }),
   }),
 );
@@ -276,6 +322,7 @@ export const userRelation = relations(user, ({ one, many }) => ({
   }),
   annotations: many(componentAnnotation),
   comments: many(componentComment),
+  access: many(componentAccess),
 }));
 
 export const wppCamp = mysqlTable('WppCamp', {
@@ -408,9 +455,6 @@ export const commentRelation = relations(componentComment, ({ one, many }) => ({
     relationName: 'selfrelation',
   }),
   replies: many(componentComment, { relationName: 'selfrelation' }),
-
-  
-
 }));
 
 export const contact = mysqlTable('Contact', {

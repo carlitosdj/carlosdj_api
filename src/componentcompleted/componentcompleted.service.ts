@@ -39,7 +39,7 @@ export class ComponentcompletedService {
     const newItem = await this.db
       .insert(schema.componentCompleted)
       .values(createComponentcompletedDto);
-
+    
     return await this.db.query.componentCompleted.findFirst({
       where: eq(schema.componentCompleted.id, newItem[0].insertId),
     });

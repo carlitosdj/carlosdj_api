@@ -33,6 +33,7 @@ import { ComponentcommentModule } from './componentcomment/componentcomment.modu
 import { ContactModule } from './contact/contact.module';
 import { SupportModule } from './support/support.module';
 import { UploadModule } from './upload/upload.module';
+import { ComponentaccessModule } from './componentaccess/componentaccess.module';
 
 @Module({
   imports: [
@@ -74,6 +75,8 @@ import { UploadModule } from './upload/upload.module';
     SupportModule,
 
     UploadModule,
+
+    ComponentaccessModule,
     
   ],
   controllers: [AppController],

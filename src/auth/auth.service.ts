@@ -40,6 +40,13 @@ export class AuthService {
       throw new UnauthorizedException();
     }
     //const payload = { sub: user.id, email: user.email };
+
+    //Atualiza last login:
+    let date = new Date()
+    this.userService.update(user.id, {
+      lastLoginAt: date
+    })
+
     const payload = { ...user };
     return {
       access_token: await this.jwtService.signAsync(payload),
@@ -62,6 +69,13 @@ export class AuthService {
     }
     //const payload = { sub: user.id, email: user.email };
     const payload = { ...user };
+
+    //Atualiza last login:
+    let date = new Date()
+    this.userService.update(user.id, {
+      lastLoginAt: date
+    })
+    
     return {
       access_token: await this.jwtService.signAsync(payload),
     };
