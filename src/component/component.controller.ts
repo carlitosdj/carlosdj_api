@@ -12,7 +12,7 @@ import { ComponentService } from './component.service';
 import { CreateComponentDto } from './dto/create-component.dto';
 import { UpdateComponentDto } from './dto/update-component.dto';
 import { SkipAuth } from 'src/auth/auth.public.decorator';
-import { Prisma } from '@prisma/client';
+//import { Prisma } from '@prisma/client';
 //import { LoggingInterceptor } from 'src/logging.interceptor';
 
 //@UseInterceptors(LoggingInterceptor)
@@ -52,7 +52,7 @@ export class ComponentController {
     @Param('id') id: string,
     @Param('user_id') user_id: string,
     @Param('num_turma') num_turma: string,
-    @Param('orderby') orderby: Prisma.SortOrder,
+    @Param('orderby') orderby: string,
   ) {
     
     return this.componentService.findModules(+id, +user_id, num_turma, orderby);
@@ -62,7 +62,7 @@ export class ComponentController {
   findClasses(
     @Param('id') id: string,
     @Param('user_id') user_id: string,
-    @Param('orderby') orderby: Prisma.SortOrder,
+    @Param('orderby') orderby: string,
   ) {
     console.log("VER AQUI USER_ID", user_id)
     return this.componentService.findClasses(+id, +user_id, orderby);
