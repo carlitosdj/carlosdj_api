@@ -1,7 +1,6 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateComponentDto } from './dto/create-component.dto';
 import { UpdateComponentDto } from './dto/update-component.dto';
-// import { Component, Prisma, PrismaClient } from '@prisma/client';
 // import { LazyModuleLoader } from '@nestjs/core';
 import { DB, DbType } from 'src/drizzle/providers/drizzle.providers';
 import { and, asc, desc, eq, ilike, like, or } from 'drizzle-orm';
