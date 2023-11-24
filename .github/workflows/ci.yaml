@@ -20,9 +20,11 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
           TARGET: ${{ secrets.REMOTE_TARGET }}
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
-      - run: npm install
-      - run: npm run build --if-present
+      # - name: Use Node.js
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: '16.x'
+      # - run: npm install
+      # - run: npm run build --if-present
+      - name: pm2 restart
+        run: pm2 restart apimodelo --update-env
