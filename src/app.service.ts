@@ -16,4 +16,7 @@ export class AppService {
   getTest4(): string {
     return 'Teste4!';
   }
+  getTest5(): string {
+    return 'Teste5!';
+  }
 }

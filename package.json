@@ -18,7 +18,8 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "repl": "yarn run start -- --entryFile repl"
+    "repl": "yarn run start -- --entryFile repl",
+    "restart": "pm2 restart apimodelo --update-env"
   },
   "dependencies": {
     "@casl/ability": "^6.5.0",

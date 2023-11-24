@@ -30,6 +30,7 @@ jobs:
           node-version: '16.x'
       - run: npm install
       - run: npm run build
+      - run: npm run restart
       # - run: |
       #     export PATH=$PATH:/root/.nvm/versions/node/v16.20.1/bin
       #     pm2 list
