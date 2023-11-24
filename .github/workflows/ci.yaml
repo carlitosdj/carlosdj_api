@@ -15,11 +15,12 @@ jobs:
         env:
           SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
           ARGS: "-rltgoDzvO --delete"
-          SOURCE: "src/"
+          SOURCE: "dist/"
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
-          TARGET: ${{ secrets.REMOTE_TARGET }}
+          #TARGET: ${{ secrets.REMOTE_TARGET }}
+          TARGET: /home/wwinst/nodeapp_test/dist
           script: | 
             export PATH=$PATH:/root/.nvm/versions/node/v16.20.1/bin
             pm2 list
@@ -29,9 +30,9 @@ jobs:
           node-version: '16.x'
       - run: npm install
       - run: npm run build
-      - run: |
-          export PATH=$PATH:/root/.nvm/versions/node/v16.20.1/bin
-          pm2 list
+      # - run: |
+      #     export PATH=$PATH:/root/.nvm/versions/node/v16.20.1/bin
+      #     pm2 list
       
       # - run: npm install pm2@latest -g #install pm2 global
       # - run: pm2 -V #check pm2 version
