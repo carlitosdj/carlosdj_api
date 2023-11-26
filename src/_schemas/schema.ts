@@ -27,7 +27,7 @@ export const component = mysqlTable(
     updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
       .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
       .notNull(),
-    status: int('status').default(1).notNull(),
+    status: varchar('status', { length: 10 }).default('1'),
     order: varchar('order', { length: 191 }),
     duration: int('duration'),
     tags: varchar('tags', { length: 255 }),
@@ -97,7 +97,7 @@ export const componentCompleted = mysqlTable('ComponentCompleted', {
     .notNull(),
   rate: int('rate').notNull(),
   timeWatched: float('timeWatched'),
-  status: int('status').notNull(),
+  status: varchar('status', { length: 10 }).default('1'),
   userId: int('userId')
     .notNull()
     .references(() => user.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
@@ -129,7 +129,7 @@ export const componentAccess = mysqlTable(
     updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
       .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
       .notNull(),
-    status: int('status').notNull(),
+    status: varchar('status', { length: 10 }).default('1'),
     userId: int('userId')
       .notNull()
       .references(() => user.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
@@ -174,7 +174,7 @@ export const componentExtra = mysqlTable('ComponentExtra', {
   updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
     .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
     .notNull(),
-  status: int('status'),
+  status: varchar('status', { length: 10 }).default('1'),
   componentId: int('componentId')
     .notNull()
     .references(() => component.id, {
@@ -258,7 +258,7 @@ export const massMail = mysqlTable('MassMail', {
   updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
     .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
     .notNull(),
-  status: int('status'),
+  status: varchar('status', { length: 10 }).default('1'),
   userId: int('userId').references(() => user.id, {
     onDelete: 'cascade',
     onUpdate: 'cascade',
@@ -337,7 +337,7 @@ export const wppCamp = mysqlTable('WppCamp', {
   updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
     .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
     .notNull(),
-  status: int('status'),
+  status: varchar('status', { length: 10 }).default('1'),
 });
 
 export const wppCampRelation = relations(wppCamp, ({ many }) => ({
@@ -355,7 +355,7 @@ export const wppGroup = mysqlTable('WppGroup', {
   updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
     .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
     .notNull(),
-  status: int('status'),
+  status: varchar('status', { length: 10 }).default('1'),
   campId: int('campId').references(() => wppCamp.id, {
     onDelete: 'cascade',
     onUpdate: 'cascade',
@@ -378,7 +378,7 @@ export const componentAnnotation = mysqlTable('ComponentAnnotation', {
   updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
     .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
     .notNull(),
-  status: int('status').notNull(),
+  status: varchar('status', { length: 10 }).default('1'),
   userId: int('userId')
     .notNull()
     .references(() => user.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
@@ -413,7 +413,7 @@ export const componentComment = mysqlTable(
     updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
       .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
       .notNull(),
-    status: int('status').notNull(),
+    status: varchar('status', { length: 10 }).default('1'),
     userId: int('userId')
       .notNull()
       .references(() => user.id, { onDelete: 'cascade', onUpdate: 'cascade' }),
@@ -469,7 +469,7 @@ export const contact = mysqlTable('Contact', {
   updatedAt: datetime('updatedAt', { mode: 'date', fsp: 3 })
     .default(sql`CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)`)
     .notNull(),
-  status: int('status'),
+  status: varchar('status', { length: 10 }).default('1'),
 });
 
 export const support = mysqlTable('Support', {
@@ -485,7 +485,7 @@ export const support = mysqlTable('Support', {
   reply: text('reply').notNull(),
 
   repliedAt: datetime('repliedAt', { mode: 'date', fsp: 3 }),
-  status: int('status').notNull(),
+  status: varchar('status', { length: 10 }).default('1'),
   userId: int('userId')
     .notNull()
     .references(() => user.id, { onDelete: 'cascade', onUpdate: 'cascade' }),

@@ -4,5 +4,5 @@ export class CreateWppcampDto {
   slug: string;
   maxclicks: number;
   created_at: number;
-  status: number;
+  status: string;
 }

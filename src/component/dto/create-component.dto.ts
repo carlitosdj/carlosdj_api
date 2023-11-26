@@ -13,8 +13,8 @@ export class CreateComponentDto {
   created_at?: Date | null;
 
   @IsOptional()
-  @IsNumber()
-  status?: number | null;
+  @IsString()
+  status?: string | null;
 
   @IsOptional()
   @IsString()

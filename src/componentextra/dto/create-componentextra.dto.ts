@@ -12,8 +12,8 @@ export class CreateComponentextraDto {
   created_at?: number | null;
 
   @IsOptional()
-  @IsNumber()
-  status?: number | null;
+  @IsString()
+  status?: string | null;
 
   @IsNumber()
   componentId: number;

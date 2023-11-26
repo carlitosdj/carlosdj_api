@@ -4,6 +4,6 @@ export class CreateMassmailDto {
   message: string;
   quantity: number;
   created_at: number;
-  status: number;
+  status: string;
   user_id: number;
 }

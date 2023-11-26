@@ -3,7 +3,7 @@ export class CreateSupportDto {
   createdAt: Date;
   reply: string;
   repliedAt: Date;
-  status: number;
+  status: string;
   userId: number;
   adminId: number;
 }

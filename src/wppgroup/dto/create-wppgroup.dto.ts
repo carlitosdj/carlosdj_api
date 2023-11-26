@@ -3,6 +3,6 @@ export class CreateWppgroupDto {
   url: string;
   clicks: number;
   created_at: number;
-  status: number;
+  status: string;
   camp_id: number;
 }

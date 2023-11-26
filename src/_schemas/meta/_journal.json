@@ -57,6 +57,13 @@
       "when": 1698613871238,
       "tag": "0007_young_prima",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1701030679145,
+      "tag": "0008_unusual_thunderbolt",
+      "breakpoints": true
     }
   ]
 }

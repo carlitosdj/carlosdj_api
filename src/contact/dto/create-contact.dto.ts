@@ -4,5 +4,5 @@ export class CreateContactDto {
   subject: string;
   message: string;
   createdAt: Date;
-  status: number;
+  status: string;
 }

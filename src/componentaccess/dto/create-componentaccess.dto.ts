@@ -1,7 +1,7 @@
 export class CreateComponentaccessDto {
   id?: number;
   createdAt: Date;
-  status: number;
+  status: string;
   userId: number;
   componentId: number;
 }

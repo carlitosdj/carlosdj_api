@@ -62,7 +62,7 @@ export class ComponentService {
             access: {
               where: and(
                 eq(schema.componentAccess.userId, userId),
-                eq(schema.componentAccess.status, 1),
+                eq(schema.componentAccess.status, '1'),
               ),
             },
           },
@@ -122,7 +122,7 @@ export class ComponentService {
     return await this.db.query.component.findMany({
       where: and(
         eq(schema.component.componentId, id),
-        eq(schema.component.status, 1),
+        eq(schema.component.status, '1'),
       ),
       with: {
         extras: true,
@@ -189,7 +189,7 @@ export class ComponentService {
     return await this.db.query.component.findMany({
       where: and(
         eq(schema.component.componentId, id),
-        eq(schema.component.status, 1),
+        eq(schema.component.status, '1'),
       ),
       with: {
         extras: true,

@@ -1,7 +1,7 @@
 export class CreateComponentannotationDto {
   message: string;
   createdAt: Date;
-  status: number;
+  status: string;
   userId: number;
   componentId: number;
 }
