@@ -56,6 +56,7 @@ export class ComponentService {
         extras: true,
         parent: true,
         children: {
+          where: eq(schema.component.status, '1'),
           with: {
             extras: true,
             available: true,
