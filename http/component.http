@@ -67,6 +67,17 @@ Content-Type: application/json
 }
 
 ### Create component
+POST {{hostname}}/component/launch
+Authorization: {{Authorization}}
+Content-Type: application/json
+
+{
+    "name": "My launch",
+    "description": "test",
+    "componentId": 3
+}
+
+### Create component
 POST {{hostname}}/component
 Authorization: {{Authorization}}
 Content-Type: application/json

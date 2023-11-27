@@ -83,6 +83,11 @@ export class ComponentController {
     return this.componentService.create(createComponentDto);
   }
 
+  @Post('launch')
+  createLaunch(@Body() createComponentDto: CreateComponentDto) {
+    return this.componentService.createLaunch(createComponentDto);
+  }
+
   @Patch(':id')
   update(
     @Param('id') id: string,
