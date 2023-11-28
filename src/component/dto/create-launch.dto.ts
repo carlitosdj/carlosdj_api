@@ -1,8 +1,9 @@
 import { IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class CreateLaunchDto {
+  @IsOptional()
   @IsString()
-  name: string;
+  name?: string;
 
   @IsOptional()
   @IsString()

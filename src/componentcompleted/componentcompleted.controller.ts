@@ -34,7 +34,7 @@ export class ComponentcompletedController {
 
   @Post()
   create(@Body() createComponentcompletedDto: CreateComponentcompletedDto) {
-    console.log("Create called", createComponentcompletedDto)
+    // console.log("Create called", createComponentcompletedDto)
     return this.componentcompletedService.create(createComponentcompletedDto);
   }
 
@@ -43,7 +43,7 @@ export class ComponentcompletedController {
     @Param('id') id: string,
     @Body() updateComponentcompletedDto: UpdateComponentcompletedDto,
   ) {
-    console.log("Update called", updateComponentcompletedDto)
+    // console.log("Update called", updateComponentcompletedDto)
     return this.componentcompletedService.update(
       +id,
       updateComponentcompletedDto,

@@ -81,7 +81,7 @@ export class UserService {
       .select({ count: sql<number>`count(*)` })
       .from(schema.user)
       .where(eq(schema.user.email, email));
-    console.log('RESULT', result[0].count);
+    // console.log('RESULT', result[0].count);
     return result[0].count !== 0;
   }
 
@@ -126,7 +126,7 @@ export class UserService {
     const userExists = await this.userExists(email);
 
     if (!userExists) {
-      console.log('User not exists');
+      // console.log('User not exists');
       throw new InvalidUserError('User not exists');
     } else {
       //console.log('Usuario existe', email);
@@ -152,7 +152,7 @@ export class UserService {
 
   async update(id: number, updateUserDto: UpdateUserDto) {
     const { newPassword, ...result } = updateUserDto;
-    console.log('result', result);
+    // console.log('result', result);
     void newPassword;
 
     const date = new Date();

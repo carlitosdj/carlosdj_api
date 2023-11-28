@@ -185,8 +185,8 @@ export class ComponentService {
     //   },
     // });
 
-    console.log('FIND CLASSES componentId', id);
-    console.log('FIND CLASSES user_id', user_id);
+    // console.log('FIND CLASSES componentId', id);
+    // console.log('FIND CLASSES user_id', user_id);
 
     return await this.db.query.component.findMany({
       where: and(
@@ -271,27 +271,27 @@ export class ComponentService {
 
     return lastCompleted.component;
 
-    console.log('USERID', user_id);
-    return await this.db.query.component.findFirst({
-      with: {
-        completed: {
-          where: eq(schema.componentCompleted.userId, user_id),
-          //orderBy: asc(schema.componentCompleted.updatedAt)
-        },
-        //extras: true,
-        //parent: true,
-        //children:true,
-        // // children: {
-        // //   with: {
-        // //     extras: true,
-        // //     available: true,
-        // //   },
-        // // },
-      },
-      //where: eq(schema.componentCompleted.userId, user_id)
-      //where:
-      //where: eq(schema.)
-    });
+    // console.log('USERID', user_id);
+    // return await this.db.query.component.findFirst({
+    //   with: {
+    //     completed: {
+    //       where: eq(schema.componentCompleted.userId, user_id),
+    //       //orderBy: asc(schema.componentCompleted.updatedAt)
+    //     },
+    //     //extras: true,
+    //     //parent: true,
+    //     //children:true,
+    //     // // children: {
+    //     // //   with: {
+    //     // //     extras: true,
+    //     // //     available: true,
+    //     // //   },
+    //     // // },
+    //   },
+    //   //where: eq(schema.componentCompleted.userId, user_id)
+    //   //where:
+    //   //where: eq(schema.)
+    // });
   }
 
   async create(createComponentDto: CreateComponentDto) {
@@ -308,14 +308,9 @@ export class ComponentService {
   }
 
   async createLaunch(createLaunchDto: CreateLaunchDto) {
-    // const newItem = await this.db
-    //   .insert(schema.component)
-    //   .values(createComponentDto);
-    // return await this.db.query.component.findFirst({
-    //   where: eq(schema.component.id, newItem[0].insertId),
-    // });
-    //console.log("createLaunchDto",createLaunchDto)
-    
+
+    // console.log("createLaunchDto",createLaunchDto)
+
     return await this.db.transaction(async (tx) => {
       const launch = await this.db
         .insert(schema.component)
@@ -342,7 +337,7 @@ export class ComponentService {
         { keyExtra: 'expertName', valueExtra: createLaunchDto.expertName, componentId: phaseLeads[0].insertId },
 
         { keyExtra: 'eventImg', valueExtra: '1686071778354-Logo-preconexao.png', componentId: phaseLeads[0].insertId },
-        { keyExtra: 'eventBtn', valueExtra: 'Quero participar do Zero a Primeira Venda Online', componentId: phaseLeads[0].insertId },
+        { keyExtra: 'eventBtn', valueExtra: 'Quero participar do evento', componentId: phaseLeads[0].insertId },
         { keyExtra: 'eventGroupLink', valueExtra: 'http://localhost:3015/viawhats/campanha-teste', componentId: phaseLeads[0].insertId },
         
         { keyExtra: 'leadSignUpStartDate', valueExtra: createLaunchDto.leadSignUpStartDate, componentId: phaseLeads[0].insertId },

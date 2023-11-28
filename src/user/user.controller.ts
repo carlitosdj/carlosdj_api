@@ -63,7 +63,7 @@ export class UserController {
   @SkipAuth()
   @Post('recovery')
   recovery(@Body() body: Recovery) {
-    console.log("Chamando servico recovery:", body.email)
+    // console.log("Chamando servico recovery:", body.email)
     return this.userService.recovery(body.email);
   }
 

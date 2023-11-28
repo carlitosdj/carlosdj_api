@@ -19,7 +19,7 @@ export class ComponentaccessService {
         },
       });
 
-    console.log('NEWITEM', newItem);
+    // console.log('NEWITEM', newItem);
     if (newItem[0].insertId) {
       return await this.db.query.componentAccess.findFirst({
         where: eq(schema.componentAccess.id, newItem[0].insertId),
@@ -46,13 +46,13 @@ export class ComponentaccessService {
   }
 
   async update(id: number, updateComponentaccessDto: UpdateComponentaccessDto) {
-    console.log('id', id);
-    console.log('updateComponentaccessDto', updateComponentaccessDto);
+    // console.log('id', id);
+    // console.log('updateComponentaccessDto', updateComponentaccessDto);
     const teste = await this.db
       .update(schema.componentAccess)
       .set(updateComponentaccessDto)
       .where(eq(schema.componentAccess.id, id));
-    console.log('teste', teste);
+    // console.log('teste', teste);
 
     return await this.db.query.componentAccess.findFirst({
       where: eq(schema.componentAccess.id, id),

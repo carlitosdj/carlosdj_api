@@ -65,7 +65,7 @@ export class ComponentController {
     @Param('user_id') user_id: string,
     @Param('orderby') orderby: string,
   ) {
-    console.log("VER AQUI USER_ID", user_id)
+    // console.log("VER AQUI USER_ID", user_id)
     return this.componentService.findClasses(+id, +user_id, orderby);
   }
 

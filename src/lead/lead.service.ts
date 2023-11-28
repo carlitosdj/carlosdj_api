@@ -155,22 +155,22 @@ export class LeadService {
     const job: any = new CronJob(date, async () => {
       //const job: any = new CronJob(`${seconds} * * * * *`, () => {
       await this.mailService.sendSecondMail(createLeadDto);
-      console.log(
-        `Job ${name}. Email sent to: ${createLeadDto.email} at (${date})`,
-      );
+      // console.log(
+      //   `Job ${name}. Email sent to: ${createLeadDto.email} at (${date})`,
+      // );
     });
 
     this.schedulerRegistry.addCronJob(name, job);
     job.start();
 
-    console.log(
-      `Job ${name}: Schedule email to: ${createLeadDto.email} at: ${date}!`,
-    );
+    // console.log(
+    //   `Job ${name}: Schedule email to: ${createLeadDto.email} at: ${date}!`,
+    // );
   }
 
   deleteCron(name: string) {
     this.schedulerRegistry.deleteCronJob(name);
-    console.log(`job ${name} deleted!`);
+    // console.log(`job ${name} deleted!`);
   }
 
   async getCrons() {

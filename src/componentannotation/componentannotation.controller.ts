@@ -37,8 +37,8 @@ export class ComponentannotationController {
 
   @Post()
   create(@Body() createComponentannotationDto: CreateComponentannotationDto) {
-    console.log('CREATING...');
-    console.log('BODY', createComponentannotationDto);
+    // console.log('CREATING...');
+    // console.log('BODY', createComponentannotationDto);
     return this.componentannotationService.create(createComponentannotationDto);
   }
 
@@ -47,8 +47,8 @@ export class ComponentannotationController {
     @Param('id') id: string,
     @Body() updateComponentannotationDto: UpdateComponentannotationDto,
   ) {
-    console.log('PATCHING...', id);
-    console.log('BODY', updateComponentannotationDto);
+    // console.log('PATCHING...', id);
+    // console.log('BODY', updateComponentannotationDto);
     return this.componentannotationService.update(
       +id,
       updateComponentannotationDto,

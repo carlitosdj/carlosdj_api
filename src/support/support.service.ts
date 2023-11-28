@@ -42,7 +42,7 @@ export class SupportService {
   }
 
   async update(id: number, updateSupportDto: UpdateSupportDto) {
-    console.log("updateSupportDto", await updateSupportDto)
+    // console.log("updateSupportDto", await updateSupportDto)
     await this.db
       .update(schema.support)
       .set(updateSupportDto)

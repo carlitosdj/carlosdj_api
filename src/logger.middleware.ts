@@ -5,7 +5,7 @@ import { FastifyRequest, FastifyReply } from 'fastify';
 export class LoggerMiddleware implements NestMiddleware {
   use(req: FastifyRequest['raw'], res: FastifyReply['raw'], next: () => void) {
     //console.log('Middleware', req);
-    console.log('Middleware..');
+    // console.log('Middleware..');
     next();
   }
 }

@@ -66,21 +66,21 @@ export class UploadController {
   @SkipAuth()
   @Get('file/:file')
   file(@Param('file') file: string, @Res() res: Response) {
-    console.log('Getting file', file);
+    // console.log('Getting file', file);
     try {
-      console.log('Entrando no try..');
+      // console.log('Entrando no try..');
       const fileStream = createReadStream(join(process.cwd(), 'upload', file));
       //return new StreamableFile(fileStream);
       fileStream.pipe(res);
       fileStream.on('error', (err) => {
-        console.log('ERRO...', err);
+        // console.log('ERRO...', err);
         const fileStream = createReadStream(
           join(process.cwd(), 'upload', '1699560008663-0.8066554838789386.jpg'),
         );
         fileStream.pipe(res);
       });
     } catch (error) {
-      console.log('ERRO');
+      // console.log('ERRO');
     }
   }
 }

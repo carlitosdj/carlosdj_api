@@ -32,7 +32,7 @@ export const DbProvider: FactoryProvider = {
 
     class CustomDbLogWriter implements LogWriter {
       write(message: string) {
-        logger.verbose(message);
+        //logger.verbose(message);
       }
     }
 

@@ -11,7 +11,7 @@ export class PaymentService {
   async createOrder(createPaymentDto: CreatePaymentDto) {
     const selectedPayment = createPaymentDto.payment_method;
 
-    console.log('createPaymentDto',createPaymentDto)
+    // console.log('createPaymentDto',createPaymentDto)
     const credit_card = {
       credit_card: {
         card: {
@@ -167,7 +167,7 @@ export class PaymentService {
         return response.data;
       })
       .catch(function (error) {
-        console.error(error.response.data.errors);
+        // console.error(error.response.data.errors);
         //throw new (error.response.data.errors);
         throw new InvalidRelationError(JSON.stringify(error.response.data.errors));
       });

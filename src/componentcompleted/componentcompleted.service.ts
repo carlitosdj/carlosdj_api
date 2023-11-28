@@ -49,13 +49,13 @@ export class ComponentcompletedService {
     id: number,
     updateComponentcompletedDto: UpdateComponentcompletedDto,
   ) {
-    console.log('id', id);
-    console.log('updateComponentcompletedDto', updateComponentcompletedDto);
+    // console.log('id', id);
+    // console.log('updateComponentcompletedDto', updateComponentcompletedDto);
     const teste = await this.db
       .update(schema.componentCompleted)
       .set(updateComponentcompletedDto)
       .where(eq(schema.componentCompleted.id, id));
-    console.log('teste', teste);
+    // console.log('teste', teste);
     
     return await this.db.query.componentCompleted.findFirst({
       where: eq(schema.componentCompleted.id, id),
