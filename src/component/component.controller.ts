@@ -12,6 +12,7 @@ import { ComponentService } from './component.service';
 import { CreateComponentDto } from './dto/create-component.dto';
 import { UpdateComponentDto } from './dto/update-component.dto';
 import { SkipAuth } from 'src/auth/auth.public.decorator';
+import { CreateLaunchDto } from './dto/create-launch.dto';
 //import { Prisma } from '@prisma/client';
 //import { LoggingInterceptor } from 'src/logging.interceptor';
 
@@ -84,8 +85,8 @@ export class ComponentController {
   }
 
   @Post('launch')
-  createLaunch(@Body() createComponentDto: CreateComponentDto) {
-    return this.componentService.createLaunch(createComponentDto);
+  createLaunch(@Body() createLaunchDto: CreateLaunchDto) {
+    return this.componentService.createLaunch(createLaunchDto);
   }
 
   @Patch(':id')

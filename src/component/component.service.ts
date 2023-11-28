@@ -5,6 +5,7 @@ import { UpdateComponentDto } from './dto/update-component.dto';
 import { DB, DbType } from 'src/drizzle/providers/drizzle.providers';
 import { and, asc, desc, eq, ilike, like, or } from 'drizzle-orm';
 import * as schema from '../_schemas/schema';
+import { CreateLaunchDto } from './dto/create-launch.dto';
 
 @Injectable()
 export class ComponentService {
@@ -306,83 +307,108 @@ export class ComponentService {
     // });
   }
 
-  async createLaunch(createComponentDto: CreateComponentDto) {
+  async createLaunch(createLaunchDto: CreateLaunchDto) {
     // const newItem = await this.db
     //   .insert(schema.component)
     //   .values(createComponentDto);
     // return await this.db.query.component.findFirst({
     //   where: eq(schema.component.id, newItem[0].insertId),
     // });
+    //console.log("createLaunchDto",createLaunchDto)
+    
     return await this.db.transaction(async (tx) => {
       const launch = await this.db
         .insert(schema.component)
-        .values(createComponentDto);
+        .values({
+          name: createLaunchDto.name,
+          description: createLaunchDto.description,
+          componentId: createLaunchDto.componentId
+        });
 
       //################ LEADS ################
       const phaseLeads = await this.db.insert(schema.component).values({
         name: 'Captação de lead',
-        description: 'lead-' + createComponentDto.name,
+        description: 'lead-' + createLaunchDto.slug,
         componentId: launch[0].insertId,
       });
 
       const extrasLeads = await this.db.insert(schema.componentExtra).values([
-        { keyExtra: 'name', valueExtra: 'Do zero a primeira venda online', componentId: phaseLeads[0].insertId },
-        { keyExtra: 'headline', valueExtra: 'As 10 Maneiras de vender online em 2023. Evento Online e Gratuito.', componentId: phaseLeads[0].insertId },
-        { keyExtra: 'description', valueExtra: 'Aprenda o passo a passo para a atração de clientes em potencial para seu negócio. O evento acontece no dia 08/09/2023 às 20h.', componentId: phaseLeads[0].insertId },
-        { keyExtra: 'data_inicio', valueExtra: '30/05/2023', componentId: phaseLeads[0].insertId },
-        { keyExtra: 'data_fim', valueExtra: '30/11/2023', componentId: phaseLeads[0].insertId },
-        { keyExtra: 'inscricao_inicio', valueExtra: '07/04/2023', componentId: phaseLeads[0].insertId },
-        { keyExtra: 'inscricao_fim', valueExtra: '30/11/2023', componentId: phaseLeads[0].insertId },
-        { keyExtra: 'btn', valueExtra: 'Quero participar do Zero a Primeira Venda Online', componentId: phaseLeads[0].insertId },
-        { keyExtra: 'group_link', valueExtra: 'http://localhost:3015/viawhats/campanha-teste', componentId: phaseLeads[0].insertId },
-        { keyExtra: 'img', valueExtra: '1686071778354-Logo-preconexao.png', componentId: phaseLeads[0].insertId },
+
+        { keyExtra: 'eventName', valueExtra: createLaunchDto.eventName, componentId: phaseLeads[0].insertId },
+        { keyExtra: 'eventHeadline', valueExtra: createLaunchDto.eventHeadline, componentId: phaseLeads[0].insertId },
+        { keyExtra: 'eventDescription', valueExtra: createLaunchDto.eventDescription, componentId: phaseLeads[0].insertId },
+        { keyExtra: 'eventStartDate', valueExtra: createLaunchDto.dateCpl1, componentId: phaseLeads[0].insertId },
+        { keyExtra: 'eventEndDate', valueExtra: createLaunchDto.dateCpl3, componentId: phaseLeads[0].insertId },
+        { keyExtra: 'expertName', valueExtra: createLaunchDto.expertName, componentId: phaseLeads[0].insertId },
+
+        { keyExtra: 'eventImg', valueExtra: '1686071778354-Logo-preconexao.png', componentId: phaseLeads[0].insertId },
+        { keyExtra: 'eventBtn', valueExtra: 'Quero participar do Zero a Primeira Venda Online', componentId: phaseLeads[0].insertId },
+        { keyExtra: 'eventGroupLink', valueExtra: 'http://localhost:3015/viawhats/campanha-teste', componentId: phaseLeads[0].insertId },
+        
+        { keyExtra: 'leadSignUpStartDate', valueExtra: createLaunchDto.leadSignUpStartDate, componentId: phaseLeads[0].insertId },
+        { keyExtra: 'leadSignUpEndDate', valueExtra: createLaunchDto.leadSignUpEndDate, componentId: phaseLeads[0].insertId },
       ]);
 
       //################ LEADS ################
       const phaseEvent = await this.db.insert(schema.component).values({
         name: 'Evento',
-        description: 'event-' + createComponentDto.name,
+        description: 'event-' + createLaunchDto.slug,
         componentId: launch[0].insertId,
       });
 
       const extrasEvent = await this.db.insert(schema.componentExtra).values([
-        { keyExtra: 'data_inicio', valueExtra: '30/05/2023', componentId: phaseEvent[0].insertId },
-        { keyExtra: 'data_fim', valueExtra: '30/11/2023', componentId: phaseEvent[0].insertId },
-        { keyExtra: 'data_cpl1', valueExtra: '30/05/2023', componentId: phaseEvent[0].insertId },
-        { keyExtra: 'data_cpl2', valueExtra: '01/06/2023', componentId: phaseEvent[0].insertId },
-        { keyExtra: 'data_cpl3', valueExtra: '03/06/2023', componentId: phaseEvent[0].insertId },
-        { keyExtra: 'data_cpl4', valueExtra: '06/06/2023', componentId: phaseEvent[0].insertId },
+        
+        { keyExtra: 'eventName', valueExtra: createLaunchDto.eventName, componentId: phaseEvent[0].insertId },
+        { keyExtra: 'eventHeadline', valueExtra: createLaunchDto.eventHeadline, componentId: phaseEvent[0].insertId },
+        { keyExtra: 'eventDescription', valueExtra: createLaunchDto.eventDescription, componentId: phaseEvent[0].insertId },
+        { keyExtra: 'eventStartDate', valueExtra: createLaunchDto.dateCpl1, componentId: phaseEvent[0].insertId },
+        { keyExtra: 'eventEndDate', valueExtra: createLaunchDto.dateCpl3, componentId: phaseEvent[0].insertId },
+        { keyExtra: 'expertName', valueExtra: createLaunchDto.expertName, componentId: phaseEvent[0].insertId },
+
+        { keyExtra: 'dateCpl1', valueExtra: createLaunchDto.dateCpl1, componentId: phaseEvent[0].insertId },
         { keyExtra: 'cpl1', valueExtra: 'https://www.youtube.com/embed/am-FQ86mKV0', componentId: phaseEvent[0].insertId },
+
+        { keyExtra: 'dateCpl2', valueExtra: createLaunchDto.dateCpl2, componentId: phaseEvent[0].insertId },
         { keyExtra: 'cpl2', valueExtra: 'https://www.youtube.com/embed/u-6XK1yy3rE', componentId: phaseEvent[0].insertId },
+
+        { keyExtra: 'dateCpl3', valueExtra: createLaunchDto.dateCpl3, componentId: phaseEvent[0].insertId },
         { keyExtra: 'cpl3', valueExtra: 'https://www.youtube.com/embed/BJYpPfyz3ks', componentId: phaseEvent[0].insertId },
-        { keyExtra: 'cpl4', valueExtra: 'https://player.vimeo.com/video/786710754?h=1dd52c4690', componentId: phaseEvent[0].insertId },
-        { keyExtra: 'img', valueExtra: '1671667103392-violaosemstress.png', componentId: phaseEvent[0].insertId },
-        { keyExtra: 'link_grupo', valueExtra: 'https://evento.violaofeeling.com.br/viawhats/preconexao', componentId: phaseEvent[0].insertId },
+
+        { keyExtra: 'eventImg', valueExtra: '1671667103392-violaosemstress.png', componentId: phaseEvent[0].insertId },
+        { keyExtra: 'eventGroupLink', valueExtra: 'https://evento.violaofeeling.com.br/viawhats/preconexao', componentId: phaseEvent[0].insertId },
       ]);
 
       //################ LEADS ################
       const phaseSale = await this.db.insert(schema.component).values({
         name: 'Vendas',
-        description: 'sales-' + createComponentDto.name,
+        description: 'sales-' + createLaunchDto.slug,
         componentId: launch[0].insertId,
       });
 
       const extrasSale = await this.db.insert(schema.componentExtra).values([
-        { keyExtra: 'data_inicio', valueExtra: '06/06/2023 13:48', componentId: phaseSale[0].insertId },
-        { keyExtra: 'data_fim', valueExtra: '30/11/2023 23:59', componentId: phaseSale[0].insertId },
-        { keyExtra: 'num_turma', valueExtra: '10', componentId: phaseSale[0].insertId },
-        { keyExtra: 'page_checkout', valueExtra: 'https://pay.kiwify.com.br/fhTQpmR', componentId: phaseSale[0].insertId },
-        { keyExtra: 'video_url', valueExtra: 'https://player.vimeo.com/video/786710754', componentId: phaseSale[0].insertId },
-        { keyExtra: 'preco', valueExtra: '12x R$79,90', componentId: phaseSale[0].insertId },
-        { keyExtra: 'desconto', valueExtra: '1', componentId: phaseSale[0].insertId },
-        { keyExtra: 'link_faleconosco', valueExtra: 'https://api.whatsapp.com/send?phone=5534992301304&text=Ol%C3%A1%2C%20tenho%20d%C3%BAvidas%20sobre%20o%20treinamento%20Viol%C3%A3o%20Feeling', componentId: phaseSale[0].insertId },
-        { keyExtra: 'texto_desconto', valueExtra: 'De R$ 1299,00 por 12x R$ 79,90 (38% de desconto)', componentId: phaseSale[0].insertId },
-        { keyExtra: 'upsell', valueExtra: '0', componentId: phaseSale[0].insertId },
-        { keyExtra: 'link_grupo_espera', valueExtra: 'https://evento.violaofeeling.com.br/viawhats/espera', componentId: phaseSale[0].insertId },
+
+        { keyExtra: 'productName', valueExtra: createLaunchDto.productName, componentId: phaseSale[0].insertId },
+        { keyExtra: 'productHeadline', valueExtra: createLaunchDto.productHeadline, componentId: phaseSale[0].insertId },
+        { keyExtra: 'productDescription', valueExtra: createLaunchDto.productDescription, componentId: phaseSale[0].insertId },
+
+        { keyExtra: 'productPrice', valueExtra: createLaunchDto.productPrice, componentId: phaseSale[0].insertId },
+        { keyExtra: 'productInstallments', valueExtra: createLaunchDto.productInstallments, componentId: phaseSale[0].insertId },
+        { keyExtra: 'productVideo', valueExtra: createLaunchDto.productVideo, componentId: phaseSale[0].insertId },
+        { keyExtra: 'productDiscount', valueExtra: createLaunchDto.productDiscount, componentId: phaseSale[0].insertId },
+        { keyExtra: 'productDiscountText', valueExtra: createLaunchDto.productDiscountText, componentId: phaseSale[0].insertId },
+        { keyExtra: 'talktousLink', valueExtra: createLaunchDto.talktousLink, componentId: phaseSale[0].insertId },
+
+        { keyExtra: 'cartOpenDate', valueExtra: createLaunchDto.cartOpenDate, componentId: phaseSale[0].insertId },
+        { keyExtra: 'cartCloseDate', valueExtra: createLaunchDto.cartCloseDate, componentId: phaseSale[0].insertId },
+        { keyExtra: 'productWaitLink', valueExtra: createLaunchDto.productWaitLink, componentId: phaseSale[0].insertId },
+        //{ keyExtra: 'page_checkout', valueExtra: 'https://pay.kiwify.com.br/fhTQpmR', componentId: phaseSale[0].insertId },
+        //{ keyExtra: 'upsell', valueExtra: '0', componentId: phaseSale[0].insertId },
       ]);
 
-      //console.log('Result', result);
-      return launch;
+      // //console.log('Result', result);
+      return await this.db.query.component.findFirst({
+        where: eq(schema.component.id, launch[0].insertId),
+      });
     });
   }
 
