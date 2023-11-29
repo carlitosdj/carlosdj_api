@@ -121,6 +121,7 @@ export class ComponentService {
     num_turma: string,
     orderby: string,
   ) {
+    console.log("numturma", num_turma)
     return await this.db.query.component.findMany({
       where: and(
         eq(schema.component.componentId, id),
@@ -136,7 +137,7 @@ export class ComponentService {
         children: {
           with: {
             extras: true,
-            available: true,
+            //available: true,
             completed: {
               where: eq(schema.componentCompleted.userId, user_id),
             },

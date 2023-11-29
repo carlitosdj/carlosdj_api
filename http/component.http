@@ -38,11 +38,11 @@ GET {{hostname}}/component/description/captacao
 Authorization: {{Authorization}}
 
 ### Get modules by user ordened
-GET {{hostname}}/component/modules/9/1/1/asc
+GET {{hostname}}/component/modules/9/3/1/asc
 Authorization: {{Authorization}}
 
 ### Get modules by user ordened
-GET {{hostname}}/component/classes/10/1/asc
+GET {{hostname}}/component/classes/88/3/asc
 Authorization: {{Authorization}}
 
 ###
