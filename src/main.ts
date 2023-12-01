@@ -17,16 +17,29 @@ async function bootstrap() {
   const app = await NestFactory.create(
     AppModule,
     //new FastifyAdapter(),
-    {
-      cors: {
-        origin: ['http://localhost', '/.institutodefelicibus.com$/'],
-        methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-        credentials: true,
-      },
-    },
   );
 
-  app.enableCors();
+  var whitelist = [
+    'https://institutodefelicibus.com.br',
+    'https://produto.institutodefelicibus.com.br',
+    'https://admin.institutodefelicibus.com.br',
+    'https://evnt.institutodefelicibus.com.br',
+  ];
+  app.enableCors({
+    origin: function (origin, callback) {
+      if (whitelist.indexOf(origin) !== -1) {
+        console.log('allowed cors for:', origin);
+        callback(null, true);
+      } else {
+        console.log('blocked cors for:', origin);
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    allowedHeaders:
+      'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe',
+    methods: 'GET,PUT,POST,DELETE,UPDATE,OPTIONS',
+    credentials: true,
+  });
   app.useGlobalFilters(
     //new PrismaExceptionFilter(),
     new InvalidRelationExceptionFilter(),
