@@ -74,6 +74,7 @@ export class UploadController {
       fileStream.pipe(res);
       fileStream.on('error', (err) => {
         console.log('ERRO...', err);
+        throw new Error('blablala')
         // const fileStream = createReadStream(
         //   join(process.cwd(), 'upload', '1699560008663-0.8066554838789386.jpg'),
         // );
