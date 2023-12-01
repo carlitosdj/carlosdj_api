@@ -73,11 +73,11 @@ export class UploadController {
       //return new StreamableFile(fileStream);
       fileStream.pipe(res);
       fileStream.on('error', (err) => {
-        // console.log('ERRO...', err);
-        const fileStream = createReadStream(
-          join(process.cwd(), 'upload', '1699560008663-0.8066554838789386.jpg'),
-        );
-        fileStream.pipe(res);
+        console.log('ERRO...', err);
+        // const fileStream = createReadStream(
+        //   join(process.cwd(), 'upload', '1699560008663-0.8066554838789386.jpg'),
+        // );
+        // fileStream.pipe(res);
       });
     } catch (error) {
       // console.log('ERRO');
