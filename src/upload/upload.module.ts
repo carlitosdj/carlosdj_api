@@ -7,7 +7,7 @@ const path = require('path');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'upload/');
+    cb(null, './upload/');
   },
   filename: (req, file, cb) => {
     //cb(null, `${Date.now()}_${file.originalname}`);
@@ -25,6 +25,6 @@ const storage = multer.diskStorage({
     }),
   ],
   providers: [UploadService],
-  controllers: [UploadController]
+  controllers: [UploadController],
 })
 export class UploadModule {}
