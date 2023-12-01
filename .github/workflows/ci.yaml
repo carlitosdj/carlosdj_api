@@ -11,12 +11,12 @@ jobs:
       - name: Checkout do Repositorio
         uses: actions/checkout@v1
 
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16.x'
-      - run: npm install
-      - run: npm run build
+      # - name: Use Node.js
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: '16.x'
+      #- run: npm install
+      #- run: npm run build
 
       - name: Deploy to Server
         uses: easingthemes/ssh-deploy@main
@@ -39,6 +39,7 @@ jobs:
             port: ${{ secrets.REMOTE_PORT }}
             script: | 
               cd /home/wwinst/nodeapp_test
+              yarn build
               yarn restart
       
       # - run: npm run restart
