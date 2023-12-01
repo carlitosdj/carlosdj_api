@@ -19,7 +19,7 @@ async function bootstrap() {
     //new FastifyAdapter(),
     {
       cors: {
-        origin: '*',
+        origin: ["http://localhost","/\.institutodefelicibus\.com$/"],
       },
     },
   );
