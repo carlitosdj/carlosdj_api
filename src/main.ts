@@ -17,9 +17,14 @@ async function bootstrap() {
   const app = await NestFactory.create(
     AppModule,
     //new FastifyAdapter(),
+    {
+      cors: {
+        origin: '*',
+      },
+    },
   );
 
-  app.enableCors();
+  //app.enableCors();
   app.useGlobalFilters(
     //new PrismaExceptionFilter(),
     new InvalidRelationExceptionFilter(),

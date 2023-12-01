@@ -386,7 +386,8 @@ export class ComponentService {
         { keyExtra: 'productName', valueExtra: createLaunchDto.productName, componentId: phaseSale[0].insertId },
         { keyExtra: 'productHeadline', valueExtra: createLaunchDto.productHeadline, componentId: phaseSale[0].insertId },
         { keyExtra: 'productDescription', valueExtra: createLaunchDto.productDescription, componentId: phaseSale[0].insertId },
-
+        { keyExtra: 'productBtn', valueExtra: 'QUERO ENTRAR NO TREINAMENTO', componentId: phaseSale[0].insertId },
+        
         { keyExtra: 'productPrice', valueExtra: createLaunchDto.productPrice, componentId: phaseSale[0].insertId },
         { keyExtra: 'productInstallments', valueExtra: createLaunchDto.productInstallments, componentId: phaseSale[0].insertId },
         { keyExtra: 'productVideo', valueExtra: createLaunchDto.productVideo, componentId: phaseSale[0].insertId },
