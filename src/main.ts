@@ -24,7 +24,7 @@ async function bootstrap() {
     },
   );
 
-  //app.enableCors();
+  app.enableCors();
   app.useGlobalFilters(
     //new PrismaExceptionFilter(),
     new InvalidRelationExceptionFilter(),
