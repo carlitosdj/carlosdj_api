@@ -12,6 +12,8 @@ class PaymentUser {
   country: string;
   name: string;
   email: string;
+  document: string;
+  document_type: string;
 }
 
 class PaymentCart {

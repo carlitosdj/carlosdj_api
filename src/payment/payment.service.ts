@@ -138,6 +138,8 @@ export class PaymentService {
         customer: {
           name: createPaymentDto.user.name, //'Carlos Defelicibus Junior', //'Tony Stark',
           email: createPaymentDto.user.email, //'carlitosceo@gmail.com', //'avengerstark@ligadajustica.com.br',
+          document_type: createPaymentDto.user.document_type,
+          document: createPaymentDto.user.document,
         },
         items: [
           {
