@@ -69,14 +69,14 @@ export class UploadController {
     // console.log('Getting file', file);
     try {
       // console.log('Entrando no try..');
-      const fileStream = createReadStream(join(process.cwd(), '../../../upload', file));
+      const fileStream = createReadStream(join(process.cwd(), '../../../../www/files', file));
       //return new StreamableFile(fileStream);
       fileStream.pipe(res);
       fileStream.on('error', (err) => {
         console.log('ERRO...', err);
         //throw new Error('blablala')
         const fileStream = createReadStream(
-          join(process.cwd(), '../../../upload', '1701463832919-0.597680596390282.jpg'),
+          join(process.cwd(), '../../../../www/files', 'notfound.jpg'),
         );
         fileStream.pipe(res);
       });
