@@ -21,6 +21,10 @@ async function bootstrap() {
 
   var whitelist = [
     'http://localhost',
+    'http://localhost:3000',
+    'http://localhost:3001',
+    'http://localhost:3002',
+    'http://localhost:3003',
     'https://institutodefelicibus.com.br',
     'https://produto.institutodefelicibus.com.br',
     'https://admin.institutodefelicibus.com.br',
