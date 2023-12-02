@@ -15,6 +15,9 @@ class PaymentUser {
   document: string;
   document_type: string;
   type: string;
+  country_code: string;
+  number: string;
+  area_code: string;
 }
 
 class PaymentCart {

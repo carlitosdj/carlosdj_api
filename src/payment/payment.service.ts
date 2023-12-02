@@ -141,6 +141,13 @@ export class PaymentService {
           document_type: createPaymentDto.user.document_type,
           document: createPaymentDto.user.document,
           type: createPaymentDto.user.type,
+          phones: {
+            mobile_phone: {
+              country_code: createPaymentDto.user.country_code,
+              number: createPaymentDto.user.number,
+              area_code: createPaymentDto.user.area_code,
+            },
+          },
         },
         items: [
           {
@@ -172,7 +179,9 @@ export class PaymentService {
       .catch(function (error) {
         // console.error(error.response.data.errors);
         //throw new (error.response.data.errors);
-        throw new InvalidRelationError(JSON.stringify(error.response.data.errors));
+        throw new InvalidRelationError(
+          JSON.stringify(error.response.data.errors),
+        );
       });
   }
 }
