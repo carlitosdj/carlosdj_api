@@ -14,6 +14,7 @@ class PaymentUser {
   email: string;
   document: string;
   document_type: string;
+  type: string;
 }
 
 class PaymentCart {

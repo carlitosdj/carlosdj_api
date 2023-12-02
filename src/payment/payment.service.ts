@@ -140,6 +140,7 @@ export class PaymentService {
           email: createPaymentDto.user.email, //'carlitosceo@gmail.com', //'avengerstark@ligadajustica.com.br',
           document_type: createPaymentDto.user.document_type,
           document: createPaymentDto.user.document,
+          type: createPaymentDto.user.type,
         },
         items: [
           {
