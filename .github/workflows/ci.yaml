@@ -40,7 +40,7 @@ jobs:
             script: | 
               cd /home/wwinst/nodeapp_test/files/
               yarn
-              yarn restart
+              yarn pm2:restart
       
       # - run: npm run restart
 
