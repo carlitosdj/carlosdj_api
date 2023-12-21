@@ -30,12 +30,13 @@ export class PaymentController {
 
   @SkipAuth()
   @Sse('sse')
-  sse(): Observable<MessageEvent> {
+  public sse(): Observable<MessageEvent> {
     //return interval(5000).pipe(map((_) => ({ data: { hello: 'world' } })));
     return fromEvent(this.eventEmitter, NEW_ORDER_EVENT_NAME).pipe(
       map((data: any) => {
         console.log('DATA', data.data.id);
-        return new MessageEvent('new-order', { data: data });
+        //return new MessageEvent('new-order', { data: data });
+        return { data } as MessageEvent;
       }),
     );
   }
