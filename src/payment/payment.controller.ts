@@ -30,6 +30,7 @@ export class PaymentController {
     return this.paymentService.webHook(webHook);
   }
 
+  @SkipAuth()
   @Sse('sse')
   sse(): Observable<MessageEvent> {
     return interval(1000).pipe(map((_) => ({ data: { hello: 'world' } })));
