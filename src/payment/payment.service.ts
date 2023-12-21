@@ -200,6 +200,8 @@ export class PaymentService {
 
 
   async webHook(webHook: any) {
+    console.log("webHook received - Hook:id: ", webHook.id)
+    console.log("webHook received - Data:id: ", webHook.data.id)
     console.log("webHook received - amount: ", webHook.data.amount)
     console.log("webHook received - status: ", webHook.data.status)
     return 'opa';
