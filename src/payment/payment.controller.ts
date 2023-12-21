@@ -30,7 +30,7 @@ export class PaymentController {
   @SkipAuth()
   @Post('webhook')
   webhook(@Body() webHook: any) {
-    this.eventEmitter.emit('new-order');
+    this.eventEmitter.emit('new-order', webHook);
     return this.paymentService.webHook(webHook);
   }
 
