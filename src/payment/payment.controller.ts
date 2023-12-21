@@ -3,6 +3,7 @@ import { PaymentService } from './payment.service';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { SkipAuth } from 'src/auth/auth.public.decorator';
 import { Observable, fromEvent, interval, map } from 'rxjs';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 //import { EventEmitter2 } from '@nestjs/event-emitter';
 
 const NEW_ORDER_EVENT_NAME = 'new-order';
@@ -16,7 +17,9 @@ export interface MessageEvent {
 
 @Controller('payment')
 export class PaymentController {
-  constructor(private readonly paymentService: PaymentService) {}
+  constructor(
+    private readonly paymentService: PaymentService, 
+    private eventEmitter: EventEmitter2) {}
 
   @SkipAuth()
   @Post('order')
@@ -27,12 +30,18 @@ export class PaymentController {
   @SkipAuth()
   @Post('webhook')
   webhook(@Body() webHook: any) {
+    this.eventEmitter.emit('new-order');
     return this.paymentService.webHook(webHook);
   }
 
   @SkipAuth()
   @Sse('sse')
   sse(): Observable<MessageEvent> {
-    return interval(1000).pipe(map((_) => ({ data: { hello: 'world' } })));
+    return fromEvent(this.eventEmitter, 'new-order').pipe(
+      map((data:any) => {
+        console.log("DATA", data)
+        return new MessageEvent('new-order', { data: 'new order' });
+      }),
+    );
   }
 }
