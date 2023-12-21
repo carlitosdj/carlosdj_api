@@ -12,4 +12,10 @@ export class PaymentController {
   order(@Body() createPaymentDto: CreatePaymentDto) {
     return this.paymentService.createOrder(createPaymentDto);
   }
+
+  @SkipAuth()
+  @Post('webhook')
+  webhook(@Body() webHook: any) {
+    return this.paymentService.webHook(webHook);
+  }
 }
