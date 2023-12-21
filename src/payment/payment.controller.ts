@@ -39,8 +39,8 @@ export class PaymentController {
   sse(): Observable<MessageEvent> {
     return fromEvent(this.eventEmitter, 'new-order').pipe(
       map((data:any) => {
-        console.log("DATA", data)
-        return new MessageEvent('new-order', { data: 'new order' });
+        console.log("DATA", data.data.id)
+        return new MessageEvent('new-order', { data: data.data.id });
       }),
     );
   }
