@@ -18,8 +18,9 @@ export interface MessageEvent {
 @Controller('payment')
 export class PaymentController {
   constructor(
-    private readonly paymentService: PaymentService, 
-    private eventEmitter: EventEmitter2) {}
+    private readonly paymentService: PaymentService,
+    private eventEmitter: EventEmitter2,
+  ) {}
 
   @SkipAuth()
   @Post('order')
@@ -28,20 +29,21 @@ export class PaymentController {
   }
 
   @SkipAuth()
-  @Post('webhook')
-  webhook(@Body() webHook: any) {
-    this.eventEmitter.emit('new-order', webHook);
-    return this.paymentService.webHook(webHook);
+  @Sse('sse')
+  sse(): Observable<MessageEvent> {
+    //return interval(5000).pipe(map((_) => ({ data: { hello: 'world' } })));
+    return fromEvent(this.eventEmitter, NEW_ORDER_EVENT_NAME).pipe(
+      map((data: any) => {
+        console.log('DATA', data.data.id);
+        return new MessageEvent('new-order', { data: data });
+      }),
+    );
   }
 
   @SkipAuth()
-  @Sse('sse')
-  sse(): Observable<MessageEvent> {
-    return fromEvent(this.eventEmitter, 'new-order').pipe(
-      map((data:any) => {
-        console.log("DATA", data.data.id)
-        return new MessageEvent('new-order', { data: data.data.id });
-      }),
-    );
+  @Post('webhook')
+  webhook(@Body() webHook: any) {
+    this.eventEmitter.emit(NEW_ORDER_EVENT_NAME, webHook);
+    return this.paymentService.webHook(webHook);
   }
 }
