@@ -7,6 +7,7 @@ import { jwtConstants } from './auth.constants';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth.guard';
 import { UserService } from '../user/user.service';
+import { MailModule } from '../mail/mail.module';
 // import { ACGuard } from 'nest-access-control';
 
 @Module({
@@ -17,6 +18,7 @@ import { UserService } from '../user/user.service';
       secret: jwtConstants.secret,
       signOptions: { expiresIn: '7d' },
     }),
+    MailModule
   ],
   //providers: [AuthService],
   providers: [
