@@ -1,14 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateWppcampDto } from './dto/create-wppcamp.dto';
 import { UpdateWppcampDto } from './dto/update-wppcamp.dto';
-import { DB, DbType } from 'src/drizzle/providers/drizzle.providers';
+import { DB_SERVICE, DbType } from '../drizzle/providers/drizzle.providers';
 import { and, eq, lt } from 'drizzle-orm';
 // import { PrismaService } from 'src/prisma/prisma/prisma.service';
 import * as schema from '../_schemas/schema';
 
 @Injectable()
 export class WppcampService {
-  constructor(@Inject(DB) private readonly db: DbType) {}
+  constructor(@Inject(DB_SERVICE) private readonly db: DbType) {}
 
   async findAll(page: number, take: number) {
     if (page == 0) page = 1;

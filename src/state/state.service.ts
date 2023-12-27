@@ -1,13 +1,12 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateStateDto } from './dto/create-state.dto';
 import { UpdateStateDto } from './dto/update-state.dto';
-import { DB, DbType } from 'src/drizzle/providers/drizzle.providers';
-//import { PrismaService } from 'src/prisma/prisma/prisma.service';
+import { DB_SERVICE, DbType } from '../drizzle/providers/drizzle.providers';
 import * as schema from '../_schemas/schema';
 
 @Injectable()
 export class StateService {
-  constructor(@Inject(DB) private readonly db: DbType) {}
+  constructor(@Inject(DB_SERVICE) private readonly db: DbType) {}
 
   findAll() {
     // return this.prismaService.locationState.findMany({});

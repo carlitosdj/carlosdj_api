@@ -1,6 +1,6 @@
 import { ArgumentsHost, Catch } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
-import { InvalidUserError } from 'src/errors/invalid-user.error';
+import { InvalidUserError } from '../errors/invalid-user.error';
 
 @Catch(InvalidUserError)
 export class InvalidUserExceptionFilter extends BaseExceptionFilter {

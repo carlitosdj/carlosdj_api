@@ -1,6 +1,6 @@
 import { ArgumentsHost, Catch } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
-import { InvalidRelationError } from 'src/errors/invalid-relation.error';
+import { InvalidRelationError } from '../errors/invalid-relation.error';
 
 @Catch(InvalidRelationError)
 export class InvalidRelationExceptionFilter extends BaseExceptionFilter {

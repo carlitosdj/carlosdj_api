@@ -2,12 +2,12 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateSupportDto } from './dto/create-support.dto';
 import { UpdateSupportDto } from './dto/update-support.dto';
 import * as schema from '../_schemas/schema';
-import { DB, DbType } from 'src/drizzle/providers/drizzle.providers';
+import { DB_SERVICE, DbType } from '../drizzle/providers/drizzle.providers';
 import { eq } from 'drizzle-orm';
 
 @Injectable()
 export class SupportService {
-  constructor(@Inject(DB) private readonly db: DbType) {}
+  constructor(@Inject(DB_SERVICE) private readonly db: DbType) {}
 
   findAll() {
     return this.db.query.support.findMany({

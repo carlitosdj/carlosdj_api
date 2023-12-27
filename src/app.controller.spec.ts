@@ -15,8 +15,8 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+    it('should return "Servidor Instituto Defelícibus - Api modelo"', () => {
+      expect(appController.getHello()).toBe('Servidor Instituto Defelícibus - Api modelo');
     });
   });
 });

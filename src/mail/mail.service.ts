@@ -1,11 +1,11 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
-import { Schema } from 'node:inspector';
-import { CreateLeadDto } from 'src/lead/dto/create-lead.dto';
-import { CreateUserDto } from 'src/user/dto/create-user.dto';
-import * as schema from '../_schemas/schema';
-import { User } from 'src/user/entities/user.entity';
-import { UserService } from 'src/user/user.service';
+// import { Schema } from 'node:inspector';
+import { CreateLeadDto } from '../lead/dto/create-lead.dto';
+import { CreateUserDto } from '../user/dto/create-user.dto';
+// import * as schema from '../_schemas/schema';
+// import { User } from 'src/user/entities/user.entity';
+// import { UserService } from 'src/user/user.service';
 //var nodemailer = require('nodemailer');
 
 @Injectable()

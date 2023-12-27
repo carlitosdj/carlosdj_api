@@ -1,16 +1,17 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './auth.controller';
 import { AuthService } from './auth.service';
-import { UserModule } from 'src/user/user.module';
+import { UserModule } from '../user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './auth.constants';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth.guard';
+import { UserService } from '../user/user.service';
 // import { ACGuard } from 'nest-access-control';
 
 @Module({
   imports: [
-    UserModule,
+    //UserModule,
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
@@ -19,15 +20,12 @@ import { AuthGuard } from './auth.guard';
   ],
   //providers: [AuthService],
   providers: [
+    UserService,
     AuthService,
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
     },
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: ACGuard,
-    // },
   ],
   controllers: [AuthController],
   exports: [AuthService],

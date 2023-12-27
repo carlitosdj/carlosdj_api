@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { LeadService } from './lead.service';
 import { LeadController } from './lead.controller';
-import { MailModule } from 'src/mail/mail.module';
+import { MailModule } from '../mail/mail.module';
 
 @Module({
   imports: [MailModule],

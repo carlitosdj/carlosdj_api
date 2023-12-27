@@ -2,14 +2,15 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateComponentDto } from './dto/create-component.dto';
 import { UpdateComponentDto } from './dto/update-component.dto';
 // import { LazyModuleLoader } from '@nestjs/core';
-import { DB, DbType } from 'src/drizzle/providers/drizzle.providers';
-import { and, asc, desc, eq, ilike, like, or } from 'drizzle-orm';
+//import { DB, DbType } from 'src/drizzle/providers/drizzle.providers';
+import { DB_SERVICE, DbType } from '../drizzle/providers/drizzle.providers';
+import { and, asc, desc, eq, like, or } from 'drizzle-orm';
 import * as schema from '../_schemas/schema';
 import { CreateLaunchDto } from './dto/create-launch.dto';
 
 @Injectable()
 export class ComponentService {
-  constructor(@Inject(DB) private readonly db: DbType) {}
+  constructor(@Inject(DB_SERVICE) private readonly db: DbType) {}
 
   async findAll(page: number, take: number) {
     if (page == 0) page = 1;
@@ -121,7 +122,7 @@ export class ComponentService {
     num_turma: string,
     orderby: string,
   ) {
-    console.log("numturma", num_turma)
+    console.log('numturma', num_turma);
     return await this.db.query.component.findMany({
       where: and(
         eq(schema.component.componentId, id),
@@ -245,81 +246,51 @@ export class ComponentService {
     });
   }
 
-  async findLastClassAttended(user_id: number) {
-    // return await this.prismaService.component.findFirstOrThrow({
-    //   where: { ComponentCompleted: { some: { user_id } } },
-    //   orderBy: { id: 'desc' },
-    //   include: { children: true, parent: true, extras: true },
-    // });
-
-    const lastCompleted = await this.db.query.componentCompleted.findFirst({
-      where: eq(schema.componentCompleted.userId, user_id),
-      with: {
-        component: {
-          with: {
-            extras: true,
-            parent: {
-              with: {
-                parent: true,
-              },
+async findLastClassAttended(userId: number) {
+  const lastCompleted = await this.db.query.componentCompleted.findFirst({
+    where: eq(schema.componentCompleted.userId, userId),
+    with: {
+      component: {
+        with: {
+          extras: true,
+          parent: {
+            with: {
+              parent: true,
             },
-            children: true,
           },
+          children: true,
         },
       },
-      orderBy: desc(schema.componentCompleted.updatedAt),
-    });
+    },
+    orderBy: desc(schema.componentCompleted.updatedAt),
+  });
 
-    return lastCompleted.component;
-
-    // console.log('USERID', user_id);
-    // return await this.db.query.component.findFirst({
-    //   with: {
-    //     completed: {
-    //       where: eq(schema.componentCompleted.userId, user_id),
-    //       //orderBy: asc(schema.componentCompleted.updatedAt)
-    //     },
-    //     //extras: true,
-    //     //parent: true,
-    //     //children:true,
-    //     // // children: {
-    //     // //   with: {
-    //     // //     extras: true,
-    //     // //     available: true,
-    //     // //   },
-    //     // // },
-    //   },
-    //   //where: eq(schema.componentCompleted.userId, user_id)
-    //   //where:
-    //   //where: eq(schema.)
-    // });
-  }
+  return lastCompleted.component;
+}
 
   async create(createComponentDto: CreateComponentDto) {
-    const newItem = await this.db
+    const insertedItem = await this.db
       .insert(schema.component)
       .values(createComponentDto);
-    return await this.db.query.component.findFirst({
-      where: eq(schema.component.id, newItem[0].insertId),
+
+    const insertedId = insertedItem[0].insertId;
+
+    const component = await this.db.query.component.findFirst({
+      where: eq(schema.component.id, insertedId),
     });
 
-    // return await this.prismaService.component.create({
-    //   data: createComponentDto,
-    // });
+    return component;
   }
 
   async createLaunch(createLaunchDto: CreateLaunchDto) {
-
     // console.log("createLaunchDto",createLaunchDto)
 
     return await this.db.transaction(async (tx) => {
-      const launch = await this.db
-        .insert(schema.component)
-        .values({
-          name: createLaunchDto.name,
-          description: createLaunchDto.description,
-          componentId: createLaunchDto.componentId
-        });
+      const launch = await this.db.insert(schema.component).values({
+        name: createLaunchDto.name,
+        description: createLaunchDto.description,
+        componentId: createLaunchDto.componentId,
+      });
 
       //################ LEADS ################
       const phaseLeads = await this.db.insert(schema.component).values({
@@ -329,20 +300,63 @@ export class ComponentService {
       });
 
       const extrasLeads = await this.db.insert(schema.componentExtra).values([
+        {
+          keyExtra: 'eventName',
+          valueExtra: createLaunchDto.eventName,
+          componentId: phaseLeads[0].insertId,
+        },
+        {
+          keyExtra: 'eventHeadline',
+          valueExtra: createLaunchDto.eventHeadline,
+          componentId: phaseLeads[0].insertId,
+        },
+        {
+          keyExtra: 'eventDescription',
+          valueExtra: createLaunchDto.eventDescription,
+          componentId: phaseLeads[0].insertId,
+        },
+        {
+          keyExtra: 'eventStartDate',
+          valueExtra: createLaunchDto.dateCpl1,
+          componentId: phaseLeads[0].insertId,
+        },
+        {
+          keyExtra: 'eventEndDate',
+          valueExtra: createLaunchDto.dateCpl3,
+          componentId: phaseLeads[0].insertId,
+        },
+        {
+          keyExtra: 'expertName',
+          valueExtra: createLaunchDto.expertName,
+          componentId: phaseLeads[0].insertId,
+        },
 
-        { keyExtra: 'eventName', valueExtra: createLaunchDto.eventName, componentId: phaseLeads[0].insertId },
-        { keyExtra: 'eventHeadline', valueExtra: createLaunchDto.eventHeadline, componentId: phaseLeads[0].insertId },
-        { keyExtra: 'eventDescription', valueExtra: createLaunchDto.eventDescription, componentId: phaseLeads[0].insertId },
-        { keyExtra: 'eventStartDate', valueExtra: createLaunchDto.dateCpl1, componentId: phaseLeads[0].insertId },
-        { keyExtra: 'eventEndDate', valueExtra: createLaunchDto.dateCpl3, componentId: phaseLeads[0].insertId },
-        { keyExtra: 'expertName', valueExtra: createLaunchDto.expertName, componentId: phaseLeads[0].insertId },
+        {
+          keyExtra: 'eventImg',
+          valueExtra: '1686071778354-Logo-preconexao.png',
+          componentId: phaseLeads[0].insertId,
+        },
+        {
+          keyExtra: 'eventBtn',
+          valueExtra: 'Quero participar do evento',
+          componentId: phaseLeads[0].insertId,
+        },
+        {
+          keyExtra: 'eventGroupLink',
+          valueExtra: 'http://localhost:3015/viawhats/campanha-teste',
+          componentId: phaseLeads[0].insertId,
+        },
 
-        { keyExtra: 'eventImg', valueExtra: '1686071778354-Logo-preconexao.png', componentId: phaseLeads[0].insertId },
-        { keyExtra: 'eventBtn', valueExtra: 'Quero participar do evento', componentId: phaseLeads[0].insertId },
-        { keyExtra: 'eventGroupLink', valueExtra: 'http://localhost:3015/viawhats/campanha-teste', componentId: phaseLeads[0].insertId },
-        
-        { keyExtra: 'leadSignUpStartDate', valueExtra: createLaunchDto.leadSignUpStartDate, componentId: phaseLeads[0].insertId },
-        { keyExtra: 'leadSignUpEndDate', valueExtra: createLaunchDto.leadSignUpEndDate, componentId: phaseLeads[0].insertId },
+        {
+          keyExtra: 'leadSignUpStartDate',
+          valueExtra: createLaunchDto.leadSignUpStartDate,
+          componentId: phaseLeads[0].insertId,
+        },
+        {
+          keyExtra: 'leadSignUpEndDate',
+          valueExtra: createLaunchDto.leadSignUpEndDate,
+          componentId: phaseLeads[0].insertId,
+        },
       ]);
 
       //################ LEADS ################
@@ -353,25 +367,80 @@ export class ComponentService {
       });
 
       const extrasEvent = await this.db.insert(schema.componentExtra).values([
-        
-        { keyExtra: 'eventName', valueExtra: createLaunchDto.eventName, componentId: phaseEvent[0].insertId },
-        { keyExtra: 'eventHeadline', valueExtra: createLaunchDto.eventHeadline, componentId: phaseEvent[0].insertId },
-        { keyExtra: 'eventDescription', valueExtra: createLaunchDto.eventDescription, componentId: phaseEvent[0].insertId },
-        { keyExtra: 'eventStartDate', valueExtra: createLaunchDto.dateCpl1, componentId: phaseEvent[0].insertId },
-        { keyExtra: 'eventEndDate', valueExtra: createLaunchDto.dateCpl3, componentId: phaseEvent[0].insertId },
-        { keyExtra: 'expertName', valueExtra: createLaunchDto.expertName, componentId: phaseEvent[0].insertId },
+        {
+          keyExtra: 'eventName',
+          valueExtra: createLaunchDto.eventName,
+          componentId: phaseEvent[0].insertId,
+        },
+        {
+          keyExtra: 'eventHeadline',
+          valueExtra: createLaunchDto.eventHeadline,
+          componentId: phaseEvent[0].insertId,
+        },
+        {
+          keyExtra: 'eventDescription',
+          valueExtra: createLaunchDto.eventDescription,
+          componentId: phaseEvent[0].insertId,
+        },
+        {
+          keyExtra: 'eventStartDate',
+          valueExtra: createLaunchDto.dateCpl1,
+          componentId: phaseEvent[0].insertId,
+        },
+        {
+          keyExtra: 'eventEndDate',
+          valueExtra: createLaunchDto.dateCpl3,
+          componentId: phaseEvent[0].insertId,
+        },
+        {
+          keyExtra: 'expertName',
+          valueExtra: createLaunchDto.expertName,
+          componentId: phaseEvent[0].insertId,
+        },
 
-        { keyExtra: 'dateCpl1', valueExtra: createLaunchDto.dateCpl1, componentId: phaseEvent[0].insertId },
-        { keyExtra: 'cpl1', valueExtra: 'https://www.youtube.com/embed/am-FQ86mKV0', componentId: phaseEvent[0].insertId },
+        {
+          keyExtra: 'dateCpl1',
+          valueExtra: createLaunchDto.dateCpl1,
+          componentId: phaseEvent[0].insertId,
+        },
+        {
+          keyExtra: 'cpl1',
+          valueExtra: 'https://www.youtube.com/embed/am-FQ86mKV0',
+          componentId: phaseEvent[0].insertId,
+        },
 
-        { keyExtra: 'dateCpl2', valueExtra: createLaunchDto.dateCpl2, componentId: phaseEvent[0].insertId },
-        { keyExtra: 'cpl2', valueExtra: 'https://www.youtube.com/embed/u-6XK1yy3rE', componentId: phaseEvent[0].insertId },
+        {
+          keyExtra: 'dateCpl2',
+          valueExtra: createLaunchDto.dateCpl2,
+          componentId: phaseEvent[0].insertId,
+        },
+        {
+          keyExtra: 'cpl2',
+          valueExtra: 'https://www.youtube.com/embed/u-6XK1yy3rE',
+          componentId: phaseEvent[0].insertId,
+        },
 
-        { keyExtra: 'dateCpl3', valueExtra: createLaunchDto.dateCpl3, componentId: phaseEvent[0].insertId },
-        { keyExtra: 'cpl3', valueExtra: 'https://www.youtube.com/embed/BJYpPfyz3ks', componentId: phaseEvent[0].insertId },
+        {
+          keyExtra: 'dateCpl3',
+          valueExtra: createLaunchDto.dateCpl3,
+          componentId: phaseEvent[0].insertId,
+        },
+        {
+          keyExtra: 'cpl3',
+          valueExtra: 'https://www.youtube.com/embed/BJYpPfyz3ks',
+          componentId: phaseEvent[0].insertId,
+        },
 
-        { keyExtra: 'eventImg', valueExtra: '1671667103392-violaosemstress.png', componentId: phaseEvent[0].insertId },
-        { keyExtra: 'eventGroupLink', valueExtra: 'https://evento.violaofeeling.com.br/viawhats/preconexao', componentId: phaseEvent[0].insertId },
+        {
+          keyExtra: 'eventImg',
+          valueExtra: '1671667103392-violaosemstress.png',
+          componentId: phaseEvent[0].insertId,
+        },
+        {
+          keyExtra: 'eventGroupLink',
+          valueExtra: 'https://evento.violaofeeling.com.br/viawhats/preconexao',
+          componentId: phaseEvent[0].insertId,
+        },
       ]);
 
       //################ LEADS ################
@@ -382,22 +451,73 @@ export class ComponentService {
       });
 
       const extrasSale = await this.db.insert(schema.componentExtra).values([
+        {
+          keyExtra: 'productName',
+          valueExtra: createLaunchDto.productName,
+          componentId: phaseSale[0].insertId,
+        },
+        {
+          keyExtra: 'productHeadline',
+          valueExtra: createLaunchDto.productHeadline,
+          componentId: phaseSale[0].insertId,
+        },
+        {
+          keyExtra: 'productDescription',
+          valueExtra: createLaunchDto.productDescription,
+          componentId: phaseSale[0].insertId,
+        },
+        {
+          keyExtra: 'productBtn',
+          valueExtra: 'QUERO ENTRAR NO TREINAMENTO',
+          componentId: phaseSale[0].insertId,
+        },
 
-        { keyExtra: 'productName', valueExtra: createLaunchDto.productName, componentId: phaseSale[0].insertId },
-        { keyExtra: 'productHeadline', valueExtra: createLaunchDto.productHeadline, componentId: phaseSale[0].insertId },
-        { keyExtra: 'productDescription', valueExtra: createLaunchDto.productDescription, componentId: phaseSale[0].insertId },
-        { keyExtra: 'productBtn', valueExtra: 'QUERO ENTRAR NO TREINAMENTO', componentId: phaseSale[0].insertId },
-        
-        { keyExtra: 'productPrice', valueExtra: createLaunchDto.productPrice, componentId: phaseSale[0].insertId },
-        { keyExtra: 'productInstallments', valueExtra: createLaunchDto.productInstallments, componentId: phaseSale[0].insertId },
-        { keyExtra: 'productVideo', valueExtra: createLaunchDto.productVideo, componentId: phaseSale[0].insertId },
-        { keyExtra: 'productDiscount', valueExtra: createLaunchDto.productDiscount, componentId: phaseSale[0].insertId },
-        { keyExtra: 'productDiscountText', valueExtra: createLaunchDto.productDiscountText, componentId: phaseSale[0].insertId },
-        { keyExtra: 'talktousLink', valueExtra: createLaunchDto.talktousLink, componentId: phaseSale[0].insertId },
+        {
+          keyExtra: 'productPrice',
+          valueExtra: createLaunchDto.productPrice,
+          componentId: phaseSale[0].insertId,
+        },
+        {
+          keyExtra: 'productInstallments',
+          valueExtra: createLaunchDto.productInstallments,
+          componentId: phaseSale[0].insertId,
+        },
+        {
+          keyExtra: 'productVideo',
+          valueExtra: createLaunchDto.productVideo,
+          componentId: phaseSale[0].insertId,
+        },
+        {
+          keyExtra: 'productDiscount',
+          valueExtra: createLaunchDto.productDiscount,
+          componentId: phaseSale[0].insertId,
+        },
+        {
+          keyExtra: 'productDiscountText',
+          valueExtra: createLaunchDto.productDiscountText,
+          componentId: phaseSale[0].insertId,
+        },
+        {
+          keyExtra: 'talktousLink',
+          valueExtra: createLaunchDto.talktousLink,
+          componentId: phaseSale[0].insertId,
+        },
 
-        { keyExtra: 'cartOpenDate', valueExtra: createLaunchDto.cartOpenDate, componentId: phaseSale[0].insertId },
-        { keyExtra: 'cartCloseDate', valueExtra: createLaunchDto.cartCloseDate, componentId: phaseSale[0].insertId },
-        { keyExtra: 'productWaitLink', valueExtra: createLaunchDto.productWaitLink, componentId: phaseSale[0].insertId },
+        {
+          keyExtra: 'cartOpenDate',
+          valueExtra: createLaunchDto.cartOpenDate,
+          componentId: phaseSale[0].insertId,
+        },
+        {
+          keyExtra: 'cartCloseDate',
+          valueExtra: createLaunchDto.cartCloseDate,
+          componentId: phaseSale[0].insertId,
+        },
+        {
+          keyExtra: 'productWaitLink',
+          valueExtra: createLaunchDto.productWaitLink,
+          componentId: phaseSale[0].insertId,
+        },
         //{ keyExtra: 'page_checkout', valueExtra: 'https://pay.kiwify.com.br/fhTQpmR', componentId: phaseSale[0].insertId },
         //{ keyExtra: 'upsell', valueExtra: '0', componentId: phaseSale[0].insertId },
       ]);
@@ -410,45 +530,24 @@ export class ComponentService {
   }
 
   async update(id: number, updateComponentDto: UpdateComponentDto) {
-    //update item
     await this.db
       .update(schema.component)
       .set(updateComponentDto)
       .where(eq(schema.component.id, id));
 
-    return await this.db.query.component.findFirst({
+    const component = await this.db.query.component.findFirst({
       where: eq(schema.component.id, id),
-      with: {
-        children: true,
-        parent: true,
-        extras: true,
-      },
+      with: { children: true, parent: true, extras: true },
     });
 
-    // return await this.prismaService.component.update({
-    //   where: { id },
-    //   data: updateComponentDto,
-    //   include: {
-    //     children: true,
-    //     parent: true,
-    //     extras: true,
-    //   },
-    // });
+    return component;
   }
 
   async remove(id: number) {
-    const itemRemoved = await this.db.query.component.findFirst({
+    const removedComponent = await this.db.query.component.findFirst({
       where: eq(schema.component.id, id),
     });
     await this.db.delete(schema.component).where(eq(schema.component.id, id));
-    return itemRemoved;
-    // return await this.prismaService.component.delete({
-    //   where: { id },
-    //   include: {
-    //     children: true,
-    //     parent: true,
-    //     extras: true,
-    //   },
-    // });
+    return removedComponent;
   }
 }

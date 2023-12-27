@@ -1,7 +1,7 @@
 import { Controller, Post, Body, Sse } from '@nestjs/common';
 import { PaymentService } from './payment.service';
 import { CreatePaymentDto } from './dto/create-payment.dto';
-import { SkipAuth } from 'src/auth/auth.public.decorator';
+import { SkipAuth } from '../auth/auth.public.decorator';
 import { Observable, fromEvent, interval, map } from 'rxjs';
 import { EventEmitter2 } from '@nestjs/event-emitter';
 //import { EventEmitter2 } from '@nestjs/event-emitter';

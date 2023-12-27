@@ -1,15 +1,14 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateWppgroupDto } from './dto/create-wppgroup.dto';
 import { UpdateWppgroupDto } from './dto/update-wppgroup.dto';
-// import { PrismaService } from 'src/prisma/prisma/prisma.service';
 import * as schema from '../_schemas/schema';
-import { DB, DbType } from 'src/drizzle/providers/drizzle.providers';
+import { DB_SERVICE, DbType } from '../drizzle/providers/drizzle.providers';
 import { eq } from 'drizzle-orm';
 
 @Injectable()
 export class WppgroupService {
   // constructor(private prismaService: PrismaService) {}
-  constructor(@Inject(DB) private readonly db: DbType) {}
+  constructor(@Inject(DB_SERVICE) private readonly db: DbType) {}
 
   async findAll(page: number, take: number) {
     if (page == 0) page = 1;

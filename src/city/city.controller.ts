@@ -10,7 +10,7 @@ import {
 import { CityService } from './city.service';
 import { CreateCityDto } from './dto/create-city.dto';
 import { UpdateCityDto } from './dto/update-city.dto';
-import { SkipAuth } from 'src/auth/auth.public.decorator';
+import { SkipAuth } from '../auth/auth.public.decorator';
 
 @Controller('city')
 export class CityController {

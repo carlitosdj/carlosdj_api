@@ -21,7 +21,7 @@ import { ApiConsumes } from '@nestjs/swagger';
 import { createReadStream } from 'fs';
 import { join } from 'path';
 import { Response } from 'express';
-import { SkipAuth } from 'src/auth/auth.public.decorator';
+import { SkipAuth } from '../auth/auth.public.decorator';
 
 @Controller('upload')
 export class UploadController {

@@ -1,15 +1,15 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateComponentcompletedDto } from './dto/create-componentcompleted.dto';
 import { UpdateComponentcompletedDto } from './dto/update-componentcompleted.dto';
-// import { PrismaService } from 'src/prisma/prisma/prisma.service';
+
 import * as schema from '../_schemas/schema';
-import { DB, DbType } from 'src/drizzle/providers/drizzle.providers';
+import { DB_SERVICE, DbType } from '../drizzle/providers/drizzle.providers';
 import { eq } from 'drizzle-orm';
 
 @Injectable()
 export class ComponentcompletedService {
   // constructor(private prismaService: PrismaService) {}
-  constructor(@Inject(DB) private readonly db: DbType) {}
+  constructor(@Inject(DB_SERVICE) private readonly db: DbType) {}
 
   findAll() {
     // //return `This action returns all componentcompleted`;

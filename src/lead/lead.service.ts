@@ -1,12 +1,11 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateLeadDto } from './dto/create-lead.dto';
 import { UpdateLeadDto } from './dto/update-lead.dto';
-// import { PrismaService } from 'src/prisma/prisma/prisma.service';
-import { MailService } from 'src/mail/mail.service';
-import { InvalidLeadError } from 'src/errors/invalid-lead.error';
+import { MailService } from '../mail/mail.service';
+import { InvalidLeadError } from '../errors/invalid-lead.error';
 import { Cron, SchedulerRegistry } from '@nestjs/schedule';
 import { CronJob } from 'cron';
-import { DB, DbType } from 'src/drizzle/providers/drizzle.providers';
+import { DB_SERVICE, DbType } from '../drizzle/providers/drizzle.providers';
 import { and, asc, eq, like, or, sql } from 'drizzle-orm';
 import * as schema from '../_schemas/schema';
 
@@ -14,7 +13,7 @@ import * as schema from '../_schemas/schema';
 export class LeadService {
   constructor(
     // private prismaService: PrismaService,
-    @Inject(DB) private readonly db: DbType,
+    @Inject(DB_SERVICE) private readonly db: DbType,
     private mailService: MailService,
     private schedulerRegistry: SchedulerRegistry,
   ) {}

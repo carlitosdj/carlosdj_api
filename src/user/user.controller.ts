@@ -13,7 +13,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRolesBuilder, RolesBuilder } from 'nest-access-control';
-import { SkipAuth } from 'src/auth/auth.public.decorator';
+import { SkipAuth } from '../auth/auth.public.decorator';
 
 interface Recovery {
     email: string
@@ -23,18 +23,19 @@ interface Recovery {
 export class UserController {
   constructor(
     private readonly userService: UserService,
-    @InjectRolesBuilder() private readonly roleBuilder: RolesBuilder,
+    //@InjectRolesBuilder() private readonly roleBuilder: RolesBuilder,
   ) {}
 
   @Get('all/:page/:take')
   findAll(
     @Param('page') page: number,
     @Param('take') take: number,
-    @Request() req,
+    //@Request() req,
   ) {
-    const permission = this.roleBuilder.can(req.user.roles).readAny('user');
-    if (permission.granted) return this.userService.findAll(page, take);
-    throw new UnauthorizedException();
+    // const permission = this.roleBuilder.can(req.user.roles).readAny('user');
+    // if (permission.granted) return this.userService.findAll(page, take);
+    // throw new UnauthorizedException();
+    return this.userService.findAll(page, take)
   }
 
   @Get('id/:id')
@@ -73,7 +74,6 @@ export class UserController {
     const date = new Date();
     return this.userService.create({
       ...createUserDto,
-      //createdAt: date.getTime() / 1000,
     });
   }
 
@@ -84,33 +84,20 @@ export class UserController {
     @Body() updateUserDto: UpdateUserDto,
     //@Request() req,
   ) {
-    // const permission =
-    //   +req.user.id === +id
-    //     ? this.roleBuilder.can(req.user.roles).updateOwn('user')
-    //     : this.roleBuilder.can(req.user.roles).updateAny('user');
-
-    //const date = new Date();
-    // if (permission.granted)
-    //   return this.userService.update(+id, {
-    //     ...updateUserDto,
-    //     updated_at: date.getTime() / 1000,
-    //   });
-    // throw new UnauthorizedException();
-
     return this.userService.update(+id, {
       ...updateUserDto,
-      //updated_at: date.getTime() / 1000,
     });
   }
 
   @Delete(':id')
   remove(@Param('id') id: string, @Request() req) {
-    const permission =
-      +req.user.id === +id
-        ? this.roleBuilder.can(req.user.roles).deleteOwn('user')
-        : this.roleBuilder.can(req.user.roles).deleteAny('user');
+    // const permission =
+    //   +req.user.id === +id
+    //     ? this.roleBuilder.can(req.user.roles).deleteOwn('user')
+    //     : this.roleBuilder.can(req.user.roles).deleteAny('user');
 
-    if (permission.granted) return this.userService.remove(+id);
-    throw new UnauthorizedException();
+    // if (permission.granted) return this.userService.remove(+id);
+    // throw new UnauthorizedException();
+    return this.userService.remove(+id);
   }
 }

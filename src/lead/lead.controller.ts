@@ -10,7 +10,7 @@ import {
 import { LeadService } from './lead.service';
 import { CreateLeadDto } from './dto/create-lead.dto';
 import { UpdateLeadDto } from './dto/update-lead.dto';
-import { SkipAuth } from 'src/auth/auth.public.decorator';
+import { SkipAuth } from '../auth/auth.public.decorator';
 
 @Controller('lead')
 export class LeadController {

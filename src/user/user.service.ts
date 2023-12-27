@@ -1,20 +1,21 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, forwardRef } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 import * as bcrypt from 'bcryptjs';
 import * as schema from '../_schemas/schema';
 
-import { InvalidUserError } from 'src/errors/invalid-user.error';
-import { DB, DbType } from 'src/drizzle/providers/drizzle.providers';
+import { InvalidUserError } from '../errors/invalid-user.error';
+import { DB_SERVICE, DbType } from '../drizzle/providers/drizzle.providers';
 import { and, eq, like, or, sql } from 'drizzle-orm';
 import { randomUUID } from 'node:crypto';
-import { MailService } from 'src/mail/mail.service';
+import { MailService } from '../mail/mail.service';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable()
 export class UserService {
   constructor(
-    @Inject(DB) private readonly db: DbType,
+    @Inject(DB_SERVICE) private readonly db: DbType,
     private mailService: MailService,
   ) {}
 

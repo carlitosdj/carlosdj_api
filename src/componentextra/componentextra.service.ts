@@ -1,14 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateComponentextraDto } from './dto/create-componentextra.dto';
 import { UpdateComponentextraDto } from './dto/update-componentextra.dto';
-import { DB, DbType } from 'src/drizzle/providers/drizzle.providers';
+import { DB_SERVICE, DbType } from '../drizzle/providers/drizzle.providers';
 import { eq } from 'drizzle-orm';
 import * as schema from '../_schemas/schema';
-// import { PrismaService } from 'src/prisma/prisma/prisma.service';
 
 @Injectable()
 export class ComponentextraService {
-  constructor(@Inject(DB) private readonly db: DbType) {}
+  constructor(@Inject(DB_SERVICE) private readonly db: DbType) {}
   // constructor(private prismaService: PrismaService) {}
 
   findAll() {

@@ -10,7 +10,7 @@ import {
 import { WppcampService } from './wppcamp.service';
 import { CreateWppcampDto } from './dto/create-wppcamp.dto';
 import { UpdateWppcampDto } from './dto/update-wppcamp.dto';
-import { SkipAuth } from 'src/auth/auth.public.decorator';
+import { SkipAuth } from '../auth/auth.public.decorator';
 
 @Controller('wppcamp')
 export class WppcampController {

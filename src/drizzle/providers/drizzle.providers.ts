@@ -4,13 +4,14 @@ import { DefaultLogger, LogWriter } from 'drizzle-orm';
 import { drizzle, MySql2Database } from 'drizzle-orm/mysql2';
 import * as mysql from 'mysql2/promise';
 import * as schema from '../../_schemas/schema';
-import { DbConfig } from 'src/config';
+import { DbConfig } from '../../config';
 
-export const DB = Symbol('DB_SERVICE');
+//export const DB_SERVICE = Symbol('DB_SERVICE');
+export const DB_SERVICE = 'DB_SERVICE';
 export type DbType = MySql2Database<typeof schema>;
 
 export const DbProvider: FactoryProvider = {
-  provide: DB,
+  provide: DB_SERVICE,
   inject: [DbConfig.KEY],
   useFactory: async (dbConfig: ConfigType<typeof DbConfig>) => {
     const logger = new Logger('DB');

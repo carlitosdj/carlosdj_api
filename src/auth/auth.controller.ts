@@ -6,11 +6,11 @@ import {
   HttpStatus,
   Post,
   Request,
-  UseGuards,
+  //UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SkipAuth } from './auth.public.decorator';
-import { ACGuard, UseRoles } from 'nest-access-control';
+//import { UseRoles } from 'nest-access-control';
 
 @Controller('auth')
 export class AuthController {
@@ -30,12 +30,12 @@ export class AuthController {
     return this.authService.signInAdmin(signInDto.email, signInDto.password);
   }
 
-  @UseGuards(ACGuard)
-  @UseRoles({
-    possession: 'own',
-    action: 'read',
-    resource: 'user',
-  })
+  //@UseGuards(ACGuard)
+  // @UseRoles({
+  //   possession: 'own',
+  //   action: 'read',
+  //   resource: 'user',
+  // })
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;

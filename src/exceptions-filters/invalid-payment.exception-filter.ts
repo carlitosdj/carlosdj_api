@@ -1,6 +1,6 @@
 import { ArgumentsHost, Catch } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
-import { InvalidPaymentError } from 'src/errors/invalid-payment.error';
+import { InvalidPaymentError } from '../errors/invalid-payment.error';
 
 @Catch(InvalidPaymentError)
 export class InvalidPaymentExceptionFilter extends BaseExceptionFilter {

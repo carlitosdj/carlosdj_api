@@ -1,6 +1,6 @@
 import { ArgumentsHost, Catch } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
-import { InvalidLeadError } from 'src/errors/invalid-lead.error';
+import { InvalidLeadError } from '../errors/invalid-lead.error';
 
 @Catch(InvalidLeadError)
 export class InvalidLeadExceptionFilter extends BaseExceptionFilter {

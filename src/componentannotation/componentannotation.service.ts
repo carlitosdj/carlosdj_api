@@ -2,12 +2,12 @@ import { Inject, Injectable } from '@nestjs/common';
 import { CreateComponentannotationDto } from './dto/create-componentannotation.dto';
 import { UpdateComponentannotationDto } from './dto/update-componentannotation.dto';
 import * as schema from '../_schemas/schema';
-import { DB, DbType } from 'src/drizzle/providers/drizzle.providers';
+import { DB_SERVICE, DbType } from '../drizzle/providers/drizzle.providers';
 import { and, desc, eq } from 'drizzle-orm';
 
 @Injectable()
 export class ComponentannotationService {
-  constructor(@Inject(DB) private readonly db: DbType) {}
+  constructor(@Inject(DB_SERVICE) private readonly db: DbType) {}
 
   findAll() {
     return this.db.query.componentAnnotation.findMany({

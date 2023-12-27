@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { HttpService } from '@nestjs/axios';
 import axios from 'axios';
-import { InvalidRelationError } from 'src/errors/invalid-relation.error';
+import { InvalidRelationError } from '../errors/invalid-relation.error';
 
 @Injectable()
 export class PaymentService {

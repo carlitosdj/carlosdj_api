@@ -1,16 +1,16 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { CreateMassmailDto } from './dto/create-massmail.dto';
 import { UpdateMassmailDto } from './dto/update-massmail.dto';
-// import { PrismaService } from 'src/prisma/prisma/prisma.service';
-import { MailService } from 'src/mail/mail.service';
-import { DB, DbType } from 'src/drizzle/providers/drizzle.providers';
+
+import { MailService } from '../mail/mail.service';
+import { DB_SERVICE, DbType } from '../drizzle/providers/drizzle.providers';
 import { desc, eq } from 'drizzle-orm';
 import * as schema from '../_schemas/schema';
 
 @Injectable()
 export class MassmailService {
   constructor(
-    @Inject(DB) private readonly db: DbType,
+    @Inject(DB_SERVICE) private readonly db: DbType,
     // private prismaService: PrismaService,
     private mailService: MailService,
   ) {}
