@@ -28,7 +28,7 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
           #TARGET: ${{ secrets.REMOTE_TARGET }}
-          TARGET: /home/wwinst/nodeapp_test/files/
+          TARGET: /home/carlos/api/files/
 
       - name: Post Deploy
         uses: appleboy/ssh-action@master
@@ -38,7 +38,7 @@ jobs:
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             port: ${{ secrets.REMOTE_PORT }}
             script: | 
-              cd /home/wwinst/nodeapp_test/files/
+              cd /home/carlos/api/files/
               yarn
               yarn pm2:restart
       

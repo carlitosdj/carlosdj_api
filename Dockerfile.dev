@@ -1,7 +1,7 @@
 # Stage 1
 # Build docker image of react app
 FROM node:18 as build
-WORKDIR /modelo_api
+WORKDIR /carlosdj_api
 COPY package*.json ./
 COPY tsconfig.json ./
 # install and cache app dependencies

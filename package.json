@@ -19,8 +19,8 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "repl": "yarn run start -- --entryFile repl",
-    "pm2:start": "pm2 start yarn --name \"apimodelo\" --interpreter bash -- start",
-    "pm2:restart": "pm2 restart apimodelo --update-env"
+    "pm2:start": "pm2 start yarn --name \"apicarlosdj\" --interpreter bash -- start",
+    "pm2:restart": "pm2 restart apicarlosdj --update-env"
   },
   "dependencies": {
     "@casl/ability": "^6.5.0",

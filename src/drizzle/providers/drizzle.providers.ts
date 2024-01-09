@@ -19,10 +19,10 @@ export const DbProvider: FactoryProvider = {
     logger.debug('Connecting to Mysql...');
 
     const connection = await mysql.createPool({
-      host: 'ftp.institutodefelicibus.com.br',
-      user: 'wwinst_carlitos',
+      host: 'ftp.carlosdj.com.br',
+      user: 'carlos_admin',
       password: 'carlosdj123',
-      database: 'wwinst_nestjs',
+      database: 'carlos_database',
     });
 
     logger.debug('Connected to Mysql!');

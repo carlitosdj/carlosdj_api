@@ -4,7 +4,7 @@ export default {
   schema: "./src/_schemas/schema.ts",
   out: "./src/_schemas/",
   dbCredentials: {
-    connectionString: "mysql://wwinst_carlitos:carlosdj123@ftp.institutodefelicibus.com.br:3306/wwinst_nestjs",
+    connectionString: "mysql://carlos_admin:carlosdj123@ftp.carlosdj.com.br:3306/carlos_database",
   },
   driver: "mysql2"
 
