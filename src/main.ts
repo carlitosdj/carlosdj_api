@@ -25,10 +25,10 @@ async function bootstrap() {
     'http://localhost:3001',
     'http://localhost:3002',
     'http://localhost:3003',
-    'https://institutodefelicibus.com.br',
-    'https://produto.institutodefelicibus.com.br',
-    'https://admin.institutodefelicibus.com.br',
-    'https://evnt.institutodefelicibus.com.br',
+    'https://carlosdj.com.br',
+    'https://produto.carlosdj.com.br',
+    'https://adm.carlosdj.com.br',
+    'https://evnt.carlosdj.com.br',
   ];
   app.enableCors({
     origin: function (origin, callback) {
