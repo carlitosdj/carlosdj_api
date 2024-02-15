@@ -37,63 +37,36 @@ export class WppcampService {
   }
 
   async findGroupAvailable(campaign: string) {
-    // //Busca campanha com o slug
+    // Busca campanha com o slug
     const campaignSearch = await this.db.query.wppCamp.findFirst({
       where: eq(schema.wppCamp.slug, campaign),
     });
+    console.log("campaign", campaign)
+    console.log('hey', campaignSearch);
+    // Grava o maximo de cliques
+    const maxclicks = await campaignSearch!.maxclicks;
 
-    // const campaignSearch = await this.prismaService.wppCamp.findFirstOrThrow({
-    //   where: {
-    //     slug: campaign,
-    //   },
-    // });
-    // console.log('Campanha', campaign);
-
-    // //Grava o maximo de cliques
-    const maxclicks = campaignSearch!.maxclicks;
-
-    // //Acha o próximo grupo que está disponível: Less than maxclicks
+    // Acha o próximo grupo que está disponível: Less than maxclicks
     const groupavailable = await this.db.query.wppGroup.findFirst({
       where: and(
         lt(schema.wppGroup.clicks, maxclicks),
         eq(schema.wppGroup.campId, campaignSearch.id),
       ),
     });
-    // const groupavailable = await this.prismaService.wppGroup.findFirstOrThrow({
-    //   where: {
-    //     AND: [
-    //       {
-    //         clicks: {
-    //           lt: maxclicks, //less than
-    //         },
-    //         camp_id: campaignSearch!.id,
-    //       },
-    //     ],
-    //   },
-    // });
 
-    // //Soma cliques:
-    const clicks = groupavailable.clicks + 1;
-    const id = groupavailable.id;
-    // //console.log('clicks', clicks);
-    // //console.log('id', id);
+    console.log("groupavailable", groupavailable)
+
+    // Soma cliques:
+    const clicks = await groupavailable.clicks + 1;
+    const id = await groupavailable.id;
 
     // Atualiza cliques:
-    const update = this.db
+    const update = await this.db
       .update(schema.wppGroup)
       .set({ clicks })
       .where(eq(schema.wppGroup.id, id));
-    // return this.db.query.wppGroup.findFirst({
-    //   where: eq(schema.wppGroup.id, id)
-    // })
 
-    return groupavailable;
-    // return await this.prismaService.wppGroup.update({
-    //   where: { id },
-    //   data: { clicks },
-    // });
-    // // console.log('GROUP AVAILABLE', groupavailable);
-    // // return groupavailable;
+    return await groupavailable;
   }
 
   async create(createWppcampDto: CreateWppcampDto) {
@@ -109,7 +82,6 @@ export class WppcampService {
   }
 
   async update(id: number, updateWppcampDto: UpdateWppcampDto) {
-
     await this.db
       .update(schema.wppCamp)
       .set(updateWppcampDto)
