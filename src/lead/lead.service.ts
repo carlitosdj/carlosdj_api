@@ -140,7 +140,8 @@ export class LeadService {
       this.mailService.sendLeadConfirmation(createLeadDto);
 
       //Cron JOB pra amanhã. Disparo do segundo email:
-      //this.addCronJob('schedulemail', createLeadDto);
+       this.addCronJob('schedulemail', createLeadDto);
+
       const newItem = await this.db.insert(schema.lead).values(createLeadDto);
       return await this.db.query.lead.findFirst({
         where: eq(schema.lead.id, newItem[0].insertId),
@@ -154,17 +155,17 @@ export class LeadService {
     const job: any = new CronJob(date, async () => {
       //const job: any = new CronJob(`${seconds} * * * * *`, () => {
       await this.mailService.sendSecondMail(createLeadDto);
-      // console.log(
-      //   `Job ${name}. Email sent to: ${createLeadDto.email} at (${date})`,
-      // );
+      console.log(
+        `Job ${name}. Email sent to: ${createLeadDto.email} at (${date})`,
+      );
     });
 
     this.schedulerRegistry.addCronJob(name, job);
     job.start();
 
-    // console.log(
-    //   `Job ${name}: Schedule email to: ${createLeadDto.email} at: ${date}!`,
-    // );
+    console.log(
+      `Job ${name}: Schedule email to: ${createLeadDto.email} at: ${date}!`,
+    );
   }
 
   deleteCron(name: string) {
