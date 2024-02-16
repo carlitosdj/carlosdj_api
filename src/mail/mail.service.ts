@@ -13,7 +13,7 @@ export class MailService {
   constructor(private mailerService: MailerService) {}
   async sendLeadConfirmation(lead: CreateLeadDto) {
     const url_gforms = `https://forms.gle/K7q85m1LCeYp1iDC7`;
-    const url_confirm = `http://event.carlosdj.com.br/lead/confirm/${lead.list}/${lead.email}`;
+    const url_confirm = `http://evnt.carlosdj.com.br/lead/confirm/${lead.list}/${lead.email}`;
     const expert = 'Carlos Defelicibus Junior';
     const eventName = 'Alavanque Seu Serviço';
 
@@ -41,7 +41,7 @@ export class MailService {
 
   async sendSecondMail(lead: CreateLeadDto) {
     const url_gforms = `https://forms.gle/K7q85m1LCeYp1iDC7`;
-    const url_confirm = `http://event.carlosdj.com.br/lead/confirm/${lead.list}/${lead.email}`;
+    const url_confirm = `http://evnt.carlosdj.com.br/lead/confirm/${lead.list}/${lead.email}`;
     const expert = 'Carlos Defelicibus Junior';
     const eventName = 'Alavanque Seu Serviço';
 
