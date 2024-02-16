@@ -11,17 +11,17 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
         pool: true,
         maxConnections: 20,
         maxMessages: 200,
-        host: 'mail.labiopalatina.com.br',
-        service: 'mail.labiopalatina.com.br',
+        host: 'mail.carlosdj.com.br',
+        service: 'mail.carlosdj.com.br',
         port: 465,
         secure: true,
         auth: {
-          user: 'associacao@labiopalatina.com.br',
-          pass: 'vd6em7@@',
+          user: 'evento@carlosdj.com.br',
+          pass: 'cdj6em7@@',
         },
       },
       defaults: {
-        from: '"Associação LabioPalatina" <associacao@labiopalatina.com.br>',
+        from: '"Carlos Defelicibus Junior" <evento@carlosdj.com.br>',
       },
       template: {
         dir: join(__dirname, 'templates'),
