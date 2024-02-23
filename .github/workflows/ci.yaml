@@ -28,7 +28,7 @@ jobs:
           REMOTE_USER: ${{ secrets.REMOTE_USER }}
           REMOTE_PORT: ${{ secrets.REMOTE_PORT }}
           #TARGET: ${{ secrets.REMOTE_TARGET }}
-          TARGET: /home/carlos/api/files/
+          TARGET: /www/wwwroot/nodeapps/api_carlosdj/
 
       - name: Post Deploy
         uses: appleboy/ssh-action@master
