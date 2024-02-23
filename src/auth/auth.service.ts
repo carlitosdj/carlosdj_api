@@ -32,6 +32,8 @@ export class AuthService {
   }
 
   async signIn(email: string, pass: string): Promise<any> {
+
+    console.log("TESTE")
     const user = await this.userService.findByEmail(email);
 
     const isMatch = await bcrypt.compare(pass, user?.passwordHash);

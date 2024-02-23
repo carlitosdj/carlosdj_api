@@ -18,11 +18,22 @@ export const DbProvider: FactoryProvider = {
 
     logger.debug('Connecting to Mysql...');
 
+    // const connection = await mysql.createPool({
+    //   //host: 'localhost',
+    //   host: '0.0.0.0',
+    //   database: 'carlos_database',
+    //   user: 'root',
+    //   password: 'pass',
+    //   //port: 3306,
+      
+    // });
     const connection = await mysql.createPool({
-      host: 'ftp.carlosdj.com.br',
-      user: 'carlos_admin',
-      password: 'carlosdj123',
-      database: 'carlos_database',
+      host: '89.116.186.124',
+      database: 'carlosdj_ead_project',
+      user: 'carlosdj_adm',
+      password: 'carlitosJamaica',
+      //port: 3306,
+      
     });
 
     logger.debug('Connected to Mysql!');
@@ -33,7 +44,7 @@ export const DbProvider: FactoryProvider = {
 
     class CustomDbLogWriter implements LogWriter {
       write(message: string) {
-        //logger.verbose(message);
+        logger.verbose(message);
       }
     }
 

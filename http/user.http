@@ -1,4 +1,4 @@
-@hostname = http://localhost:3000
+@hostname = http://localhost:3001
 @Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbiIsInBhc3N3b3JkSGFzaCI6IiQyYiQxMCRYcDhoSnRBL2k2T0JobS9YOG0uTjJlSlZ6LlB6ejVDQklHN281c0VRREYwRHI1QnlUaHpaMiIsImF1dGhLZXkiOiI1Mjc0NWI2Ny1lNTQ2LTQ4ODItOWE5Zi0yOTM0OTA5YmIzMWUiLCJjb25maXJtZWRBdCI6MTYwMDY2MjE2MCwiYmxvY2tlZEF0IjpudWxsLCJyZWdpc3RyYXRpb25JcCI6bnVsbCwiY3JlYXRlZEF0IjoxNjgzOTI0OTk3LCJ1cGRhdGVkQXQiOjE2OTc2NjI3MjguNTc4LCJmbGFnIjoxMCwibGFzdExvZ2luQXQiOjE2OTQ1NDQ5MzAsIm9yaWdpbiI6IjE2ODM1NTQ4MTEiLCJudW1UdXJtYSI6MSwibmFtZSI6IkFkbWluMSIsImJpbyI6bnVsbCwid2hhdHNhcHAiOiIzNDk4NDI5MzUxOSIsImNwZiI6IjAxNjA1NzQzNjY2IiwicG9zdGFsQ29kZSI6IjM4NDAwNDI4IiwiYWRkcmVzcyI6IlJ1YSBTw6NvIExvdXJlbsOnbyIsImFkZHJlc3NOdW1iZXIiOiI2MjEiLCJhZGRyZXNzRGlzdHJpY3QiOiJPc3ZhbGRvIFJlemVuZGUiLCJpbWFnZSI6bnVsbCwiY2l0eUlkIjoyMzg5LCJzdGF0ZUlkIjoxMSwicm9sZXMiOiJhZG1pbiIsImNpdHkiOnsiaWQiOjIzODksIm5hbWUiOiJVYmVybMOibmRpYSIsInN0YXRlSWQiOjExfSwic3RhdGUiOnsiaWQiOjExLCJuYW1lIjoiTWluYXMgR2VyYWlzIiwic3RhdGUiOiJNRyIsImNvdW50cnkiOjF9LCJpYXQiOjE2OTkzNzU2ODMsImV4cCI6MTY5OTk4MDQ4M30.QGxW7UF1QrbFe1cWSz2BqJ_f11JMfSkvHnn4xg-9m1Q
 
 ### Login
@@ -20,7 +20,7 @@ GET {{hostname}}/user/all/1/4
 Authorization: {{Authorization}}
 
 ### Get user by id
-GET {{hostname}}/user/id/2
+GET {{hostname}}/user/id/1
 Authorization: {{Authorization}}
 
 ### Get user by email
@@ -45,8 +45,8 @@ POST {{hostname}}/user
 Content-Type: application/json
 
 {
-    "email": "carlitosceo11@gmail.com",
-    "name": "Carlos Defelícibus Junior",
+    "email": "admin",
+    "name": "1234",
     "whatsapp": "34984293519",
     "newPassword": "1234"
 }
@@ -69,7 +69,7 @@ Content-Type: application/json
     //"num_turma": 1,
     //"postalCode": "38400308",
     //"state_id": 11
-    "cityId": "11"
+    "cityId": "1"
 }
 
 ### Delete user
