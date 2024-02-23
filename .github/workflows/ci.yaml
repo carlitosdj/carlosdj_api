@@ -38,7 +38,7 @@ jobs:
             key: ${{ secrets.SSH_PRIVATE_KEY }}
             port: ${{ secrets.REMOTE_PORT }}
             script: | 
-              cd /home/carlos/api/files/
+              cd /www/wwwroot/nodeapps/api_carlosdj/
               yarn
               yarn pm2:restart
       
