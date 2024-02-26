@@ -71,7 +71,7 @@ async function bootstrap() {
 
   //await app.listen(3000);
   await app.listen(3001, '0.0.0.0', () =>
-    console.log(`Monolito CARLOSDJ - Listening on port: 3001`),
+    console.log(`Server carlosdj.com.br - Listening on port: 3001`),
   );
 }
 bootstrap();
