@@ -29,6 +29,7 @@ async function bootstrap() {
     'https://produto.carlosdj.com.br',
     'https://adm.carlosdj.com.br',
     'https://evnt.carlosdj.com.br',
+    'https://metodo3c.carlosdj.com.br',
   ];
   app.enableCors({
     origin: function (origin, callback) {
