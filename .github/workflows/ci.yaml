@@ -14,10 +14,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          #node-version: '16.x' //TROQUEI
           node-version: '20.x' 
-      - run: rm -rf package-lock.json
-      - run: rm -rf yarn.lock
 
       - run: npm install
       - run: npm run build
@@ -43,24 +40,8 @@ jobs:
             port: ${{ secrets.REMOTE_PORT }}
             script: | 
               cd /www/wwwroot/nodeapps/api_carlosdj/
+              rm -rf package-lock.json
+              rm -rf yarn.lock
               yarn
-              yarn install
+              yarn add css-inline
               yarn pm2:restart
-      
-      # - run: npm run restart
-
-      # - run: |
-      #     export PATH=$PATH:/root/.nvm/versions/node/v16.20.1/bin
-      #     pm2 list
-
-      # - run: npm install pm2@latest -g #install pm2 global
-      # - run: pm2 -V #check pm2 version
-      # - run: pm2 list #check pm2 list
-      # #running pm2 in mode cluster and --watch set to auto restart if index.js have changes.
-      # - run: pm2 start dist/src/main.js --name apimodelo  #--watch -i max
-      # # - name: pm2 restart
-      # #   run: |
-      # #     ssh ${{ vars.EC2_USERNAME }}@${{ vars.EC2_HOST }} -p ${{ vars.EC2_HOST_PORT }} '
-      # #       export PATH=$PATH:/home/ubuntu/.nvm/versions/node/v18.13.0/bin;
-      # #       pm2 restart apimodelo --update-env
-      # #     '
