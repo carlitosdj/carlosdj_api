@@ -17,7 +17,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
         secure: true,
         auth: {
           user: 'evento@carlosdj.com.br',
-          pass: 'cdj6em7@@',
+          pass: 'Cdj6em7@@',
         },
       },
       defaults: {
