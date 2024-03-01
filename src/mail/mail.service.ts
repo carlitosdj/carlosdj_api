@@ -21,7 +21,7 @@ export class MailService {
       .sendMail({
         to: lead.email,
         // from: '"Support Team" <support@example.com>', // override default from
-        subject: 'Bem vindo',
+        subject: 'Preciso da sua ajuda | Alavanque seu serviço',
         template: '../../../mail/templates/confirmation', // `.hbs` extension is appended automatically
         context: {
           // ✏️ filling curly brackets with content
@@ -68,7 +68,7 @@ export class MailService {
   }
 
   async sendRecoveryMail(user: CreateUserDto) { //TODO: achar o type disso aqui (treta: auth_key com authKey)
-    const url = `http://produto.carlosdj.com.br/auth/change/${user.email}/${user.authKey}`;
+    const url = `http://metodo3c.carlosdj.com.br/auth/change/${user.email}/${user.authKey}`;
 
     await this.mailerService
       .sendMail({

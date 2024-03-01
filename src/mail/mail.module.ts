@@ -13,7 +13,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
         maxMessages: 200,
         host: 'mail.carlosdj.com.br',
         service: 'mail.carlosdj.com.br',
-        port: 465,
+        port: 587,
         secure: true,
         auth: {
           user: 'evento@carlosdj.com.br',
