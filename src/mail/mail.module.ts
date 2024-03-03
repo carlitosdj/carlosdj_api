@@ -15,6 +15,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
         service: 'mail.carlosdj.com.br',
         port: 465,
         secure: true,
+        
         auth: {
           user: 'evento@carlosdj.com.br',
           pass: 'Cdj6em7@@',

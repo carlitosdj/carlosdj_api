@@ -84,11 +84,11 @@ export class MassmailService {
     //console.log('Length', listLeads.length);
 
     // //Chama o serviço de envio de emails
-    // await this.mailService.sendMassMail(
-    //   listLeads,
-    //   CreateMassmailDto.subject,
-    //   CreateMassmailDto.message,
-    // );
+    await this.mailService.sendMassMail(
+      listLeads,
+      CreateMassmailDto.subject,
+      CreateMassmailDto.message,
+    );
 
     const newItem = await this.db.insert(schema.massMail).values({
       ...CreateMassmailDto,
