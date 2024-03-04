@@ -13,7 +13,7 @@ export class MailService {
   constructor(private mailerService: MailerService) {}
   async sendLeadConfirmation(lead: CreateLeadDto) {
     const url_gforms = `https://forms.gle/K7q85m1LCeYp1iDC7`;
-    const url_confirm = `http://evnt.carlosdj.com.br/lead/confirm/${lead.list}/${lead.email}`;
+    const url_confirm = `https://evnt.carlosdj.com.br/lead/confirm/${lead.list}/${lead.email}`;
     const expert = 'Carlos Defelicibus Junior';
     const eventName = 'Alavanque Seu Serviço';
 
@@ -41,7 +41,7 @@ export class MailService {
 
   async sendSecondMail(lead: CreateLeadDto) {
     const url_gforms = `https://forms.gle/K7q85m1LCeYp1iDC7`;
-    const url_confirm = `http://evnt.carlosdj.com.br/lead/confirm/${lead.list}/${lead.email}`;
+    const url_confirm = `https://evnt.carlosdj.com.br/lead/confirm/${lead.list}/${lead.email}`;
     const expert = 'Carlos Defelicibus Junior';
     const eventName = 'Alavanque Seu Serviço';
 
@@ -68,7 +68,7 @@ export class MailService {
   }
 
   async sendRecoveryMail(user: CreateUserDto) { //TODO: achar o type disso aqui (treta: auth_key com authKey)
-    const url = `http://metodo3c.carlosdj.com.br/auth/change/${user.email}/${user.authKey}`;
+    const url = `https://metodo3c.carlosdj.com.br/auth/change/${user.email}/${user.authKey}`;
 
     await this.mailerService
       .sendMail({
@@ -92,11 +92,19 @@ export class MailService {
   async sendMassMail(list: any[], subjectText: string, messageText: string) {
     //CORRIGIR
     await list.map((email) => {
+      const url = `https://evnt.carlosdj.com.br/lead/unsubscribe/${email.list}/${email.email}`;
       this.mailerService.sendMail({
         to: email.email,
         subject: subjectText,
-        text: messageText,
-        html: messageText,
+        // text: messageText,
+        // html: messageText,
+        template: '../../../mail/templates/massmail', // `.hbs` extension is appended automatically
+        context: {
+          // ✏️ filling curly brackets with content
+          name: email.name,
+          text: messageText,
+          url
+        },
       });
     });
     return;
