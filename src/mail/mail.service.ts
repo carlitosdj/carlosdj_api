@@ -101,7 +101,7 @@ export class MailService {
         template: '../../../mail/templates/massmail', // `.hbs` extension is appended automatically
         context: {
           // ✏️ filling curly brackets with content
-          name: email.name,
+          name: email.name.split(' ')[0],
           text: messageText,
           url
         },
