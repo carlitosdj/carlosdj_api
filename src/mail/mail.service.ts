@@ -3,6 +3,7 @@ import { Injectable } from '@nestjs/common';
 // import { Schema } from 'node:inspector';
 import { CreateLeadDto } from '../lead/dto/create-lead.dto';
 import { CreateUserDto } from '../user/dto/create-user.dto';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 // import * as schema from '../_schemas/schema';
 // import { User } from 'src/user/entities/user.entity';
 // import { UserService } from 'src/user/user.service';
@@ -99,11 +100,18 @@ export class MailService {
         // text: messageText,
         // html: messageText,
         template: '../../../mail/templates/massmail', // `.hbs` extension is appended automatically
+        // template: {
+        //   dir: '../../../mail/templates/massmail',
+        //   adapter: new HandlebarsAdapter(),
+        //   options: {
+        //     strict: true,
+        //   },
+        // },
         context: {
           // ✏️ filling curly brackets with content
           name: email.name.split(' ')[0],
           text: messageText,
-          url
+          url,
         },
       });
     });
