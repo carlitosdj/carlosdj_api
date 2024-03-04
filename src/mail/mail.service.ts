@@ -92,6 +92,7 @@ export class MailService {
 
   async sendMassMail(list: any[], subjectText: string, messageText: string) {
     //CORRIGIR
+
     await list.map((email) => {
       const url = `https://evnt.carlosdj.com.br/lead/unsubscribe/${email.list}/${email.email}`;
       this.mailerService.sendMail({
