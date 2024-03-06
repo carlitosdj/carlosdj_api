@@ -60,6 +60,7 @@ export class UploadController {
     )
     file: Express.Multer.File,
   ) {
+    console.log("trying to upload file...")
     return this.uploadService.upload(file);
   }
 
@@ -81,7 +82,7 @@ export class UploadController {
         fileStream.pipe(res);
       });
     } catch (error) {
-      // console.log('ERRO');
+      console.log('ERRO');
     }
   }
 }

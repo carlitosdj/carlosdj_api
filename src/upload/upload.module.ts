@@ -7,6 +7,7 @@ const path = require('path');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
+    console.log("subindo arquivo...")  
     cb(null, '../../../../www/files');
   },
   filename: (req, file, cb) => {
