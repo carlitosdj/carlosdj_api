@@ -1,5 +1,5 @@
 @hostname = http://localhost:3001
-@Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbiIsInBhc3N3b3JkSGFzaCI6IiQyYSQxMCR1cy5uNElMai5jVFJIQ3NpOVZTcURlTGpDZUxzVUZka2V1UHByUVJZNTYvVjBudVpPREFDdSIsImF1dGhLZXkiOm51bGwsImNvbmZpcm1lZEF0IjpudWxsLCJibG9ja2VkQXQiOm51bGwsInJlZ2lzdHJhdGlvbklwIjpudWxsLCJjcmVhdGVkQXQiOiIyMDI0LTAyLTIzVDIwOjI1OjQ4LjYwM1oiLCJ1cGRhdGVkQXQiOiIyMDI0LTAyLTIzVDIwOjI2OjM4LjczNVoiLCJmbGFnIjpudWxsLCJsYXN0TG9naW5BdCI6IjIwMjQtMDItMjNUMjA6MjU6NTQuOTI1WiIsIm9yaWdpbiI6bnVsbCwibnVtVHVybWEiOm51bGwsIm5hbWUiOiIxMjM0IiwiYmlvIjpudWxsLCJ3aGF0c2FwcCI6IjM0OTg0MjkzNTE5IiwiY3BmIjpudWxsLCJwb3N0YWxDb2RlIjpudWxsLCJhZGRyZXNzIjpudWxsLCJhZGRyZXNzTnVtYmVyIjpudWxsLCJhZGRyZXNzRGlzdHJpY3QiOm51bGwsImltYWdlIjpudWxsLCJjaXR5SWQiOm51bGwsInN0YXRlSWQiOm51bGwsInJvbGVzIjoiYWRtaW4iLCJjaXR5IjpudWxsLCJzdGF0ZSI6bnVsbCwiaWF0IjoxNzA4NzIwMDA3LCJleHAiOjE3MDkzMjQ4MDd9.tfewOjkS7aJpzvUw4q2HhgMiXTDzNoc4uCFeED9TaMI
+@Authorization = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhZG1pbiIsInBhc3N3b3JkSGFzaCI6IiQyYiQxMCRhMkJMY0FXMlJlUjRmdE5JTjRLdTllbkZ4Umg2SHVUM2liTGc0Y29KSlFuY3RZSzN3SHpmeSIsImF1dGhLZXkiOiI1Mjc0NWI2Ny1lNTQ2LTQ4ODItOWE5Zi0yOTM0OTA5YmIzMWUiLCJjb25maXJtZWRBdCI6bnVsbCwiYmxvY2tlZEF0IjpudWxsLCJyZWdpc3RyYXRpb25JcCI6bnVsbCwiY3JlYXRlZEF0IjoiMjAyNC0wMi0yNFQxNjoxODoyNi42NTdaIiwidXBkYXRlZEF0IjoiMjAyNC0wMy0wNlQxOTowNzo1Ni43MTRaIiwiZmxhZyI6MTAsImxhc3RMb2dpbkF0IjoiMjAyNC0wMy0wNlQxOTowNTo1MS4yNDRaIiwib3JpZ2luIjoiMTY4MzU1NDgxMSIsIm51bVR1cm1hIjoxLCJuYW1lIjoiQWRtaW5pc3RyYWRvciIsImJpbyI6bnVsbCwid2hhdHNhcHAiOiIzNDk4NDI5MzUxOSIsImNwZiI6IjAxNjA1NzQzNjY2IiwicG9zdGFsQ29kZSI6IjM4NDAwNDI4IiwiYWRkcmVzcyI6IlJ1YSBTw6NvIExvdXJlbsOnbyIsImFkZHJlc3NOdW1iZXIiOiI2MjEiLCJhZGRyZXNzRGlzdHJpY3QiOiJPc3ZhbGRvIFJlemVuZGUiLCJpbWFnZSI6IjE3MDk3NTIwNzY2NDktMC4yNjc0NTU3ODAwNzgyMjYyNC5qcGciLCJjaXR5SWQiOjIzODksInN0YXRlSWQiOjExLCJyb2xlcyI6ImFkbWluIiwiY2l0eSI6eyJpZCI6MjM4OSwibmFtZSI6IlViZXJsw6JuZGlhIiwic3RhdGVJZCI6MTF9LCJzdGF0ZSI6eyJpZCI6MTEsIm5hbWUiOiJNaW5hcyBHZXJhaXMiLCJzdGF0ZSI6Ik1HIiwiY291bnRyeSI6MX0sImlhdCI6MTcwOTc1MjU1MiwiZXhwIjoxNzEwMzU3MzUyfQ.sGMSOhKrt5jPOBWIA2rYJPz2YHZQ-9aV1JcJ9W2GvD8
 
 ### Login
 POST {{hostname}}/auth/login
@@ -59,12 +59,12 @@ Content-Type: application/json
 {
     "name": "Admin123",
     //"id": 142,
-    //"newPassword": "1234",
+    "newPassword": "1234"
     //"address": "Avenida Brigadeiro Sampaio",
     //"addressDistrict": "Daniel Fonseca",
     //"addressNumber": "46",
     //"city_id": 2389,
-    "cpf": "01605743666",
+    //"cpf": "01605743666",
     //"flag": 10,
     //"num_turma": 1,
     //"postalCode": "38400308",

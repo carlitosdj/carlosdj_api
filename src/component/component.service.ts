@@ -81,14 +81,18 @@ export class ComponentService {
 
   async searchComponent(search: string) {
     return await this.db.query.component.findMany({
-      where: or(
+      where: and(
         like(schema.component.tags, `%${search}%`),
+        eq(schema.component.status, '1'),
         //like(schema.component.description, `%${search}%`),
       ),
       with: {
-        extras: true,
+        extras: {
+          where: eq(schema.componentExtra.status, '1'),
+        },
         parent: true,
         children: {
+          where: eq(schema.component.status, '1'),
           with: {
             extras: true,
             available: true,
