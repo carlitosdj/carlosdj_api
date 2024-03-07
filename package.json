@@ -37,6 +37,7 @@
     "@nestjs/platform-fastify": "^10.2.7",
     "@nestjs/schedule": "^3.0.4",
     "@nestjs/swagger": "^7.1.12",
+    "@types/lodash": "^4.14.202",
     "axios": "^1.5.1",
     "bcryptjs": "^2.4.3",
     "class-transformer": "^0.5.1",
