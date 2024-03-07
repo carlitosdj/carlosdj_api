@@ -8,6 +8,7 @@ import { and, asc, desc, eq, like, or } from 'drizzle-orm';
 import * as schema from '../_schemas/schema';
 import { CreateLaunchDto } from './dto/create-launch.dto';
 import { table } from 'node:console';
+import _ from 'lodash';
 
 @Injectable()
 export class ComponentService {
@@ -81,7 +82,7 @@ export class ComponentService {
   }
 
   async searchComponent(search: string) {
-    return await this.db.query.component.findMany({
+    let components = await this.db.query.component.findMany({
       where: and(
         like(schema.component.tags, `%${search}%`),
         eq(schema.component.status, '1'),
@@ -105,6 +106,10 @@ export class ComponentService {
       // limit: take,
       // offset: skip,
     });
+    let filtered = await _.filter(components, (component) => {
+      return !component.parent.status;
+    })
+    return await filtered;
   }
 
   async searchByDescription(search: string) {

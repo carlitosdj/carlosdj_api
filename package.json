@@ -45,6 +45,7 @@
     "drizzle-orm": "^0.28.6",
     "global": "^4.4.0",
     "handlebars": "^4.7.8",
+    "lodash": "^4.17.21",
     "mysql2": "^3.6.2",
     "n": "^9.2.0",
     "nest-access-control": "^3.0.0",
