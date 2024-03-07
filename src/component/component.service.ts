@@ -7,6 +7,7 @@ import { DB_SERVICE, DbType } from '../drizzle/providers/drizzle.providers';
 import { and, asc, desc, eq, like, or } from 'drizzle-orm';
 import * as schema from '../_schemas/schema';
 import { CreateLaunchDto } from './dto/create-launch.dto';
+import { table } from 'node:console';
 
 @Injectable()
 export class ComponentService {
@@ -84,12 +85,14 @@ export class ComponentService {
       where: and(
         like(schema.component.tags, `%${search}%`),
         eq(schema.component.status, '1'),
-        //like(schema.component.description, `%${search}%`),
       ),
+      // where: (table, {eq, like}) => and(
+      //   like(table.tags, `%${search}%`),
+      //   eq(table.status, '1'),
+      // ),
+      
       with: {
-        extras: {
-          where: eq(schema.componentExtra.status, '1'),
-        },
+        extras: true,
         parent: true,
         children: {
           where: eq(schema.component.status, '1'),
