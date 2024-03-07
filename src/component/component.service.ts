@@ -93,7 +93,11 @@ export class ComponentService {
       
       with: {
         extras: true,
-        parent: true,
+        parent: {
+          with: {
+            parent:true,
+          }
+        },
         children: {
           where: eq(schema.component.status, '1'),
           with: {
@@ -106,7 +110,7 @@ export class ComponentService {
       // offset: skip,
     });
 
-    return await components.filter(component => component.parent.status === '1');
+    return await components.filter(component => component.parent.status === '1' && component.parent.parent.status === '1');
   }
 
   async searchByDescription(search: string) {
