@@ -106,11 +106,7 @@ export class ComponentService {
       // offset: skip,
     });
 
-    let filtered = await _.filter(components, (component) => {
-      return !component.parent.status;
-    })
-
-    return await filtered;
+    return await components.filter(component => component.parent.status === '1');
   }
 
   async searchByDescription(search: string) {
