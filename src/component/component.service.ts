@@ -7,8 +7,7 @@ import { DB_SERVICE, DbType } from '../drizzle/providers/drizzle.providers';
 import { and, asc, desc, eq, like, or } from 'drizzle-orm';
 import * as schema from '../_schemas/schema';
 import { CreateLaunchDto } from './dto/create-launch.dto';
-import { table } from 'node:console';
-import _ from 'lodash';
+import filter from 'lodash/filter';
 
 @Injectable()
 export class ComponentService {
@@ -106,7 +105,7 @@ export class ComponentService {
       // limit: take,
       // offset: skip,
     });
-    let filtered = await _.filter(components, (component) => {
+    let filtered = await filter(components, (component) => {
       return !component.parent.status;
     })
     return await filtered;
