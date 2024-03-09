@@ -140,7 +140,7 @@ export class LeadService {
       this.mailService.sendLeadConfirmation(createLeadDto);
 
       //Cron JOB pra amanhã. Disparo do segundo email:
-       this.addCronJob('schedulemail', createLeadDto);
+       this.addCronJob('schedulemail-'+createLeadDto.email+'-'+createLeadDto.list, createLeadDto);
 
       const newItem = await this.db.insert(schema.lead).values(createLeadDto);
       return await this.db.query.lead.findFirst({
