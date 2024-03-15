@@ -41,8 +41,4 @@ jobs:
             port: ${{ secrets.REMOTE_PORT }}
             script: | 
               cd /www/wwwroot/nodeapps/api_carlosdj/
-              rm -rf package-lock.json
-              rm -rf yarn.lock
-              yarn
-              yarn add css-inline
               yarn pm2:restart

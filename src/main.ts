@@ -18,7 +18,6 @@ async function bootstrap() {
     AppModule,
     //new FastifyAdapter(),
   );
-
   var whitelist = [
     'http://localhost',
     'http://localhost:3000',
@@ -31,23 +30,50 @@ async function bootstrap() {
     'https://evnt.carlosdj.com.br',
     'https://metodo3c.carlosdj.com.br'
   ];
+  
   app.enableCors({
     origin: function (origin, callback) {
-      if (!origin || whitelist.indexOf(origin) !== -1) {
+
+      if (!origin) {
+        console.log('No origin error!');
+        callback(null, true);
+        return;
+      }
+      if (whitelist.includes(origin) || !!origin.match(/carlosdj\.com.br$/)) {
         console.log('allowed cors for:', origin);
         callback(null, true);
       } else {
         console.log('blocked cors for:', origin);
-        callback(new Error('Not allowed by CORS'));
+        callback(new Error('Not allowed by CORS'), false);
       }
+      // if (!origin || whitelist.indexOf(origin) !== -1) {
+      //   console.log('allowed cors for:', origin);
+      //   callback(null, true);
+      // } else {
+      //   console.log('blocked cors for:', origin);
+      //   callback(new Error('Not allowed by CORS'));
+      // }
+
     },
-    allowedHeaders:
-      'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe, Authorization',
-    methods: 'GET,PUT,POST,PATCH,DELETE,UPDATE,OPTIONS',
+    allowedHeaders: 'Content-Type, Origin, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe, Authorization',
+    // 'X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe, Authorization',
+    methods: 'GET,PUT,POST,PATCH,DELETE,UPDATE,OPTIONS,HEAD',
     credentials: true,
   });
+
+  // app.enableCors({
+  //   origin: whitelist,
+  //   methods: 'GET,PUT,POST,PATCH,DELETE,UPDATE,OPTIONS',
+  //   allowedHeaders:
+  //     'Content-Type, Origin, X-Requested-With, X-HTTP-Method-Override, Content-Type, Accept, Observe, Authorization',
+  //   credentials: true,
+  // });
+
+  // app.enableCors({
+  //   origin: false,
+  // });
+
   app.useGlobalFilters(
-    //new PrismaExceptionFilter(),
     new InvalidRelationExceptionFilter(),
     new InvalidUserExceptionFilter(),
     new InvalidLeadExceptionFilter(),
@@ -72,7 +98,7 @@ async function bootstrap() {
 
   //await app.listen(3000);
   await app.listen(3001, '0.0.0.0', () =>
-    console.log(`Server carlosdj.com.br - Listening on port: 3001`),
+    console.log(`Server CARLOSDJ.com.br - Listening on port: 3001`),
   );
 }
 bootstrap();
